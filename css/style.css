@@ -537,7 +537,7 @@ textarea:focus {
 /*  1.9 Animation
 /*----------------------------------------*/
 /* Slider Progress Bar */
-.slider-active .owl-item.active .f {
+.slider-active .owl-item.active .slider-progress {
 	-webkit-animation: 5000ms ease-in-out 0s normal none 1 running timebar;
 	animation: 10000ms ease-in-out 0s normal none 1 running timebar;
 	background: rgba(0, 0, 0, .3);
@@ -1768,7 +1768,7 @@ textarea:focus {
 .hb-menu nav > ul > li:hover > a::after {
 		color: #ffffff;
 }
-.hb-menu nav > ul > li > a::after {
+.hb-menu nav > ul > li:nth-child(2) > a::after {
 	content: "\f107";
 	position: absolute;
 	top: 8px;
@@ -1778,7 +1778,7 @@ textarea:focus {
 	transition: all 0.3s ease-in-out;
 	color: #242424;
 }
-.hb-menu nav > ul > li:nth-child(n+5) > a::after {
+.hb-menu nav > ul > li > a::after {
 	content: none;
 }
 .hb-menu nav > ul > li:hover  a::after {
@@ -2655,7 +2655,7 @@ textarea:focus {
 /*  2.7 Li's Static Home Banner
 /*----------------------------------------*/
 .li-static-home-image {
-	
+	background-image: url(images/bg-banner/1.jpg);
 	background-size: cover;
 	height: 400px;
 	background-repeat: no-repeat;
@@ -5430,6 +5430,11 @@ span.required {
 .error-button a:hover{background:#242424;color:#fff;}
 .small-version {
   display: none;
+}
+
+.fa{
+	padding: 7px;
+	font-size: 20px;
 }
 /*----------------------------------------------------------------------------------------------------*/
 /*------------------------------------------> The End <-----------------------------------------------*/

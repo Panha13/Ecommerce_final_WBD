@@ -32,7 +32,7 @@
 <!-- Helper CSS -->
 <link rel="stylesheet" href="css/helper.css">
 <!-- Main Style CSS -->
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/Style.css">
 <!-- Responsive CSS -->
 <link rel="stylesheet" href="css/responsive.css">
 <!-- Modernizr js -->

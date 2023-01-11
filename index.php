@@ -9,7 +9,10 @@
         <!-- Begin Body Wrapper -->
         <div class="body-wrapper">
             <!-- Begin Header Area -->
-            <?php include('includes/header.php') ?>
+            <header>
+                <?php include('includes/header.php') ?>
+                <?php include('includes/navbar.php') ?>
+            </header>
             <!-- Header Area End Here -->
             <!-- Begin Slider With Banner Area -->
             <?php include('includes/slideshow.php') ?>

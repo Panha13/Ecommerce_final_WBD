@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
                 <!-- Login Form s-->
-                <form action="#" >
+                <form action="" >
                     <div class="login-form">
                         <h4 class="login-title">Login</h4>
                         <div class="row">

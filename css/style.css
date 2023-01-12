@@ -3897,8 +3897,7 @@ thead {
 .login-form {
   background-color: #ffffff;
   padding: 30px;
-  -webkit-box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.1);
-  box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.1); }
+  }
   .login-form label {
     display: block;
     font-size: 14px;
@@ -3992,9 +3991,9 @@ thead {
 .register-button {
 	display: block;
 	margin-top: 40px;
-	width: 140px;
+	width: 100%;
 	border-radius: 0;
-	height: 36px;
+	height: 40px;
 	border: none;
 	line-height: 24px;
 	padding: 6px 20px;
@@ -5436,6 +5435,8 @@ span.required {
 	padding: 7px;
 	font-size: 20px;
 }
+
+
 /*----------------------------------------------------------------------------------------------------*/
 /*------------------------------------------> The End <-----------------------------------------------*/
 /*----------------------------------------------------------------------------------------------------*/

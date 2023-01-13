@@ -18,7 +18,7 @@
             <?php include('includes/slideshow.php') ?>
             <!-- Slider With Banner Area End Here -->
             <!-- Begin Product Area -->
-            <?php include('home.php') ?>
+            <?php include('product_area.php') ?>
             <!-- Product Area End Here -->
             <!-- Begin Li's Laptop Product Area -->
             <?php include('laptop_product.php') ?>

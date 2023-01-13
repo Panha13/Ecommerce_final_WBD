@@ -7,17 +7,32 @@
                 <div class="hb-menu">
                     <nav class="d-flex justify-content-between">
                         <ul>
-                            <li><a href="#">Home</a></li>
-                            <li class="dropdown-holder"><a href="#">Components</a>
+                            <li>
+                                <a href="index.php">Home</a>
+                            </li>
+                            <li class="dropdown-holder">
+                                    <a href="index.php?p=components">Components</a>
                                 <ul class="hb-dropdown">
-                                    <li><a href="blog-left-sidebar.html">CPU</a></li>
-                                    <li><a href="blog-left-sidebar.html">Hardware</a></li>
+                                    <li>
+                                        <a href="index.php?p=components">CPU</a>
+                                    </li>
+                                    <li>
+                                        <a href="index.php?p=components">Hardware</a>
+                                    </li>
                                 </ul>
                             </li>
-                            <li><a href="#">Laptop</a></li>
-                            <li><a href="#">Accessories</a></li>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Contact Us</a></li>
+                            <li>
+                                <a href="index.php?p=laptop">Laptop</a>
+                            </li>
+                            <li>
+                                <a href="index.php?p=accessories">Accessories</a>
+                            </li>
+                            <li>
+                                <a href="index.php?p=about_us">About Us</a>
+                            </li>
+                            <li>
+                                <a href="index.php?p=contact_us">Contact Us</a>
+                            </li>
                         </ul>
                         <ul>
                             <li><a href="#" data-toggle="modal" data-target="#login_modal">Login <i class="fa fa-sign-in" aria-hidden="true"></i></a></li>
@@ -43,7 +58,7 @@
 </div>
 <!-- Mobile Menu Area End Here -->
 
-<!-- Modal -->
+<!-- Modal Login -->
 <div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -83,7 +98,7 @@
     </div>
   </div>
 </div>
-
+<!-- Modal Register -->
 <div class="modal fade" id="register_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">

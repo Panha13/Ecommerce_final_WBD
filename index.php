@@ -1,27 +1,3 @@
-<!-- <?php
-	include ("config.php");
-
-	$page = "home.php";
-	$slider = true;
-	$banner = true;
-	if(isset($_GET['p'])){
-		$p = $_GET['p'];
-		switch($p){
-			case "product": $page = "product.php";
-				$slider = false;
-				$banner = false;
-				break;
-			case "contact": $page = "contact.php";
-				$slider = false;
-				$banner = false;
-				break;
-			case "about": $page = "about.php";
-				$slider = false;
-				$banner = false;
-				break;
-		}
-	}
-?> -->
 <!doctype html>
 <html class="no-js" lang="zxx">
     

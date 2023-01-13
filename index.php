@@ -18,22 +18,22 @@
             <?php include('includes/slideshow.php') ?>
             <!-- Slider With Banner Area End Here -->
             <!-- Begin Product Area -->
-            <?php include('product_area.php') ?>
+            <?php include('includes/product_area.php') ?>
             <!-- Product Area End Here -->
             <!-- Begin Li's Laptop Product Area -->
-            <?php include('laptop_product.php') ?>
+            <?php include('includes/laptop_product.php') ?>
             <!-- Li's Laptop Product Area End Here -->
             <!-- Begin Li's TV & Audio Product Area -->
-            <?php include('tv_and_audio.php') ?>
+            <?php include('includes/tv_and_audio.php') ?>
             <!-- Li's TV & Audio Product Area End Here -->
             <!-- Begin Li's Static Home Area -->
             <?php include('includes/banner.php') ?>
             <!-- Li's Static Home Area End Here -->
             <!-- Begin Li's Trending Product Area -->
-            <?php include('trending_product.php') ?>
+            <?php include('includes/trending_product.php') ?>
             <!-- Li's Trending Product Area End Here -->
             <!-- Begin Li's Trendding Products Area -->
-            <?php include ('best_saller.php') ?>
+            <?php include ('includes/best_saller.php') ?>
             <!-- Li's Trendding Products Area End Here -->
             <!-- Begin Footer Area -->
             <?php include('includes/footer.php') ?>

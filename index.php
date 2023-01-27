@@ -20,6 +20,9 @@
             <!-- Begin Product Area -->
             <?php include('includes/product_area.php') ?>
             <!-- Product Area End Here -->
+            <!-- Banner ads -->
+            <?php include('includes/banner_ads.php') ?>
+            <!-- Banner ads End -->
             <!-- Begin Li's Laptop Product Area -->
             <?php include('includes/laptop_product.php') ?>
             <!-- Li's Laptop Product Area End Here -->

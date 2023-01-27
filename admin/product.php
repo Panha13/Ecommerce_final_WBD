@@ -1,12 +1,25 @@
 <?php
+include '../config.php';
+$conn = mysqli_connect(HOST, USER, PASS, DB);
 if (isset($_GET['a'])) {
     $a = $_GET['a'];
     switch ($a) {
         case '0':
+            $title = $_POST['title'];
+            $subtitle = $_POST['subtitle'];
+            $price = $_POST['price'];
+            $des = $_POST['des'];
+            $qty = $_POST['qty'];
+            $img = "img.jpg";
+            $sql = "insert into tblproduct_detail(title, subtitle, price, description, qty, img) values('$title','$subtitle','$price','$des', '$qty', '$img);";
+            mysqli_query($conn, $sql);
+?>
+            alert("Product Add Successfully");
+<?php
             break;
     }
 }
-
+$sql = "SELECT * FROM tblproduct_detail";
 ?>
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products /</span> Cards Basic</h4>
@@ -67,23 +80,23 @@ if (isset($_GET['a'])) {
                             <input type="text" class="form-control" id="price" name="price" placeholder="Porduct Price...">
                         </div>
                         <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Title</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Porduct Title...">
+                            <label for="title" class="form-label">Porduct Description</label>
+                            <input type="text" class="form-control" id="des" name="des" placeholder="Porduct Description...">
                         </div>
                         <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Title</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Porduct Title...">
+                            <label for="title" class="form-label">Porduct Quantity</label>
+                            <input type="text" class="form-control" id="qty" name="qty" placeholder="Porduct Quantity...">
                         </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Title</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Porduct Title...">
+                        <div class="input-group mb-3">
+                            <input type="file" class="form-control" id="img">
+                            <label class="input-group-text" for="img">Image Only</label>
                         </div>
 
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             </div>
         </div>

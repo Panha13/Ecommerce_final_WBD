@@ -1,4 +1,6 @@
 <?php
+include '../config.php';
+$conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = 'dashboard.php';
 if (isset($_GET['p'])) {
   $p = $_GET['p'];

@@ -61,7 +61,7 @@
                 $sql = "delete from tbl_category where cate_id=$id;";
                 mysqli_query($conn, $sql);
                 break;
-            case '9':
+            case '5':
                 $name = $_POST['name'];
                 $des = $_POST['des'];
                 $active = 0;
@@ -147,20 +147,20 @@
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item <?= ($pg > 1 ? "" : "disabled") ?>">
-                    <a class="page-link" href="index.php?p=product&pg=<?= ($pg > 1 ? $pg - 1 : 1) ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                    <a class="page-link" href="index.php?p=category&pg=<?= ($pg > 1 ? $pg - 1 : 1) ?>" tabindex="-1" aria-disabled="true">Previous</a>
                 </li>
                 <?php
                 $i = 1;
                 for ($i = 1; $i <= $pagenum; $i++) {
                 ?>
-                    <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="index.php?p=product&pg=<?= $i ?>">
+                    <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="index.php?p=category&pg=<?= $i ?>">
                             <?= $i ?>
                         </a></li>
                 <?php
                 }
                 ?>
                 <li class="page-item <?= ($pg < $pagenum ? "" : "disabled") ?>">
-                    <a class="page-link" href="index.php?p=product&pg=<?= ($pg < $pagenum ? $pg + 1 : $pagenum) ?>">Next</a>
+                    <a class="page-link" href="index.php?p=category&pg=<?= ($pg < $pagenum ? $pg + 1 : $pagenum) ?>">Next</a>
                 </li>
             </ul>
         </nav>
@@ -175,7 +175,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="index.php?p=category&action=9" method="post">
+                <form action="index.php?p=category&action=5" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label">Category Name</label>

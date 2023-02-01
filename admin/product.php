@@ -1,105 +1,265 @@
-<?php
-include '../config.php';
-$conn = mysqli_connect(HOST, USER, PASS, DB);
-if (isset($_GET['a'])) {
-    $a = $_GET['a'];
-    switch ($a) {
-        case '0':
-            $title = $_POST['title'];
-            $subtitle = $_POST['subtitle'];
-            $price = $_POST['price'];
-            $des = $_POST['des'];
-            $qty = $_POST['qty'];
-            $img = "img.jpg";
-            $sql = "insert into tblproduct_detail(title, subtitle, price, description, qty, img) values('$title','$subtitle','$price','$des', '$qty', '$img);";
-            mysqli_query($conn, $sql);
-?>
-            alert("Product Add Successfully");
-<?php
-            break;
-    }
-}
-$sql = "SELECT * FROM tblproduct_detail";
-?>
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Products /</span> Cards Basic</h4>
-    <button type="button" class="btn btn-primary rounded-circle" style="width: 50px; height:50px;
-            position: absolute; bottom: 0; right: 0; 
-            margin: 0 35px 35px 0;
-            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            " data-bs-toggle="modal" data-bs-target="#exampleModal">+</button>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Cards Basic</h4>
+    <?php
+    $sql = "SELECT * FROM tbl_category";
+    $result = mysqli_query($conn, $sql);
+    $num = mysqli_num_rows($result);
+    if (isset($_GET['action'])) {
+        $a = $_GET['action'];
+        switch ($a) {
+            case "0":
+                $id = $_GET['id'];
+                $active = $_GET['active'];
+                $sql = "update tbl_category set active = $active WHERE cate_id = $id;";
+                mysqli_query($conn, $sql);
+                break;
+            case "1":
+                $cur_id = $_GET['id'];
+                $cur_order = $_GET['order'];
+                $sql = "select cate_id,ordernum from tbl_category where ordernum < $cur_order order by ordernum desc limit 1;";
+                $result = mysqli_query($conn, $sql);
+                $num = mysqli_num_rows($result);
+                if ($num > 0) {
+                    $row = mysqli_fetch_array($result);
+                    $new_id = $row['cate_id'];
+                    $new_order = $row['ordernum'];
+                    $sql = "update tbl_category set ordernum = $new_order where cate_id = $cur_id";
+                    mysqli_query($conn, $sql);
+                    $sql = "update tbl_category set ordernum = $cur_order where cate_id = $new_id";
+                    mysqli_query($conn, $sql);
+                }
+                break;
+            case "2":
+                $cur_id = $_GET['id'];
+                $cur_order = $_GET['order'];
+                $sql = "select cate_id,ordernum from tbl_category where ordernum > $cur_order order by ordernum asc limit 1;";
+                $result = mysqli_query($conn, $sql);
+                $num = mysqli_num_rows($result);
+                if ($num > 0) {
+                    $row = mysqli_fetch_array($result);
+                    $new_id = $row['cate_id'];
+                    $new_order = $row['ordernum'];
+                    $sql = "update tbl_category set ordernum = $new_order where cate_id = $cur_id";
+                    mysqli_query($conn, $sql);
+                    $sql = "update tbl_category set ordernum = $cur_order where cate_id = $new_id";
+                    mysqli_query($conn, $sql);
+                }
+                break;
+            case "3":
+                $name = $_POST['name'];
+                $des = $_POST['des'];
+                $active = 0;
+                $id = $_GET['id'];
+                if (isset($_POST['active'])) {
+                    $active = 1;
+                }
+                $sql = "update tbl_category set cate_name='$name', cate_des='$des', active=$active where cate_id=$id";
+                mysqli_query($conn, $sql);
+                break;
+            case "4":
+                $id = $_GET['id'];
+                $sql = "delete from tbl_category where cate_id=$id;";
+                mysqli_query($conn, $sql);
+                break;
+            case '5':
+                $name = $_POST['name'];
+                $des = $_POST['des'];
+                $active = 0;
+                if (isset($_POST['active'])) {
+                    $active = 1;
+                }
+                $num++;
+                $sql = "insert into tbl_category(cate_name, cate_des, active, ordernum) values('$name','$des','$active','$num')";
+                mysqli_query($conn, $sql);
+    ?>
+                <h4 class="fw-bold py-3 mb-4">You're Successfully Added 🎉🎉🎉</h4>
+    <?php
+                break;
+        }
+    }
 
-    <table class="table">
-        <thead class="table-dark">
-            <tr>
-                <th class="text-white" scope="col">#</th>
-                <th class="text-white" scope="col">First</th>
-                <th class="text-white" scope="col">Last</th>
-                <th class="text-white" scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td colspan="2">Larry the Bird</td>
-                <td>@twitter</td>
-            </tr>
-        </tbody>
-    </table>
+    $pagenum = ceil($num / NUMPERPAGE);
+    $offset = 0;
+    $pg = 1;
+    if (isset($_GET['pg'])) {
+        $pg = $_GET['pg'];
+        $offset = NUMPERPAGE * ($pg - 1);
+    }
+
+    $sql = "select * from tbl_category order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
+    $result = mysqli_query($conn, $sql);
+    ?>
+    <button type="button" class="btn btn-primary rounded-circle" style="width:50px;
+            position: absolute; bottom: 0; right: 0; 
+            font-size: 20px; font-weight: bold;
+            margin: 0 35px 35px 0;
+            padding: 10px;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            " data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i></button>
+    <?php
+    if ($num > 0) {
+
+    ?>
+        <table class="table mb-5">
+            <thead class="bg-primary">
+                <tr>
+                    <th class="text-white" scope="col">#</th>
+                    <th class="text-white" scope="col">Category Name</th>
+                    <th class="text-white" scope="col">Description</th>
+                    <th class="text-white" scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                while ($row = mysqli_fetch_array($result)) {
+
+                ?>
+                    <tr>
+                        <th scope="row"><?= $i ?></th>
+                        <td><?= $row['cate_name'] ?></td>
+                        <td><?= $row['cate_name'] ?></td>
+                        <td>
+                            <a href="index.php?p=category&action=0&id=<?= $row['cate_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" style="padding-right: 5px;">
+                                <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
+                            <a href="index.php?p=category&action=1&id=<?= $row['cate_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                                <i class="fas fa-arrow-up"></i> </a>
+                            <a href="index.php?p=category&action=2&id=<?= $row['cate_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                                <i class="fas fa-arrow-down"></i> </a>
+                            <a href="#" onclick="update(<?= $row['cate_id'] ?>)" data-bs-toggle="modal" data-bs-target="#updateModal" style="padding-right: 5px;">
+                                <i class="fas fa-edit"></i> </a>
+                            <a href="#" onclick="del(<?= $row['cate_id'] ?>)" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">
+                                <i class="fas fa-trash"></i> </a>
+
+                        </td>
+                    </tr>
+                <?php $i++;
+                } ?>
+            </tbody>
+        </table>
+    <?php } else { ?>
+        <h4 class="fw-bold py-3 mb-4">You don't have any Category yet 🥲🥲🥲</h4>
+    <?php }
+    if ($num > NUMPERPAGE) {
+    ?>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+                <li class="page-item <?= ($pg > 1 ? "" : "disabled") ?>">
+                    <a class="page-link" href="index.php?p=category&pg=<?= ($pg > 1 ? $pg - 1 : 1) ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                </li>
+                <?php
+                $i = 1;
+                for ($i = 1; $i <= $pagenum; $i++) {
+                ?>
+                    <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="index.php?p=category&pg=<?= $i ?>">
+                            <?= $i ?>
+                        </a></li>
+                <?php
+                }
+                ?>
+                <li class="page-item <?= ($pg < $pagenum ? "" : "disabled") ?>">
+                    <a class="page-link" href="index.php?p=category&pg=<?= ($pg < $pagenum ? $pg + 1 : $pagenum) ?>">Next</a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Pagination -->
+    <?php
+    } ?>
+    <!-- Add Category Modal  -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="index.php?p=category&action=5" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="title" name="name" placeholder="Category Name...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="des" class="form-label">Category Description</label>
+                            <input type="text" class="form-control" id="subtitle" name="des" placeholder="Category Description...">
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add Category Modal  -->
+
+    <!-- Confirm Delete Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Confirm</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="index.php?p=products&a=0" method="post">
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Title</label>
-                            <input type="text" class="form-control" id="title" name="title" placeholder="Porduct Title...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="subtitle" class="form-label">Porduct Subtitle</label>
-                            <input type="text" class="form-control" id="subtitle" name="subtitle" placeholder="Porduct Subtitle...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Price</label>
-                            <input type="text" class="form-control" id="price" name="price" placeholder="Porduct Price...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Description</label>
-                            <input type="text" class="form-control" id="des" name="des" placeholder="Porduct Description...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Porduct Quantity</label>
-                            <input type="text" class="form-control" id="qty" name="qty" placeholder="Porduct Quantity...">
-                        </div>
-                        <div class="input-group mb-3">
-                            <input type="file" class="form-control" id="img">
-                            <label class="input-group-text" for="img">Image Only</label>
-                        </div>
-
-                    </form>
+                    Are you sure you want to delete this category?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                    <a href="#" id="deleteBut" class="btn btn-primary">Yes</a>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Confirm Delete Modal -->
 
+    <!-- Update Category Modal  -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Update Category
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form action="#" id="form" method="post">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="title" name="name" placeholder="Category Name...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="des" class="form-label">Category Description</label>
+                            <input type="text" class="form-control" id="subtitle" name="des" placeholder="Category Description...">
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Add Category Modal  -->
 </div>
+<script>
+    function del(id) {
+        document.getElementById("deleteBut").href = "index.php?p=category&action=4&id=" + id;
+    }
+
+    function update(id) {
+        document.getElementById("form").action = "index.php?p=category&action=3&id=" + id;
+    }
+</script>

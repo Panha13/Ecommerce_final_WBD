@@ -1,5 +1,5 @@
 <div class="container-xxl flex-grow-1 container-p-y">
-    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Cards Basic</h4>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Cards Premium</h4>
     <?php
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
@@ -117,10 +117,10 @@
                 ?>
                     <tr>
                         <th scope="row"><?= $i ?></th>
-                        <td><?= $row['cate_name'] ?></td>
-                        <td><?= $row['cate_name'] ?></td>
+                        <td id="name-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_name'] ?>"><?= $row['cate_name'] ?></td>
+                        <td id="des-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_des'] ?>"><?= substr($row['cate_des'], 0, 50) . "..." ?></td>
                         <td>
-                            <a href="index.php?p=category&action=0&id=<?= $row['cate_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" style="padding-right: 5px;">
+                            <a href=" index.php?p=category&action=0&id=<?= $row['cate_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" style="padding-right: 5px;">
                                 <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
                             <a href="index.php?p=category&action=1&id=<?= $row['cate_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
                                 <i class="fas fa-arrow-up"></i> </a>
@@ -142,7 +142,6 @@
     <?php }
     if ($num > NUMPERPAGE) {
     ?>
-
         <!-- Pagination -->
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
@@ -233,11 +232,11 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" id="title" name="name" placeholder="Category Name...">
+                            <input type="text" class="form-control" id="inputName" name="name" placeholder="Category Name...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label">Category Description</label>
-                            <input type="text" class="form-control" id="subtitle" name="des" placeholder="Category Description...">
+                            <input type="text" class="form-control" id="inputDes" name="des" placeholder="Category Description...">
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
@@ -261,5 +260,10 @@
 
     function update(id) {
         document.getElementById("form").action = "index.php?p=category&action=3&id=" + id;
+        let name = document.getElementById("name-" + id).getAttribute("data-value");
+        document.getElementById("inputName").value = name;
+        let des = document.getElementById("des-" + id).getAttribute("data-value");
+        document.getElementById("inputDes").value = des;
+
     }
 </script>

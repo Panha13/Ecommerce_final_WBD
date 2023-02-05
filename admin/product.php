@@ -48,12 +48,17 @@
             case "3":
                 $name = $_POST['name'];
                 $des = $_POST['des'];
+                $instock = $_POST['instock'];
+                $price = $_POST['price'];
+                $category = $_POST['category'];
+                $brand = $_POST['brand'];
+                $link = $_POST['link'];
                 $active = 0;
                 $id = $_GET['id'];
                 if (isset($_POST['active'])) {
                     $active = 1;
                 }
-                $sql = "update tbl_product set prod_name='$name', prod_des='$des', active=$active where prod_id=$id";
+                echo $sql = "update tbl_product set prod_name='$name', prod_des='$des',prod_instock=$instock, prod_price=$price, brand_id=$brand, cate_id=$category, link='$link', active=$active where prod_id=$id";
                 mysqli_query($conn, $sql);
                 break;
             case "4":
@@ -132,12 +137,12 @@
                             <th scope="row"><?= $i ?></th>
                             <td id="img-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_img'] ?>"><?= $row['prod_img'] ?></td>
                             <td id="name-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_name'] ?>"><?= $row['prod_name'] ?></td>
-                            <td id="des-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_des'] ?>"><?= substr($row['prod_des'], 0, 50) . "..." ?></td>
-                            <td id="cate-id-<?= $row['prod_id'] ?>" data-value="<?= $row['cate_name'] ?>"><?= $row['cate_name'] ?></td>
-                            <td id="brand-id-<?= $row['prod_id'] ?>" data-value="<?= $row['brand_name'] ?>"><?= substr($row['brand_name'], 0, 50) . "..." ?></td>
+                            <td id="des-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_des'] ?>"><?= substr($row['prod_des'], 0, 50) ?></td>
+                            <td id="cate-id-<?= $row['prod_id'] ?>" data-value="<?= $row['cate_id'] ?>"><?= $row['cate_name'] ?></td>
+                            <td id="brand-id-<?= $row['prod_id'] ?>" data-value="<?= $row['brand_id'] ?>"><?= substr($row['brand_name'], 0, 50) ?></td>
                             <td id="instock-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_instock'] ?>"><?= $row['prod_instock'] ?></td>
-                            <td id="price-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_price'] ?>"><?= substr($row['prod_price'], 0, 50) . "..." ?></td>
-                            <td id="link-<?= $row['prod_id'] ?>" data-value="<?= $row['link'] ?>"><?= substr($row['link'], 0, 50) . "..." ?></td>
+                            <td id="price-<?= $row['prod_id'] ?>" data-value="<?= $row['prod_price'] ?>"><?= substr($row['prod_price'], 0, 50) ?></td>
+                            <td id="link-<?= $row['prod_id'] ?>" data-value="<?= $row['link'] ?>"><?= substr($row['link'], 0, 50) ?></td>
                             <td>
                                 <a href="index.php?p=products&action=0&id=<?= $row['prod_id'] ?>&active=<?= $row['active'] == 1 ? 0 : 1 ?>" style="padding-right: 5px;">
                                     <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
@@ -216,7 +221,6 @@
                         <label for="select" class="form-label">Category Name</label>
                         <div class="mb-3">
                             <select class="form-select" aria-label="Default select example" name="category">
-                                <option selected>Open this select Category</option>
                                 <?php
                                 $sql = "select * from tbl_category";
                                 $result = mysqli_query($conn, $sql);
@@ -231,7 +235,6 @@
                         <div class="mb-3">
                             <label for="select" class="form-label">Brand Name</label>
                             <select class="form-select" aria-label="Default select example" name="brand">
-                                <option selected>Open this select menu</option>
                                 <?php
                                 $sql = "select * from tbl_brand";
                                 $result = mysqli_query($conn, $sql);
@@ -290,7 +293,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Update Category
+                    <h5 class="modal-title" id="exampleModalLabel">Update Product
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -298,25 +301,24 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label">Product Name</label>
-                            <input type="text" class="form-control" id="title" name="name" placeholder="Product Name...">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Product Name...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="subtitle" name="des" placeholder="Description...">
+                            <input type="text" class="form-control" id="des" name="des" placeholder="Description...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label">Instock</label>
-                            <input type="text" class="form-control" id="subtitle" name="instock" placeholder="Instock...">
+                            <input type="text" class="form-control" id="instock" name="instock" placeholder="Instock...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label">Price</label>
-                            <input type="text" class="form-control" id="subtitle" name="price" placeholder="Price...">
+                            <input type="text" class="form-control" id="price" name="price" placeholder="Price...">
                         </div>
 
                         <label for="select" class="form-label">Category Name</label>
                         <div class="mb-3">
-                            <select class="form-select" aria-label="Default select example" name="category">
-                                <option selected>Open this select Category</option>
+                            <select class="form-select" aria-label="Default select example" name="category" id="category">
                                 <?php
                                 $sql = "select * from tbl_category";
                                 $result = mysqli_query($conn, $sql);
@@ -330,8 +332,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="select" class="form-label">Brand Name</label>
-                            <select class="form-select" aria-label="Default select example" name="brand">
-                                <option selected>Open this select menu</option>
+                            <select class="form-select" aria-label="Default select example" id="brand" name="brand">
                                 <?php
                                 $sql = "select * from tbl_brand";
                                 $result = mysqli_query($conn, $sql);
@@ -345,18 +346,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label">Link</label>
-                            <input type="text" class="form-control" id="subtitle" name="link" placeholder="Link Description...">
+                            <input type="text" class="form-control" id="link" name="link" placeholder="Link Description...">
                         </div>
                         <div class="input-group mb-3">
                             <input type="file" class="form-control" id="inputGroupFile02" accept="image/*" name="img">
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" id="active" checked>
                             <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -376,10 +373,16 @@
 
     function update(id) {
         document.getElementById("form").action = "index.php?p=products&action=3&id=" + id;
-        let name = document.getElementById("name-" + id).getAttribute("data-value");
-        document.getElementById("inputName").value = name;
-        let des = document.getElementById("des-" + id).getAttribute("data-value");
-        document.getElementById("inputDes").value = des;
 
+        let name = document.getElementById("name-" + id).getAttribute("data-value");
+        document.getElementById("name").value = name;
+        let des = document.getElementById("des-" + id).getAttribute("data-value");
+        document.getElementById("des").value = des;
+        let instock = document.getElementById("instock-" + id).getAttribute("data-value");
+        document.getElementById("instock").value = instock;
+        let price = document.getElementById("price-" + id).getAttribute("data-value");
+        document.getElementById("price").value = price;
+        let link = document.getElementById("link-" + id).getAttribute("data-value");
+        document.getElementById("link").value = link;
     }
 </script>

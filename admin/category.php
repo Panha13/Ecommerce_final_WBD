@@ -118,7 +118,7 @@
                     <tr>
                         <th scope="row"><?= $i ?></th>
                         <td id="name-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_name'] ?>"><?= $row['cate_name'] ?></td>
-                        <td id="des-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_des'] ?>"><?= substr($row['cate_des'], 0, 50) . "..." ?></td>
+                        <td id="des-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_des'] ?>"><?= substr($row['cate_des'], 0, 50) . '...' ?></td>
                         <td>
                             <a href=" index.php?p=category&action=0&id=<?= $row['cate_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" style="padding-right: 5px;">
                                 <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>

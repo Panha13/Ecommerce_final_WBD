@@ -71,9 +71,7 @@
                 $num++;
                 $sql = "insert into tbl_category(cate_name, cate_des, active, ordernum) values('$name','$des','$active','$num')";
                 mysqli_query($conn, $sql);
-    ?>
-                <h4 class="fw-bold py-3 mb-4">You're Successfully Added 🎉🎉🎉</h4>
-    <?php
+                echo "<h4 class='fw-bold py-3 mb-4'>You're Successfully Added 🎉🎉🎉</h4>";
                 break;
         }
     }
@@ -166,6 +164,7 @@
         <!-- Pagination -->
     <?php
     } ?>
+    <!-- TODO: Upload photo to database and making it available on folder normal and thumbnail -->
     <!-- Add Category Modal  -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -218,7 +217,7 @@
         </div>
     </div>
     <!-- Confirm Delete Modal -->
-
+    <!-- TODO: Update on Photo -->
     <!-- Update Category Modal  -->
     <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

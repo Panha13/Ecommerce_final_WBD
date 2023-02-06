@@ -1,7 +1,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Cards Premium</h4>
     <?php
-    include '../class/class.php';
+    include '../class/global.php';
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
@@ -16,7 +16,7 @@
         $a = $_GET['action'];
         switch ($a) {
             case "0":
-                $me->id = "cate_id=" . $_GET['id'];
+                $me->id_val = $_GET['id'];
                 $me->active = "active=" . $_GET['active'];
                 $me->Show();
                 break;
@@ -37,13 +37,12 @@
             case "3":
                 $me->name_val =  $_POST['name'];
                 $me->des_val = "cate_des='" . $_POST['des'] . "'";
-                $me->active = $_POST['active'];
-                $me->active = $me->CheckActive();
+                $me->CheckActive($_POST['active']);
                 $me->id = "cate_id=" . $_GET['id'];
                 $me->Update();
                 break;
             case "4":
-                $me->id = "cate_id=" . $_GET['id'];
+                $me->id_val = $_GET['id'];
                 $me->DeleteData();
                 break;
 
@@ -51,8 +50,7 @@
                 $me->name_val = $_POST['name'];
                 $me->des_val = $_POST['des'];
                 $me->num = $num++;
-                $me->active = $_POST['active'];
-                $me->active = $me->CheckActive();
+                $me->CheckActive($_POST['active']);
                 if ($_POST['name'] != "" || $_POST['des'] != "") {
                     $me->InsertData();
                 } else {

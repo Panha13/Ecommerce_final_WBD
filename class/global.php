@@ -14,18 +14,18 @@ class SuperClass
     public $operation;
     public $cur_order;
     public $cur_id;
-    public $id_name;
     public $order;
     public $num;
     public $des_val;
     public $name_val;
-    public function __construct(...$conn)
+    public function __construct($conn, ...$name)
     {
         $this->conn = $conn;
+        $this->name = $name;
     }
     public function Show()
     {
-        $sql = "update $this->tbl set $this->active where $this->id";
+        $sql = "update $this->tbl set $this->active where $this->id=$this->id_val";
         return mysqli_query($this->conn, $sql);
     }
     public function Move()
@@ -69,12 +69,12 @@ class SuperClass
             echo "<h4 class='fw-bold py-3 mb-4'>Failed to add $this->comp</h4>";
         }
     }
-    public function CheckActive()
+    public function CheckActive($a)
     {
         $active = "active=0";
-        if ($this->active) {
+        if ($a) {
             $active = "active=1";
         }
-        return $active;
+        return $this->active = $active;
     }
 }

@@ -5,36 +5,32 @@
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
+    $tbl = "tbl_category";
+    $id_name = "cate_id";
     if (isset($_GET['action'])) {
         $a = $_GET['action'];
         switch ($a) {
             case "0":
                 $id = "cate_id=" . $_GET['id'];
                 $active = "active=" . $_GET['active'];
-                $me = new CategoryClass();
-                $me->UpdateMe($id, $active, $conn);
+                $me = new SuperClass();
+                $me->UpdateMe($id, $active, $conn, $tbl);
                 break;
             case "1":
                 $cur_id = $_GET['id'];
                 $cur_order = $_GET['order'];
-                $move = new CategoryClass();
-                $move->MoveUP($conn, $cur_order, $cur_id);
+                $operation = '<';
+                $order = "desc";
+                $move = new SuperClass();
+                $move->Move($conn, $cur_order, $cur_id, $tbl, $id_name, $operation, $order);
                 break;
             case "2":
                 $cur_id = $_GET['id'];
                 $cur_order = $_GET['order'];
-                $sql = "select cate_id,ordernum from tbl_category where ordernum > $cur_order order by ordernum asc limit 1;";
-                $result = mysqli_query($conn, $sql);
-                $num = mysqli_num_rows($result);
-                if ($num > 0) {
-                    $row = mysqli_fetch_array($result);
-                    $new_id = $row['cate_id'];
-                    $new_order = $row['ordernum'];
-                    $sql = "update tbl_category set ordernum = $new_order where cate_id = $cur_id";
-                    mysqli_query($conn, $sql);
-                    $sql = "update tbl_category set ordernum = $cur_order where cate_id = $new_id";
-                    mysqli_query($conn, $sql);
-                }
+                $operation = '>';
+                $order = "asc";
+                $move = new SuperClass();
+                $move->Move($conn, $cur_order, $cur_id, $tbl, $id_name, $operation, $order);
                 break;
             case "3":
                 $name = $_POST['name'];

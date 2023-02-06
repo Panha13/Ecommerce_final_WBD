@@ -1,91 +1,84 @@
-<!-- #IMPORTANT: I will add picture when i've done easy thing -->
+<!-- IMPORTANT: I will add picture when i've done easy thing -->
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Product /</span> Cards Premium</h4>
     <?php
+    include '../class/product.php';
     $sql = "SELECT * FROM tbl_product";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
+    $tbl = "tbl_product";
+    $id = "prod_id";
+    $name = "prod_name";
+    $des = "prod_des";
+    $comp = "Product";
+    $me = new Product($conn, $tbl, $id, $name, $des, $comp);
+
     if (isset($_GET['action'])) {
         $a = $_GET['action'];
         switch ($a) {
             case "0":
-                $id = $_GET['id'];
-                $active = $_GET['active'];
-                $sql = "update tbl_product set active = $active WHERE prod_id = $id;";
-                mysqli_query($conn, $sql);
+                $me->id_val = $_GET['id'];
+                $me->active = "active=" . $_GET['active'];
+                $me->Show();
                 break;
             case "1":
-                $cur_id = $_GET['id'];
-                $cur_order = $_GET['order'];
-                $sql = "select prod_id,ordernum from tbl_product where ordernum < $cur_order order by ordernum desc limit 1;";
-                $result = mysqli_query($conn, $sql);
-                $num = mysqli_num_rows($result);
-                if ($num > 0) {
-                    $row = mysqli_fetch_array($result);
-                    $new_id = $row['prod_id'];
-                    $new_order = $row['ordernum'];
-                    $sql = "update tbl_product set ordernum = $new_order where prod_id = $cur_id";
-                    mysqli_query($conn, $sql);
-                    $sql = "update tbl_product set ordernum = $cur_order where prod_id = $new_id";
-                    mysqli_query($conn, $sql);
-                }
+                $me->cur_id = $_GET['id'];
+                $me->cur_order = $_GET['order'];
+                $me->operation = '<';
+                $me->order = "desc";
+                $me->Move();
                 break;
             case "2":
-                $cur_id = $_GET['id'];
-                $cur_order = $_GET['order'];
-                $sql = "select prod_id,ordernum from tbl_product where ordernum > $cur_order order by ordernum asc limit 1;";
-                $result = mysqli_query($conn, $sql);
-                $num = mysqli_num_rows($result);
-                if ($num > 0) {
-                    $row = mysqli_fetch_array($result);
-                    $new_id = $row['prod_id'];
-                    $new_order = $row['ordernum'];
-                    $sql = "update tbl_product set ordernum = $new_order where prod_id = $cur_id";
-                    mysqli_query($conn, $sql);
-                    $sql = "update tbl_product set ordernum = $cur_order where prod_id = $new_id";
-                    mysqli_query($conn, $sql);
-                }
+                $me->cur_id = $_GET['id'];
+                $me->cur_order = $_GET['order'];
+                $me->operation = '>';
+                $me->order = "asc";
+                $me->Move();
                 break;
             case "3":
-                $name = $_POST['name'];
-                $des = $_POST['des'];
+                $name_val =  $_POST['name'];
+                $des_val = $_POST['des'];
+                $me->active = $me->CheckActive(isset($_POST['active']));
+                $cate_id = $_POST['category'];
+                $brand_id = $_POST['brand'];
                 $instock = $_POST['instock'];
                 $price = $_POST['price'];
-                $category = $_POST['category'];
-                $brand = $_POST['brand'];
                 $link = $_POST['link'];
-                $active = 0;
-                $id = $_GET['id'];
-                if (isset($_POST['active'])) {
-                    $active = 1;
+                $me->id_val = $_GET['id'];
+                $img = "#";
+                $me->Update($name, $name_val);
+                $me->Update("cate_id=", $cate_id);
+                $me->Update("brand_id=", $brand_id);
+                $me->Update("prod_instock=", $instock);
+                $me->Update("prod_price=", $price);
+                $me->Update("link=", $link);
+                $me->Update("prod_img=", $img);
+                if ($me->Update($des, $des_val)) {
+                    echo "<h4 class='fw-bold py-3 mb-4'>You're Updated Successfully 🎉🎉🎉</h4>";
                 }
-                echo $sql = "update tbl_product set prod_name='$name', prod_des='$des',prod_instock=$instock, prod_price=$price, brand_id=$brand, cate_id=$category, link='$link', active=$active where prod_id=$id";
-                mysqli_query($conn, $sql);
                 break;
             case "4":
-                $id = $_GET['id'];
-                $sql = "delete from tbl_product where prod_id=$id;";
-                mysqli_query($conn, $sql);
+                $me->id_val = $_GET['id'];
+                $me->DeleteData();
                 break;
+
             case '5':
-                $name = $_POST['name'];
-                $des = $_POST['des'];
-                $instock = $_POST['instock'];
-                $price = $_POST['price'];
-                $category = $_POST['category'];
-                $brand = $_POST['brand'];
-                $img = "#";
-                $link = $_POST['link'];
-                $active = 0;
-                if (isset($_POST['active'])) {
-                    $active = 1;
+                $me->name_val = $_POST['name'];
+                $me->des_val = $_POST['des'];
+                $me->cate_id = $_POST['category'];
+                $me->brand_id = $_POST['brand'];
+                $me->instock = $_POST['instock'];
+                $me->price = $_POST['price'];
+                $me->link = $_POST['link'];
+                $me->img = "#";
+                $me->num = $num++;
+                $me->active = $me->CheckActive(isset($_POST['active']));
+                if ($_POST['name'] != "" || $_POST['des'] != "") {
+                    $me->AddProduct();
+                    echo "<h4 class='fw-bold py-3 mb-4'>You are successfully insert the product!!!</h4>";
+                } else {
+                    echo "<h4 class='fw-bold py-3 mb-4'>You have to insert value!!!</h4>";
                 }
-                $num++;
-                $sql = "insert into tbl_product(prod_name, prod_des, prod_instock, prod_price, cate_id, brand_id, prod_img, link, active, ordernum) values('$name','$des',$instock,$price,$category,$brand,'$img','$link','$active','$num')";
-                mysqli_query($conn, $sql);
-    ?>
-                <h4 class="fw-bold py-3 mb-4">You're Successfully Added 🎉🎉🎉</h4>
-    <?php
                 break;
         }
     }
@@ -98,7 +91,7 @@
         $offset = NUMPERPAGE * ($pg - 1);
     }
 
-    $sql = "select p.* , cate_name, brand_name from tbl_product as p INNER JOIN tbl_category as c on p.cate_id=c.cate_id INNER JOIN tbl_brand as b on p.brand_id=b.brand_id ORDER BY ordernum limit " . NUMPERPAGE . " offset " . $offset;
+    $sql = "select p.* , cate_name, brand_name from tbl_product as p left JOIN tbl_category as c on p.cate_id=c.cate_id left JOIN tbl_brand as b on p.brand_id=b.brand_id ORDER BY ordernum limit " . NUMPERPAGE . " offset " . $offset;
     $result = mysqli_query($conn, $sql);
     ?>
     <button type="button" class="btn btn-primary rounded-circle" style="width:50px;

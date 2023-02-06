@@ -18,10 +18,14 @@ class SuperClass
     public $num;
     public $des_val;
     public $name_val;
-    public function __construct($conn, ...$name)
+    public function __construct($conn, $tbl, $id, $name, $des, $comp)
     {
         $this->conn = $conn;
         $this->name = $name;
+        $this->tbl = $tbl;
+        $this->id = $id;
+        $this->des = $des;
+        $this->comp = $comp;
     }
     public function Show()
     {
@@ -43,11 +47,6 @@ class SuperClass
             mysqli_query($this->conn, $sql);
         }
     }
-    public function Update()
-    {
-        $sql = "update $this->tbl set $this->name='$this->name_val', $this->des='$this->des_val', $this->active where $this->id=$this->id_val";
-        mysqli_query($this->conn, $sql);
-    }
     public function DeleteData()
     {
         $sql = "delete from $this->tbl where $this->id=$this->id_val;";
@@ -58,22 +57,28 @@ class SuperClass
             echo "<h4 class='fw-bold py-3 mb-4'>Failed to Remove 🥲</h4>";
         }
     }
+    public function Update($key, $val)
+    {
+        $sql = "update $this->tbl set $key='$val', active=$this->active where $this->id=$this->id_val";
+        mysqli_query($this->conn, $sql);
+        return true;
+    }
     public function InsertData()
     {
-        $sql = "insert into $this->tbl($this->name, $this->des, active, ordernum) values('$this->name_val','$this->des_val',$this->active,$this->num)";
+        $sql = "insert into $this->tbl($this->name,  active, ordernum) values('$this->name_val',$this->active,$this->num)";
+        mysqli_query($this->conn, $sql);
+        $sql = "select $this->id from $this->tbl order by $this->id desc limit 1";
         $result = mysqli_query($this->conn, $sql);
-        if ($result) {
-            echo "<h4 class='fw-bold py-3 mb-4'>You're Successfully Added 🎉🎉🎉</h4>";
-        } else {
-
-            echo "<h4 class='fw-bold py-3 mb-4'>Failed to add $this->comp</h4>";
+        while ($row = mysqli_fetch_array($result)) {
+            $this->id_val = $row["$this->id"];
         }
+        $this->Update($this->des, $this->des_val);
     }
     public function CheckActive($a)
     {
-        $active = "active=0";
+        $active = "0";
         if ($a) {
-            $active = "active=1";
+            $active = "1";
         }
         return $this->active = $active;
     }

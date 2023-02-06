@@ -1,83 +1,67 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Brand /</span> Cards Basic</h4>
     <?php
+    include '../class/global.php';
     $sql = "SELECT * FROM tbl_brand";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
+    $tbl = "tbl_brand";
+    $id = "brand_id";
+    $name = "brand_name";
+    $des = "brand_des";
+    $comp = "Brand";
+    $me = new SuperClass($conn, $tbl, $id, $name, $des, $comp);
+
     if (isset($_GET['action'])) {
         $a = $_GET['action'];
         switch ($a) {
             case "0":
-                $id = $_GET['id'];
-                $active = $_GET['active'];
-                $sql = "update tbl_brand set active = $active WHERE brand_id = $id;";
-                mysqli_query($conn, $sql);
+                $me->id_val = $_GET['id'];
+                $me->active = "active=" . $_GET['active'];
+                $me->Show();
                 break;
             case "1":
-                $cur_id = $_GET['id'];
-                $cur_order = $_GET['order'];
-                $sql = "select brand_id,ordernum from tbl_brand where ordernum < $cur_order order by ordernum desc limit 1;";
-                $result = mysqli_query($conn, $sql);
-                $num = mysqli_num_rows($result);
-                if ($num > 0) {
-                    $row = mysqli_fetch_array($result);
-                    $new_id = $row['brand_id'];
-                    $new_order = $row['ordernum'];
-                    $sql = "update tbl_brand set ordernum = $new_order where brand_id = $cur_id";
-                    mysqli_query($conn, $sql);
-                    $sql = "update tbl_brand set ordernum = $cur_order where brand_id = $new_id";
-                    mysqli_query($conn, $sql);
-                }
+                $me->cur_id = $_GET['id'];
+                $me->cur_order = $_GET['order'];
+                $me->operation = '<';
+                $me->order = "desc";
+                $me->Move();
                 break;
             case "2":
-                $cur_id = $_GET['id'];
-                $cur_order = $_GET['order'];
-                $sql = "select brand_id,ordernum from tbl_brand where ordernum > $cur_order order by ordernum asc limit 1;";
-                $result = mysqli_query($conn, $sql);
-                $num = mysqli_num_rows($result);
-                if ($num > 0) {
-                    $row = mysqli_fetch_array($result);
-                    $new_id = $row['brand_id'];
-                    $new_order = $row['ordernum'];
-                    $sql = "update tbl_brand set ordernum = $new_order where brand_id = $cur_id";
-                    mysqli_query($conn, $sql);
-                    $sql = "update tbl_brand set ordernum = $cur_order where brand_id = $new_id";
-                    mysqli_query($conn, $sql);
-                }
+                $me->cur_id = $_GET['id'];
+                $me->cur_order = $_GET['order'];
+                $me->operation = '>';
+                $me->order = "asc";
+                $me->Move();
                 break;
             case "3":
-                $name = $_POST['name'];
-                $des = $_POST['des'];
-                $active = 0;
-                $id = $_GET['id'];
-                if (isset($_POST['active'])) {
-                    $active = 1;
+                $name_val =  $_POST['name'];
+                $des_val = $_POST['des'];
+                $me->active = $me->CheckActive(isset($_POST['active']));
+                $me->id_val = $_GET['id'];
+                $me->Update($name, $name_val);
+                if ($me->Update($des, $des_val)) {
+                    echo "<h4 class='fw-bold py-3 mb-4'>You're Updated Successfully 🎉🎉🎉</h4>";
                 }
-                $sql = "update tbl_brand set brand_name='$name', brand_des='$des', active=$active where brand_id=$id";
-                mysqli_query($conn, $sql);
                 break;
             case "4":
-                $id = $_GET['id'];
-                $sql = "delete from tbl_brand where brand_id=$id;";
-                mysqli_query($conn, $sql);
+                $me->id_val = $_GET['id'];
+                $me->DeleteData();
                 break;
+
             case '5':
-                $name = $_POST['name'];
-                $des = $_POST['des'];
-                $active = 0;
-                if (isset($_POST['active'])) {
-                    $active = 1;
+                $me->name_val = $_POST['name'];
+                $me->des_val = $_POST['des'];
+                $me->num = $num++;
+                $me->CheckActive($_POST['active']);
+                if ($_POST['name'] != "" || $_POST['des'] != "") {
+                    $me->InsertData();
+                } else {
+                    echo "<h4 class='fw-bold py-3 mb-4'>You have to insert value!!!</h4>";
                 }
-                $num++;
-                $sql = "insert into tbl_brand(brand_name, brand_des, active, ordernum) values('$name','$des','$active','$num')";
-                mysqli_query($conn, $sql);
-    ?>
-                <h4 class="fw-bold py-3 mb-4">You're Successfully Added 🎉🎉🎉</h4>
-    <?php
                 break;
         }
     }
-
     $pagenum = ceil($num / NUMPERPAGE);
     $offset = 0;
     $pg = 1;
@@ -117,8 +101,8 @@
                 ?>
                     <tr>
                         <th scope="row"><?= $i ?></th>
-                        <td><?= $row['brand_name'] ?></td>
-                        <td><?= $row['brand_name'] ?></td>
+                        <td id="name-<?= $row['brand_id'] ?>" data-value="<?= $row['brand_name'] ?>"><?= $row['brand_name'] ?></td>
+                        <td id="des-<?= $row['brand_id'] ?>" data-value="<?= $row['brand_des'] ?>"><?= $row['brand_des'] ?></td>
                         <td>
                             <a href="index.php?p=brand&action=0&id=<?= $row['brand_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" style="padding-right: 5px;">
                                 <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
@@ -233,11 +217,11 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label">Brand Name</label>
-                            <input type="text" class="form-control" id="title" name="name" placeholder="Brand Name...">
+                            <input type="text" class="form-control" id="inputName" name="name" placeholder="Brand Name...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label">Brand Description</label>
-                            <input type="text" class="form-control" id="subtitle" name="des" placeholder="Brand Description...">
+                            <input type="text" class="form-control" id="inputDes" name="des" placeholder="Brand Description...">
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
@@ -261,5 +245,9 @@
 
     function update(id) {
         document.getElementById("form").action = "index.php?p=brand&action=3&id=" + id;
+        let name = document.getElementById("name-" + id).getAttribute("data-value");
+        document.getElementById("inputName").value = name;
+        let des = document.getElementById("des-" + id).getAttribute("data-value");
+        document.getElementById("inputDes").value = des;
     }
 </script>

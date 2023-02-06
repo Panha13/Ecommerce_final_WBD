@@ -5,12 +5,13 @@
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
-    $me = new SuperClass($conn);
-    $me->tbl = "tbl_category";
-    $me->id = "cate_id";
-    $me->name = "cate_name";
-    $me->des = "cate_des";
-    $me->comp = "Category";
+    $tbl = "tbl_category";
+    $id = "cate_id";
+    $name = "cate_name";
+    $des = "cate_des";
+    $comp = "Category";
+    $active = "active";
+    $me = new SuperClass($conn, $tbl, $id, $name, $des, $comp);
 
     if (isset($_GET['action'])) {
         $a = $_GET['action'];
@@ -35,11 +36,14 @@
                 $me->Move();
                 break;
             case "3":
-                $me->name_val =  $_POST['name'];
-                $me->des_val = "cate_des='" . $_POST['des'] . "'";
-                $me->CheckActive($_POST['active']);
-                $me->id = "cate_id=" . $_GET['id'];
-                $me->Update();
+                $name_val =  $_POST['name'];
+                $des_val = $_POST['des'];
+                $me->active = $me->CheckActive(isset($_POST['active']));
+                $me->id_val = $_GET['id'];
+                $me->Update($name, $name_val);
+                if ($me->Update($des, $des_val)) {
+                    echo "<h4 class='fw-bold py-3 mb-4'>You're Updated Successfully 🎉🎉🎉</h4>";
+                }
                 break;
             case "4":
                 $me->id_val = $_GET['id'];
@@ -50,7 +54,7 @@
                 $me->name_val = $_POST['name'];
                 $me->des_val = $_POST['des'];
                 $me->num = $num++;
-                $me->CheckActive($_POST['active']);
+                $me->active = $me->CheckActive(isset($_POST['active']));
                 if ($_POST['name'] != "" || $_POST['des'] != "") {
                     $me->InsertData();
                 } else {
@@ -99,8 +103,8 @@
                         <td id="name-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_name'] ?>"><?= $row['cate_name'] ?></td>
                         <td id="des-<?= $row['cate_id'] ?>" data-value="<?= $row['cate_des'] ?>"><?= substr($row['cate_des'], 0, 50) . '...' ?></td>
                         <td>
-                            <a href=" index.php?p=category&action=0&id=<?= $row['cate_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" style="padding-right: 5px;">
-                                <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
+                            <a href=" index.php?p=category&action=0&id=<?= $row['cate_id'] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" id="active-<?= $row['cate_id'] ?>" data-value="<?= $row['active'] ?>" style="padding-right: 5px;">
+                                <i class=" fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
                             <a href="index.php?p=category&action=1&id=<?= $row['cate_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
                                 <i class="fas fa-arrow-up"></i> </a>
                             <a href="index.php?p=category&action=2&id=<?= $row['cate_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
@@ -219,8 +223,8 @@
                             <input type="text" class="form-control" id="inputDes" name="des" placeholder="Category Description...">
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
+                            <input class="form-check-input" type="checkbox" id="active" name="active" checked>
+                            <label class="form-check-label" for="active">Enable</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -244,6 +248,11 @@
         document.getElementById("inputName").value = name;
         let des = document.getElementById("des-" + id).getAttribute("data-value");
         document.getElementById("inputDes").value = des;
+        if (document.getElementById("active-" + id).getAttribute("data-value") == "0") {
+            document.getElementById("active").checked = false;
+        } else {
+            document.getElementById("active").checked = true;
+        }
 
     }
 </script>

@@ -5,10 +5,13 @@
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
-    $me = new SuperClass();
+    $me = new SuperClass($conn);
     $me->tbl = "tbl_category";
-    $me->id_name = "cate_id";
-    $me->conn = $conn;
+    $me->id = "cate_id";
+    $me->name = "cate_name";
+    $me->des = "cate_des";
+    $me->comp = "Category";
+
     if (isset($_GET['action'])) {
         $a = $_GET['action'];
         switch ($a) {
@@ -18,7 +21,7 @@
                 $me->Show();
                 break;
             case "1":
-                $me->id = $_GET['id'];
+                $me->cur_id = $_GET['id'];
                 $me->cur_order = $_GET['order'];
                 $me->operation = '<';
                 $me->order = "desc";
@@ -32,32 +35,29 @@
                 $me->Move();
                 break;
             case "3":
-                $name = $_POST['name'];
-                $des = $_POST['des'];
-                $active = 0;
-                $id = $_GET['id'];
-                if (isset($_POST['active'])) {
-                    $active = 1;
-                }
-                $sql = "update tbl_category set cate_name='$name', cate_des='$des', active=$active where cate_id=$id";
-                mysqli_query($conn, $sql);
+                $me->name_val =  $_POST['name'];
+                $me->des_val = "cate_des='" . $_POST['des'] . "'";
+                $me->active = $_POST['active'];
+                $me->active = $me->CheckActive();
+                $me->id = "cate_id=" . $_GET['id'];
+                $me->Update();
                 break;
             case "4":
-                $id = $_GET['id'];
-                $sql = "delete from tbl_category where cate_id=$id;";
-                mysqli_query($conn, $sql);
+                $me->id = "cate_id=" . $_GET['id'];
+                $me->DeleteData();
                 break;
+
             case '5':
-                $name = $_POST['name'];
-                $des = $_POST['des'];
-                $active = 0;
-                if (isset($_POST['active'])) {
-                    $active = 1;
+                $me->name_val = $_POST['name'];
+                $me->des_val = $_POST['des'];
+                $me->num = $num++;
+                $me->active = $_POST['active'];
+                $me->active = $me->CheckActive();
+                if ($_POST['name'] != "" || $_POST['des'] != "") {
+                    $me->InsertData();
+                } else {
+                    echo "<h4 class='fw-bold py-3 mb-4'>You have to insert value!!!</h4>";
                 }
-                $num++;
-                $sql = "insert into tbl_category(cate_name, cate_des, active, ordernum) values('$name','$des','$active','$num')";
-                mysqli_query($conn, $sql);
-                echo "<h4 class='fw-bold py-3 mb-4'>You're Successfully Added 🎉🎉🎉</h4>";
                 break;
         }
     }

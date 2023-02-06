@@ -1,6 +1,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Cards Premium</h4>
     <?php
+    include '../class/class.php';
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
@@ -8,26 +9,16 @@
         $a = $_GET['action'];
         switch ($a) {
             case "0":
-                $id = $_GET['id'];
-                $active = $_GET['active'];
-                $sql = "update tbl_category set active = $active WHERE cate_id = $id;";
-                mysqli_query($conn, $sql);
+                $id = "cate_id=" . $_GET['id'];
+                $active = "active=" . $_GET['active'];
+                $me = new CategoryClass();
+                $me->UpdateMe($id, $active, $conn);
                 break;
             case "1":
                 $cur_id = $_GET['id'];
                 $cur_order = $_GET['order'];
-                $sql = "select cate_id,ordernum from tbl_category where ordernum < $cur_order order by ordernum desc limit 1;";
-                $result = mysqli_query($conn, $sql);
-                $num = mysqli_num_rows($result);
-                if ($num > 0) {
-                    $row = mysqli_fetch_array($result);
-                    $new_id = $row['cate_id'];
-                    $new_order = $row['ordernum'];
-                    $sql = "update tbl_category set ordernum = $new_order where cate_id = $cur_id";
-                    mysqli_query($conn, $sql);
-                    $sql = "update tbl_category set ordernum = $cur_order where cate_id = $new_id";
-                    mysqli_query($conn, $sql);
-                }
+                $move = new CategoryClass();
+                $move->MoveUP($conn, $cur_order, $cur_id);
                 break;
             case "2":
                 $cur_id = $_GET['id'];
@@ -94,10 +85,7 @@
             padding: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
             " data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i></button>
-    <?php
-    if ($num > 0) {
-
-    ?>
+    <?php if ($num > 0) { ?>
         <table class="table mb-5">
             <thead class="bg-primary">
                 <tr>

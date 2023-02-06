@@ -1,5 +1,5 @@
 <?php
-// WHAT TODO: Make class and use it in project$
+// WHAT TODO: Make class and use it in project
 
 class SuperClass
 {
@@ -7,25 +7,32 @@ class SuperClass
     public $des;
     public $ordernum;
     public $active;
-
-    public function UpdateMe($id, $active, $conn, $tbl)
+    public $conn;
+    public $tbl;
+    public $id;
+    public $operation;
+    public $cur_order;
+    public $cur_id;
+    public $id_name;
+    public $order;
+    public function Show()
     {
-        $sql = "update $tbl set $active where $id";
-        return mysqli_query($conn, $sql);
+        $sql = "update $this->tbl set $this->active where $this->id";
+        return mysqli_query($this->conn, $sql);
     }
-    public function Move($conn, $cur_order, $cur_id, $tbl, $id_name, $operation, $order)
+    public function Move()
     {
-        $sql = "select $id_name,ordernum from $tbl where ordernum $operation $cur_order order by ordernum $order limit 1;";
-        $result = mysqli_query($conn, $sql);
+        $sql = "select $this->id_name,ordernum from $this->tbl where ordernum $this->operation $this->cur_order order by ordernum $this->order limit 1;";
+        $result = mysqli_query($this->conn, $sql);
         $num = mysqli_num_rows($result);
         if ($num > 0) {
             $row = mysqli_fetch_array($result);
-            $new_id = $row["$id_name"];
+            $new_id = $row["$this->id_name"];
             $new_order = $row['ordernum'];
-            $sql = "update $tbl set ordernum = $new_order where $id_name = $cur_id";
-            mysqli_query($conn, $sql);
-            $sql = "update $tbl set ordernum = $cur_order where $id_name = $new_id";
-            mysqli_query($conn, $sql);
+            $sql = "update $this->tbl set ordernum = $new_order where $this->id_name = $$this->cur_id";
+            mysqli_query($this->conn, $sql);
+            $sql = "update $this->tbl set ordernum = $this->cur_order where $this->id_name = $new_id";
+            mysqli_query($this->conn, $sql);
         }
     }
 }

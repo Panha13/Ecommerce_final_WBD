@@ -5,32 +5,31 @@
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
-    $tbl = "tbl_category";
-    $id_name = "cate_id";
+    $me = new SuperClass();
+    $me->tbl = "tbl_category";
+    $me->id_name = "cate_id";
+    $me->conn = $conn;
     if (isset($_GET['action'])) {
         $a = $_GET['action'];
         switch ($a) {
             case "0":
-                $id = "cate_id=" . $_GET['id'];
-                $active = "active=" . $_GET['active'];
-                $me = new SuperClass();
-                $me->UpdateMe($id, $active, $conn, $tbl);
+                $me->id = "cate_id=" . $_GET['id'];
+                $me->active = "active=" . $_GET['active'];
+                $me->Show();
                 break;
             case "1":
-                $cur_id = $_GET['id'];
-                $cur_order = $_GET['order'];
-                $operation = '<';
-                $order = "desc";
-                $move = new SuperClass();
-                $move->Move($conn, $cur_order, $cur_id, $tbl, $id_name, $operation, $order);
+                $me->id = $_GET['id'];
+                $me->cur_order = $_GET['order'];
+                $me->operation = '<';
+                $me->order = "desc";
+                $me->Move();
                 break;
             case "2":
-                $cur_id = $_GET['id'];
-                $cur_order = $_GET['order'];
-                $operation = '>';
-                $order = "asc";
-                $move = new SuperClass();
-                $move->Move($conn, $cur_order, $cur_id, $tbl, $id_name, $operation, $order);
+                $me->cur_id = $_GET['id'];
+                $me->cur_order = $_GET['order'];
+                $me->operation = '>';
+                $me->order = "asc";
+                $me->Move();
                 break;
             case "3":
                 $name = $_POST['name'];

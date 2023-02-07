@@ -41,7 +41,7 @@
                 $me->Update($name, $_POST['name']);
                 $me->Update("ads_price", $_POST['price']);
                 $me->Update("link", $_POST['link']);
-                $me->Update("adse_img", "#");
+                $me->Update("ads_img", "#");
                 if ($me->Update($des, $des_val)) {
                     echo "<h4 class='fw-bold py-3 mb-4'>You're Updated Successfully 🎉🎉🎉</h4>";
                 }
@@ -90,51 +90,49 @@
     if ($num > 0) {
 
     ?>
-        <div>
-            <table class="table mb-5">
-                <thead class="bg-primary">
+        <table class="table mb-5">
+            <thead class="bg-primary">
+                <tr>
+                    <th class="text-white" scope="col">#</th>
+                    <th class="text-white" scope="col">Image</th>
+                    <th class="text-white" scope="col">Title</th>
+                    <th class="text-white" scope="col">Price</th>
+                    <th class="text-white" scope="col">Discount</th>
+                    <th class="text-white" scope="col">Link</th>
+                    <th class="text-white" scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                $i = 1;
+                while ($row = mysqli_fetch_array($result)) {
+
+                ?>
                     <tr>
-                        <th class="text-white" scope="col">#</th>
-                        <th class="text-white" scope="col">Image</th>
-                        <th class="text-white" scope="col">Title</th>
-                        <th class="text-white" scope="col">Price</th>
-                        <th class="text-white" scope="col">Discount</th>
-                        <th class="text-white" scope="col">Link</th>
-                        <th class="text-white" scope="col">Action</th>
+                        <th scope="row"><?= $i ?></th>
+                        <td id="img-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_img'] ?>"><?= $row['ads_img'] ?></td>
+                        <td id="name-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_title'] ?>"><?= $row['ads_title'] ?></td>
+                        <td id="price-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_price'] ?>"><?= $row['ads_price'] ?></td>
+                        <td id="discount-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_discount'] ?>"><?= substr($row['ads_discount'], 0, 50) ?></td>
+                        <td id="link-<?= $row['ads_id'] ?>" data-value="<?= $row['link'] ?>"><?= substr($row['link'], 0, 50) ?></td>
+                        <td>
+                            <a href="index.php?p=ads&action=0&id=<?= $row['ads_id'] ?>&active=<?= $row['active'] == 1 ? 0 : 1 ?>" style="padding-right: 5px;">
+                                <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
+                            <a href="index.php?p=ads&action=1&id=<?= $row['ads_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                                <i class="fas fa-arrow-up"></i> </a>
+                            <a href="index.php?p=ads&action=2&id=<?= $row['ads_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                                <i class="fas fa-arrow-down"></i> </a>
+                            <a href="#" onclick="update(<?= $row['ads_id'] ?>)" data-bs-toggle="modal" data-bs-target="#updateModal" style="padding-right: 5px;">
+                                <i class="fas fa-edit"></i> </a>
+                            <a href="#" onclick="del(<?= $row['ads_id'] ?>)" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">
+                                <i class="fas fa-trash"></i> </a>
+
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $i = 1;
-                    while ($row = mysqli_fetch_array($result)) {
-
-                    ?>
-                        <tr>
-                            <th scope="row"><?= $i ?></th>
-                            <td id="img-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_img'] ?>"><?= $row['ads_img'] ?></td>
-                            <td id="name-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_title'] ?>"><?= $row['ads_title'] ?></td>
-                            <td id="price-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_price'] ?>"><?= $row['ads_price'] ?></td>
-                            <td id="discount-<?= $row['ads_id'] ?>" data-value="<?= $row['ads_discount'] ?>"><?= substr($row['ads_discount'], 0, 50) ?></td>
-                            <td id="link-<?= $row['ads_id'] ?>" data-value="<?= $row['link'] ?>"><?= substr($row['link'], 0, 50) ?></td>
-                            <td>
-                                <a href="index.php?p=ads&action=0&id=<?= $row['ads_id'] ?>&active=<?= $row['active'] == 1 ? 0 : 1 ?>" style="padding-right: 5px;">
-                                    <i class="fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
-                                <a href="index.php?p=ads&action=1&id=<?= $row['ads_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
-                                    <i class="fas fa-arrow-up"></i> </a>
-                                <a href="index.php?p=ads&action=2&id=<?= $row['ads_id'] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
-                                    <i class="fas fa-arrow-down"></i> </a>
-                                <a href="#" onclick="update(<?= $row['ads_id'] ?>)" data-bs-toggle="modal" data-bs-target="#updateModal" style="padding-right: 5px;">
-                                    <i class="fas fa-edit"></i> </a>
-                                <a href="#" onclick="del(<?= $row['ads_id'] ?>)" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">
-                                    <i class="fas fa-trash"></i> </a>
-
-                            </td>
-                        </tr>
-                    <?php $i++;
-                    } ?>
-                </tbody>
-            </table>
-        </div>
+                <?php $i++;
+                } ?>
+            </tbody>
+        </table>
     <?php } else { ?>
         <h4 class="fw-bold py-3 mb-4">You don't have any ads yet 🥲🥲🥲</h4>
     <?php }

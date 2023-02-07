@@ -1,17 +1,9 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Category /</span> Cards Premium</h4>
     <?php
-    include '../class/global.php';
     $sql = "SELECT * FROM tbl_category";
     $result = mysqli_query($conn, $sql);
     $num = mysqli_num_rows($result);
-    $tbl = "tbl_category";
-    $id = "cate_id";
-    $name = "cate_name";
-    $des = "cate_des";
-    $comp = "Category";
-    $active = "active";
-    $me = new SuperClass($conn, $tbl, $id, $name, $des, $comp);
 
     if (isset($_GET['action'])) {
         $a = $_GET['action'];

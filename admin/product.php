@@ -31,23 +31,40 @@ $p = new Product($conn, $tbl, $id, $comp);
                 break;
             case "3":
                 $active = $p->CheckActive(isset($_POST['active']));
-                $p->Update($_GET['id'], $name . "=" . $_POST['name']);
-                $p->Update($_GET['id'], $des . "=" . $_POST['des']);
-                $p->Update($_GET['id'], "active=" . $_POST['des']);
+                $p->id_val = $_GET['id'];
+                $p->Update("$name=" . $_POST['name']);
+                $p->Update("$des=" . $_POST['des']);
+                $p->Update("$instock=" . $_POST['instock']);
+                $p->Update("$price=" . $_POST['price']);
+                $p->Update("$img=" . $_POST['img']);
+                $p->Update("link=" . $_POST['link']);
+                $p->Update("active=" . $active);
                 break;
             case "4":
                 $me->DeleteData($_GET['id']);
                 break;
             case '5':
-                $me->name_val = $_POST['name'];
-                $me->des_val = $_POST['des'];
-                $me->num = $num++;
-                $me->active = $me->CheckActive(isset($_POST['active']));
-                if ($_POST['name'] != "" || $_POST['des'] != "") {
-                    $me->InsertData();
+                $name_val = $_POST['name'];
+                $des_val = $_POST['des'];
+                $instock_val = $_POST['instock'];
+                $price_val = $_POST['price'];
+                $cate_id = $_POST['cate_id'];
+                $brand_id = $_POST['brand_id'];
+                $link = $_POST['link'];
+                $img_val = $_POST['img'];
+                $num++;
+                $active = $me->CheckActive(isset($_POST['active']));
+                $sql = "insert into $tbl ($name, $des, $instock,$price,cate_id, brand_id, link, $img,active,ordernum)
+                values($name_val,$des_val,$instock_val,$price_val,$cate_id,$brand_id, $link, $img_val, $active,$num);";
+                echo $sql;
+                $result = mysqli_query($conn, $sql);
+                if ($result) {
+                    $p->Dialog();
                 } else {
-                    echo "<h4 class='fw-bold py-3 mb-4'>You have to insert value!!!</h4>";
+                    $p->Dialog();
                 }
+
+
                 break;
         }
     }
@@ -60,7 +77,10 @@ $p = new Product($conn, $tbl, $id, $comp);
         $offset = NUMPERPAGE * ($pg - 1);
     }
 
-    $sql = "select * from $tbl order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
+    $sql = "select p.*, c.cate_name, b.brand_name from $tbl as p left join 
+    tbl_category as c on c.cate_id=p.cate_id left join 
+    tbl_brand as b on b.brand_id=p.brand_id
+    order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
     $result = mysqli_query($conn, $sql);
     ?>
     <button type="button" class="btn btn-primary rounded-circle" style="width:50px;
@@ -69,7 +89,7 @@ $p = new Product($conn, $tbl, $id, $comp);
             margin: 0 35px 35px 0;
             padding: 10px;
             box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-            " data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-plus"></i></button>
+            " data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa-solid fa-plus"></i></button>
     <?php if ($num > 0) { ?>
         <table class="table mb-5">
             <thead class="bg-primary">
@@ -78,9 +98,11 @@ $p = new Product($conn, $tbl, $id, $comp);
                     <th class="text-white" scope="col">Image</th>
                     <th class="text-white" scope="col"><?= $comp ?> Name</th>
                     <th class="text-white" scope="col"><?= $comp ?> Description</th>
+                    <th class="text-white" scope="col">Category</th>
+                    <th class="text-white" scope="col">Brand</th>
                     <th class="text-white" scope="col"><?= $comp ?> Instock</th>
                     <th class="text-white" scope="col"><?= $comp ?> Price</th>
-                    <th class="text-white" scope="col"><?= $comp ?>Link</th>
+                    <th class="text-white" scope="col"><?= $comp ?> Link</th>
                     <th class="text-white" scope="col">Action</th>
                 </tr>
             </thead>
@@ -92,12 +114,14 @@ $p = new Product($conn, $tbl, $id, $comp);
                 ?>
                     <tr>
                         <th scope="row"><?= $i ?></th>
-                        <td id="name-<?= $row[$id] ?>" data-value="<?= $row[$name] ?>"><?= $row[$img] ?></td>
-                        <td id="name-<?= $row[$id] ?>" data-value="<?= $row[$name] ?>"><?= $row[$name] ?></td>
-                        <td id="des-<?= $row[$id] ?>" data-value="<?= $row[$des] ?>"><?= substr($row[$des], 0, 50) . '...' ?></td>
-                        <td id="name-<?= $row[$id] ?>" data-value="<?= $row[$name] ?>"><?= $row[$name] ?></td>
-                        <td id="des-<?= $row[$id] ?>" data-value="<?= $row[$des] ?>"><?= substr($row[$des], 0, 50) . '...' ?></td>
-                        <td id="des-<?= $row[$id] ?>" data-value="<?= $row[$des] ?>"><?= substr($row[$des], 0, 50) . '...' ?></td>
+                        <td id="img-<?= $row[$id] ?>" data-value="<?= $row[$img] ?>"><?= $row[$img] ?></td>
+                        <td id="name-<?= $row[$id] ?>" data-value="<?= $row[$name] ?>"><?= strlen($row[$name]) > 10 ? substr($row[$name], 0, 10) . '...' : substr($row[$name], 0, 10) ?></td>
+                        <td id="des-<?= $row[$id] ?>" data-value="<?= $row[$des] ?>"><?= strlen($row[$des]) > 10 ? substr($row[$des], 0, 10) . '...' : substr($row[$des], 0, 10) ?></td>
+                        <td id="cate-<?= $row[$id] ?>" data-value="<?= $row['cate_name'] ?>"><?= strlen($row['cate_name']) > 10 ? substr($row['cate_name'], 0, 10) . '...' : substr($row['cate_name'], 0, 10) ?></td>
+                        <td id="brand-<?= $row[$id] ?>" data-value="<?= $row['brand_name'] ?>"><?= strlen($row['brand_name']) > 10 ? substr($row['brand_name'], 0, 10) . '...' : substr($row['brand_name'], 0, 10) ?></td>
+                        <td id="instock-<?= $row[$id] ?>" data-value="<?= $row[$instock] ?>"><?= $row[$instock] ?></td>
+                        <td id="price-<?= $row[$id] ?>" data-value="<?= $row[$price] ?>"><?= $row[$price] ?></td>
+                        <td id="link-<?= $row[$id] ?>" data-value="<?= $row['link'] ?>"><a href="<?= $row['link'] ?>"><?= strlen($row['link']) > 10 ? substr($row['link'], 0, 10) . '...' : substr($row['link'], 0, 10) ?></a> </td>
                         <td>
                             <a href=" index.php?p=products&action=0&id=<?= $row[$id] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" id="active-<?= $row[$id] ?>" data-value="<?= $row['active'] ?>" style="padding-right: 5px;">
                                 <i class=" fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
@@ -155,15 +179,55 @@ $p = new Product($conn, $tbl, $id, $comp);
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="index.php?p=category&action=5" method="post">
+                <form method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label"><?= $comp ?> Name</label>
-                            <input type="text" class="form-control" id="title" name="name" placeholder="<?= $comp ?> Name...">
+                            <input type="text" class="form-control" name="name" placeholder="<?= $comp ?> Name...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label"><?= $comp ?> Description</label>
-                            <input type="text" class="form-control" id="subtitle" name="des" placeholder="<?= $comp ?> Description...">
+                            <input type="text" class="form-control" name="des" placeholder="<?= $comp ?> Description...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><?= $comp ?> Instock</label>
+                            <input type="text" class="form-control" name="instock" placeholder="<?= $comp ?> Instock...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><?= $comp ?> Price</label>
+                            <input type="text" class="form-control" name="price" placeholder="<?= $comp ?> Price...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Category</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <?php
+                                $sql = "select * from tbl_category";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value=<?= $row['cate_id'] ?>><?= $row['cate_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Brand</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <?php
+                                $sql = "select * from tbl_brand";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value=<?= $row['brand_id'] ?>><?= $row['brand_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><?= $comp ?> Link</label>
+                            <input type="text" class="form-control" name="name" placeholder="<?= $comp ?> Link...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Chhose Image</label>
+                            <input type="file" accept="image/*" class="form-control" name="img">
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
@@ -209,24 +273,64 @@ $p = new Product($conn, $tbl, $id, $comp);
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="#" id="form" method="post">
+                <form action="index.php?p=category&action=5" id="form" method="post">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label"><?= $comp ?> Name</label>
-                            <input type="text" class="form-control" id="inputName" name="name" placeholder="<?= $comp ?> Name...">
+                            <input type="text" id="inputName" class="form-control" name="name" placeholder="<?= $comp ?> Name...">
                         </div>
                         <div class="mb-3">
                             <label for="des" class="form-label"><?= $comp ?> Description</label>
-                            <input type="text" class="form-control" id="inputDes" name="des" placeholder="<?= $comp ?> Description...">
+                            <input type="text" id="inputDes" class="form-control" name="des" placeholder="<?= $comp ?> Description...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><?= $comp ?> Instock</label>
+                            <input type="text" id="inputStock" class="form-control" name="instock" placeholder="<?= $comp ?> Instock...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><?= $comp ?> Price</label>
+                            <input type="text" id="inputPrice" class="form-control" name="price" placeholder="<?= $comp ?> Price...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Category</label>
+                            <select class="form-select" id="category" aria-label="Default select example">
+                                <?php
+                                $sql = "select * from tbl_category";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value=<?= $row['cate_id'] ?>><?= $row['cate_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Brand</label>
+                            <select class="form-select" id="brand" aria-label="Default select example">
+                                <?php
+                                $sql = "select * from tbl_brand";
+                                $result = mysqli_query($conn, $sql);
+                                while ($row = mysqli_fetch_array($result)) {
+                                ?>
+                                    <option value=<?= $row['brand_id'] ?>><?= $row['brand_name'] ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label"><?= $comp ?> Link</label>
+                            <input type="text" class="form-control" id="link" name="inputLink" placeholder="<?= $comp ?> Link...">
+                        </div>
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Chhose Image</label>
+                            <input type="file" accept="image/*" class="form-control" id="inputImage" name="img">
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="active" name="active" checked>
-                            <label class="form-check-label" for="active">Enable</label>
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
+                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
                         </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -245,6 +349,14 @@ $p = new Product($conn, $tbl, $id, $comp);
         document.getElementById("inputName").value = name;
         let des = document.getElementById("des-" + id).getAttribute("data-value");
         document.getElementById("inputDes").value = des;
+        let instock = document.getElementById("instock-" + id).getAttribute("data-value");
+        document.getElementById("inputStock").value = instock;
+        let price = document.getElementById("price-" + id).getAttribute("data-value");
+        document.getElementById("inputPrice").value = price;
+        let link = document.getElementById("link-" + id).getAttribute("data-value");
+        document.getElementById("inputLink").value = link;
+        let img = document.getElementById("img-" + id).getAttribute("data-value");
+        document.getElementById("inputImg").value = img;
         if (document.getElementById("active-" + id).getAttribute("data-value") == "0") {
             document.getElementById("active").checked = false;
         } else {

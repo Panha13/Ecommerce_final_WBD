@@ -5,6 +5,7 @@ class Product
     public $conn;
     public $comp;
     public $id;
+    public $id_val;
     public function __construct($conn, $tbl, $id,  $comp)
     {
         $this->tbl = $tbl;
@@ -42,9 +43,10 @@ class Product
             $this->Dialog();
         }
     }
-    public function Update($id, $val)
+    public function Update($val)
     {
-        $sql = "update $this->tbl set $val where $this->id = $id";
+        $sql = "update $this->tbl set $val where $this->id = $this->id_val";
+        echo $sql . "<br/>";
         mysqli_query($this->conn, $sql);
     }
     public function Delete($id)
@@ -57,8 +59,6 @@ class Product
             $this->Dialog();
         }
     }
-
-
 
     public function CheckActive($active)
     {

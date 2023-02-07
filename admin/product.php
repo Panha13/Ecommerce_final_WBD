@@ -36,23 +36,16 @@
                 $me->Move();
                 break;
             case "3":
-                $name_val =  $_POST['name'];
-                $des_val = $_POST['des'];
-                $me->active = $me->CheckActive(isset($_POST['active']));
-                $cate_id = $_POST['category'];
-                $brand_id = $_POST['brand'];
-                $instock = $_POST['instock'];
-                $price = $_POST['price'];
-                $link = $_POST['link'];
+                $me->CheckActive(isset($_POST['active']));
                 $me->id_val = $_GET['id'];
-                $img = "#";
-                $me->Update($name, $name_val);
-                $me->Update("cate_id=", $cate_id);
-                $me->Update("brand_id=", $brand_id);
-                $me->Update("prod_instock=", $instock);
-                $me->Update("prod_price=", $price);
-                $me->Update("link=", $link);
-                $me->Update("prod_img=", $img);
+                $des_val = $_POST['des'];
+                $me->Update($name, $_POST['name']);
+                $me->Update("cate_id", $_POST['category']);
+                $me->Update("brand_id", $_POST['brand']);
+                $me->Update("prod_instock", $_POST['instock']);
+                $me->Update("prod_price", $_POST['price']);
+                $me->Update("link", $_POST['link']);
+                $me->Update("prod_img", "#");
                 if ($me->Update($des, $des_val)) {
                     echo "<h4 class='fw-bold py-3 mb-4'>You're Updated Successfully 🎉🎉🎉</h4>";
                 }
@@ -61,7 +54,6 @@
                 $me->id_val = $_GET['id'];
                 $me->DeleteData();
                 break;
-
             case '5':
                 $me->name_val = $_POST['name'];
                 $me->des_val = $_POST['des'];

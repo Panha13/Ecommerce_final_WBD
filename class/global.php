@@ -18,7 +18,7 @@ class SuperClass
     public $num;
     public $des_val;
     public $name_val;
-    public function __construct($conn, $tbl, $id, $name, $des, $comp)
+    public function __construct($conn, $tbl, $id, $name, $des,  $comp)
     {
         $this->conn = $conn;
         $this->name = $name;

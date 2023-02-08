@@ -13,24 +13,22 @@ function createThumbnail($imageType, $file, $sourceProperty0, $sourceProperty1, 
             case IMAGETYPE_PNG:
                 $imageResourceId = imagecreatefrompng($file); 
                 $targetLayer = imageResize($imageResourceId,$sourceProperty0,$sourceProperty1);
-                imagepng($targetLayer, $folderPath . "/thumbnail/" . $fileNewName . "." . $ext);
+                imagepng($targetLayer, $folderPath . "/thumbnail/" . $fileNewName );
                 break;
             case IMAGETYPE_GIF:
                 $imageResourceId = imagecreatefromgif($file); 
                 $targetLayer = imageResize($imageResourceId,$sourceProperty0,$sourceProperty1);
-                imagegif($targetLayer,$folderPath . "/thumbnail/" . $fileNewName . "." . $ext);
+                imagegif($targetLayer,$folderPath . "/thumbnail/" . $fileNewName);
                 break;
             case IMAGETYPE_JPEG:
                 $imageResourceId = imagecreatefromjpeg($file); 
                 $targetLayer = imageResize($imageResourceId,$sourceProperty0,$sourceProperty1);
-                imagejpeg($targetLayer,$folderPath . "/thumbnail/" . $fileNewName . "." . $ext);
+                imagejpeg($targetLayer,$folderPath . "/thumbnail/" . $fileNewName );
                 break;
             default:
                 echo "Invalid Image type.";
                 exit;
                 break;
     }
-    move_uploaded_file($file, $folderPath. $fileNewName. ".". $ext);
-    	
+    move_uploaded_file($file, $folderPath. $fileNewName);
 }
-?>

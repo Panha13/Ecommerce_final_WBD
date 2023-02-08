@@ -1,5 +1,7 @@
 <?php
 include '../GlobalClass/Product.php';
+include '../library/img.php';
+$pages = "products";
 $tbl = "tbl_product";
 $comp = "Product";
 $id = "prod_id";
@@ -31,40 +33,66 @@ $p = new Product($conn, $tbl, $id, $comp);
                 break;
             case "3":
                 $active = $p->CheckActive(isset($_POST['active']));
-                $p->id_val = $_GET['id'];
-                $p->Update("$name=" . $_POST['name']);
-                $p->Update("$des=" . $_POST['des']);
-                $p->Update("$instock=" . $_POST['instock']);
-                $p->Update("$price=" . $_POST['price']);
-                $p->Update("$img=" . $_POST['img']);
-                $p->Update("link=" . $_POST['link']);
-                $p->Update("active=" . $active);
+                if ($p->id_val = $_GET['id'] &&
+                    $p->Update("$name=" . $_POST['name']) &&
+                    $p->Update("$des=" . $_POST['des']) &&
+                    $p->Update("$instock=" . $_POST['instock']) &&
+                    $p->Update("$price=" . $_POST['price']) &&
+                    $p->Update("$img=" . $_POST['img']) &&
+                    $p->Update("cate_id=" . $_POST['c']) &&
+                    $p->Update("brand_id=" . $_POST['b']) &&
+                    $p->Update("link=" . $_POST['link']) &&
+                    $p->Update("active=" . $active)
+                ) {
+                    $p->Dialog();
+                } else {
+                    $p->Dialog();
+                }
                 break;
             case "4":
-                $me->DeleteData($_GET['id']);
+                $p->Delete($_GET['id']);
+                $p->DeletePhoto($_GET['id'], $_GET['img'], "$pages");
                 break;
             case '5':
                 $name_val = $_POST['name'];
                 $des_val = $_POST['des'];
                 $instock_val = $_POST['instock'];
                 $price_val = $_POST['price'];
-                $cate_id = $_POST['cate_id'];
-                $brand_id = $_POST['brand_id'];
+                $cate_id = $_POST['c'];
+                $brand_id = $_POST['b'];
                 $link = $_POST['link'];
-                $img_val = $_POST['img'];
                 $num++;
-                $active = $me->CheckActive(isset($_POST['active']));
-                $sql = "insert into $tbl ($name, $des, $instock,$price,cate_id, brand_id, link, $img,active,ordernum)
-                values($name_val,$des_val,$instock_val,$price_val,$cate_id,$brand_id, $link, $img_val, $active,$num);";
-                echo $sql;
-                $result = mysqli_query($conn, $sql);
-                if ($result) {
-                    $p->Dialog();
+                $active = $p->CheckActive(isset($_POST['active']));
+                $tmp_name = $_FILES['img']['tmp_name'];
+                $orginal_name = $_FILES['img']['name'];
+                $size = $_FILES['img']['size'];
+                $destination = "../images/$pages/";
+                $ext = strtolower(pathinfo($orginal_name, PATHINFO_EXTENSION));
+                if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png") {
+                    if (($size / 1048576) <= 3) {
+                        $img_val = floor(microtime(true) * 1000) . "." . $ext;
+                        // Thumbnail
+                        $sourceProperties = getimagesize($tmp_name);
+                        $width = $sourceProperties[0];
+                        $height = $sourceProperties[1];
+                        $imageType = $sourceProperties[2];
+                        $sql = "insert into $tbl ($name, $des, $instock,$price,cate_id, brand_id, link, $img,active,ordernum) values('$name_val','$des_val','$instock_val','$price_val',$cate_id,$brand_id, '$link', '$img_val', $active,$num);";
+                        $result = mysqli_query($conn, $sql);
+                        if ($result) {
+                            createThumbnail($imageType, $tmp_name, $width, $height, $destination, $img_val, $ext);
+                            move_uploaded_file($tmp_name, $destination . $img_val);
+                            $p->Dialog();
+                        } else {
+                            $p->Dialog();
+                        }
+                    } else {
+                        $p->Dialog();
+                        $errmsg = "File image should not be excceed 3MB!";
+                    }
                 } else {
                     $p->Dialog();
+                    $errmsg = "Only image file is allowed to upload!";
                 }
-
-
                 break;
         }
     }
@@ -114,7 +142,7 @@ $p = new Product($conn, $tbl, $id, $comp);
                 ?>
                     <tr>
                         <th scope="row"><?= $i ?></th>
-                        <td id="img-<?= $row[$id] ?>" data-value="<?= $row[$img] ?>"><?= $row[$img] ?></td>
+                        <td id="img-<?= $row[$id] ?>" data-value="<?= $row[$img] ?>"><img src="../images/$pages/thumbnail/<?= $row[$img] ?>" /></td>
                         <td id="name-<?= $row[$id] ?>" data-value="<?= $row[$name] ?>"><?= strlen($row[$name]) > 10 ? substr($row[$name], 0, 10) . '...' : substr($row[$name], 0, 10) ?></td>
                         <td id="des-<?= $row[$id] ?>" data-value="<?= $row[$des] ?>"><?= strlen($row[$des]) > 10 ? substr($row[$des], 0, 10) . '...' : substr($row[$des], 0, 10) ?></td>
                         <td id="cate-<?= $row[$id] ?>" data-value="<?= $row['cate_name'] ?>"><?= strlen($row['cate_name']) > 10 ? substr($row['cate_name'], 0, 10) . '...' : substr($row['cate_name'], 0, 10) ?></td>
@@ -123,15 +151,15 @@ $p = new Product($conn, $tbl, $id, $comp);
                         <td id="price-<?= $row[$id] ?>" data-value="<?= $row[$price] ?>"><?= $row[$price] ?></td>
                         <td id="link-<?= $row[$id] ?>" data-value="<?= $row['link'] ?>"><a href="<?= $row['link'] ?>"><?= strlen($row['link']) > 10 ? substr($row['link'], 0, 10) . '...' : substr($row['link'], 0, 10) ?></a> </td>
                         <td>
-                            <a href=" index.php?p=products&action=0&id=<?= $row[$id] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" id="active-<?= $row[$id] ?>" data-value="<?= $row['active'] ?>" style="padding-right: 5px;">
+                            <a href=" index.php?p=$pages&action=0&id=<?= $row[$id] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>" id="active-<?= $row[$id] ?>" data-value="<?= $row['active'] ?>" style="padding-right: 5px;">
                                 <i class=" fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
-                            <a href="index.php?p=products&action=1&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                            <a href="index.php?p=$pages&action=1&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
                                 <i class="fas fa-arrow-up"></i> </a>
-                            <a href="index.php?p=products&action=2&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                            <a href="index.php?p=$pages&action=2&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
                                 <i class="fas fa-arrow-down"></i> </a>
                             <a href="#" onclick="update(<?= $row[$id] ?>)" data-bs-toggle="modal" data-bs-target="#updateModal" style="padding-right: 5px;">
                                 <i class="fas fa-edit"></i> </a>
-                            <a href="#" onclick="del(<?= $row[$id] ?>)" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">
+                            <a href="" onclick="del('<?= $row[$id] ?>','<?= $row[$img] ?>')" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">
                                 <i class="fas fa-trash"></i> </a>
 
                         </td>
@@ -149,20 +177,20 @@ $p = new Product($conn, $tbl, $id, $comp);
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 <li class="page-item <?= ($pg > 1 ? "" : "disabled") ?>">
-                    <a class="page-link" href="index.php?p=products&pg=<?= ($pg > 1 ? $pg - 1 : 1) ?>" tabindex="-1" aria-disabled="true">Previous</a>
+                    <a class="page-link" href="index.php?p=$pages&pg=<?= ($pg > 1 ? $pg - 1 : 1) ?>" tabindex="-1" aria-disabled="true">Previous</a>
                 </li>
                 <?php
                 $i = 1;
                 for ($i = 1; $i <= $pagenum; $i++) {
                 ?>
-                    <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="index.php?p=products&pg=<?= $i ?>">
+                    <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="index.php?p=$pages&pg=<?= $i ?>">
                             <?= $i ?>
                         </a></li>
                 <?php
                 }
                 ?>
                 <li class="page-item <?= ($pg < $pagenum ? "" : "disabled") ?>">
-                    <a class="page-link" href="index.php?p=products&pg=<?= ($pg < $pagenum ? $pg + 1 : $pagenum) ?>">Next</a>
+                    <a class="page-link" href="index.php?p=$pages&pg=<?= ($pg < $pagenum ? $pg + 1 : $pagenum) ?>">Next</a>
                 </li>
             </ul>
         </nav>
@@ -170,79 +198,6 @@ $p = new Product($conn, $tbl, $id, $comp);
     <?php
     } ?>
     <!-- TODO: Upload photo to database and making it available on folder normal and thumbnail -->
-    <!-- Add products Modal  -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add <?= $comp ?>
-                    </h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form method="post">
-                    <div class="modal-body">
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Name</label>
-                            <input type="text" class="form-control" name="name" placeholder="<?= $comp ?> Name...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="des" class="form-label"><?= $comp ?> Description</label>
-                            <input type="text" class="form-control" name="des" placeholder="<?= $comp ?> Description...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Instock</label>
-                            <input type="text" class="form-control" name="instock" placeholder="<?= $comp ?> Instock...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Price</label>
-                            <input type="text" class="form-control" name="price" placeholder="<?= $comp ?> Price...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Category</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <?php
-                                $sql = "select * from tbl_category";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                    <option value=<?= $row['cate_id'] ?>><?= $row['cate_name'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Brand</label>
-                            <select class="form-select" aria-label="Default select example">
-                                <?php
-                                $sql = "select * from tbl_brand";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                    <option value=<?= $row['brand_id'] ?>><?= $row['brand_name'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Link</label>
-                            <input type="text" class="form-control" name="name" placeholder="<?= $comp ?> Link...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Chhose Image</label>
-                            <input type="file" accept="image/*" class="form-control" name="img">
-                        </div>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Add products Modal  -->
 
     <!-- Confirm Delete Modal -->
     <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -264,7 +219,7 @@ $p = new Product($conn, $tbl, $id, $comp);
     </div>
     <!-- Confirm Delete Modal -->
     <!-- TODO: Update on Photo -->
-    <!-- Update products Modal  -->
+    <!-- Update $pages Modal  -->
     <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -273,7 +228,7 @@ $p = new Product($conn, $tbl, $id, $comp);
                     </h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="index.php?p=category&action=5" id="form" method="post">
+                <form action="index.php?p=$pages&action=5" id="form" method="post" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="name" class="form-label"><?= $comp ?> Name</label>
@@ -293,58 +248,60 @@ $p = new Product($conn, $tbl, $id, $comp);
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Category</label>
-                            <select class="form-select" id="category" aria-label="Default select example">
+                            <select class="form-select" id="c" name="c" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
                                 <?php
                                 $sql = "select * from tbl_category";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                 ?>
-                                    <option value=<?= $row['cate_id'] ?>><?= $row['cate_name'] ?></option>
+                                    <option value="<?= $row['cate_id'] ?>"><?= $row['cate_name'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Brand</label>
-                            <select class="form-select" id="brand" aria-label="Default select example">
+                            <select class="form-select" id="b" name="b" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
                                 <?php
                                 $sql = "select * from tbl_brand";
                                 $result = mysqli_query($conn, $sql);
                                 while ($row = mysqli_fetch_array($result)) {
                                 ?>
-                                    <option value=<?= $row['brand_id'] ?>><?= $row['brand_name'] ?></option>
+                                    <option value="<?= $row['brand_id'] ?>"><?= $row['brand_name'] ?></option>
                                 <?php } ?>
                             </select>
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label"><?= $comp ?> Link</label>
-                            <input type="text" class="form-control" id="link" name="inputLink" placeholder="<?= $comp ?> Link...">
+                            <input type="text" class="form-control" id="inputLink" name="link" placeholder="<?= $comp ?> Link...">
                         </div>
                         <div class="mb-3">
                             <label for="name" class="form-label">Chhose Image</label>
-                            <input type="file" accept="image/*" class="form-control" id="inputImage" name="img">
+                            <input type="file" accept="image/*" class="form-control" id="img" name="img">
                         </div>
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
                             <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!-- Add products Modal  -->
+    <!-- Add $pages Modal  -->
 </div>
 <script>
-    function del(id) {
-        document.getElementById("deleteBut").href = "index.php?p=products&action=4&id=" + id;
+    function del(id, img) {
+        document.getElementById("deleteBut").href = "index.php?p=$pages&action=4&id=" + id + "&img=" + img;
     }
 
     function update(id) {
-        document.getElementById("form").action = "index.php?p=products&action=3&id=" + id;
+        document.getElementById("form").action = "index.php?p=$pages&action=3&id=${id}";
         let name = document.getElementById("name-" + id).getAttribute("data-value");
         document.getElementById("inputName").value = name;
         let des = document.getElementById("des-" + id).getAttribute("data-value");
@@ -356,7 +313,7 @@ $p = new Product($conn, $tbl, $id, $comp);
         let link = document.getElementById("link-" + id).getAttribute("data-value");
         document.getElementById("inputLink").value = link;
         let img = document.getElementById("img-" + id).getAttribute("data-value");
-        document.getElementById("inputImg").value = img;
+        document.getElementById("img").value = img;
         if (document.getElementById("active-" + id).getAttribute("data-value") == "0") {
             document.getElementById("active").checked = false;
         } else {

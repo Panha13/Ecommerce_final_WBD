@@ -46,7 +46,6 @@ class Product
     public function Update($val)
     {
         $sql = "update $this->tbl set $val where $this->id = $this->id_val";
-        echo $sql . "<br/>";
         mysqli_query($this->conn, $sql);
     }
     public function Delete($id)
@@ -70,5 +69,16 @@ class Product
     }
     public function Dialog()
     {
+    }
+    public function DeletePhoto($id, $img, $destination)
+    {
+        $sql = "delete from $this->tbl where $this->id=$id";
+        $result = mysqli_query($this->conn, $sql);
+        if ($result) {
+            unlink("../images/$destination/$img");
+            unlink("../images/$destination/thumbnail/$img");
+            ini_set('display_errors', 0);
+        } else {
+        }
     }
 }

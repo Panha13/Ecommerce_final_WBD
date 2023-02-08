@@ -67,8 +67,13 @@ class Product
         }
         return $a;
     }
-    public function Dialog()
+    public function Dialog($message, $event)
     {
+?>
+        <div class="alert alert-<?= $event ?>" role="alert">
+            <?= $message ?>
+        </div>
+<?php
     }
     public function DeletePhoto($id, $img, $destination)
     {

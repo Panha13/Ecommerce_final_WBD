@@ -4,4 +4,4 @@ define("USER", "root");
 define("PASS", "");
 define("DB", "wbd");
 
-define("NUMPERPAGE", 10);
+define("NUMPERPAGE", 7);

@@ -1,6 +1,7 @@
 <?php
 include '../GlobalClass/Product.php';
 include '../library/img.php';
+$pages = "index.php?p=products";
 $tbl = "tbl_product";
 $comp = "Product";
 $id = "prod_id";
@@ -68,7 +69,7 @@ $p = new Product($conn, $tbl, $id, $comp);
                 $destination = "../images/products/";
                 $ext = strtolower(pathinfo($orginal_name, PATHINFO_EXTENSION));
                 if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png") {
-                    // WARNING: "this line is understand only me sorry about that🙏 I just don't want it to readable"
+                    // WARNING: "this line is understand only me sorry about that🙏"
                     $p->UploadImage($size, $tmp_name, $ext, $destination, $name, $des, $instock, $price, $img, $name_val, $des_val, $instock_val, $price_val,  $cate_id, $brand_id, $link, $active, $num);
                 } else {
                     $p->Dialog();

@@ -85,7 +85,6 @@ class Product
     {
         if (($size / 1048576) <= 3) {
             $img_val = floor(microtime(true) * 1000) . "." . $ext;
-            // Thumbnail
             $sourceProperties = getimagesize($tmp_name);
             $width = $sourceProperties[0];
             $height = $sourceProperties[1];

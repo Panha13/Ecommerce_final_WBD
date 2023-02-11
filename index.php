@@ -1,3 +1,28 @@
+<?php
+    $page = 'home.php';
+    $slider = true;
+    if(isset($_GET["p"])){
+        $p = $_GET["p"];
+        switch($p){
+            case "components" : $page = "product.php";
+            $slider = false;
+            break;
+            case "laptop" : $page = "product.php";
+            $slider = false;
+            break;
+            case "accessories" : $page = "product.php";
+            $slider = false;
+            break;
+            case "about_us" : $page = "about.php";
+            $slider = false;
+            break;
+            case "contact_us" : $page = "contact.php";
+            $slider = false;
+            break;
+        }
+    }
+    
+?>
 <!doctype html>
 <html class="no-js" lang="zxx">
     
@@ -15,29 +40,11 @@
             </header>
             <!-- Header Area End Here -->
             <!-- Begin Slider With Banner Area -->
-            <?php include('includes/slideshow.php') ?>
+            <?php if($slider){include('includes/slideshow.php');} ?>
             <!-- Slider With Banner Area End Here -->
-            <!-- Begin Product Area -->
-            <?php include('includes/product_area.php') ?>
-            <!-- Product Area End Here -->
-            <!-- Banner ads -->
-            <?php include('includes/banner_ads.php') ?>
-            <!-- Banner ads End -->
-            <!-- Begin Li's Laptop Product Area -->
-            <?php include('includes/laptop_product.php') ?>
-            <!-- Li's Laptop Product Area End Here -->
-            <!-- Begin Li's TV & Audio Product Area -->
-            <?php include('includes/tv_and_audio.php') ?>
-            <!-- Li's TV & Audio Product Area End Here -->
-            <!-- Begin Li's Static Home Area -->
-            <?php include('includes/banner.php') ?>
-            <!-- Li's Static Home Area End Here -->
-            <!-- Begin Li's Trending Product Area -->
-            <?php include('includes/trending_product.php') ?>
-            <!-- Li's Trending Product Area End Here -->
-            <!-- Begin Li's Trendding Products Area -->
-            <?php include ('includes/best_saller.php') ?>
-            <!-- Li's Trendding Products Area End Here -->
+            
+            <?php include($page) ?>
+
             <!-- Begin Footer Area -->
             <?php include('includes/footer.php') ?>
             <!-- Quick View | Modal Area End Here -->

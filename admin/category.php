@@ -1,16 +1,12 @@
 <?php
-include '../GlobalClass/Product.php';
-include '../library/img.php';
-$pages = "index.php?p=products";
-$tbl = "tbl_product";
-$comp = "Product";
-$id = "prod_id";
-$name = "prod_name";
-$des = "prod_des";
-$instock = "prod_instock";
-$price = "prod_price";
-$img = "prod_img";
-$p = new Product($conn, $tbl, $id, $comp);
+include '../GlobalClass/Globals.php';
+$pages = "index.php?p=category";
+$tbl = "tbl_category";
+$comp = "Category";
+$id = "cate_id";
+$name = "cate_name";
+$des = "cate_des";
+$p = new Globals($conn, $tbl, $id, $comp);
 ?>
 <div class="container-xxl flex-grow-1 container-p-y">
     <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"><?= $comp ?> /</span> Cards Premium</h4>
@@ -35,45 +31,27 @@ $p = new Product($conn, $tbl, $id, $comp);
                 //TODO: Let it can update with picute
                 $active = $p->CheckActive(isset($_POST['active']));
                 $p->id_val = $_GET['id'];
-                $p->Update("$name=" . $_POST['name']);
-                $p->Update("$des=" . $_POST['des']);
-                $p->Update("$instock=" . $_POST['instock']);
-                $p->Update("$price=" . $_POST['price']);
-                $p->Update("cate_id=" . $_POST['c']);
-                $p->Update("brand_id=" . $_POST['b']);
-                $p->Update("link=" . $_POST['link']);
-                if ($p->Update("active=" . $active)) {
-                    $p->Dialog("Updated Successfully 🎉🎉🎉", "success");
-                } else {
-                    $p->Dialog("Updated Failed 🥲🥲🥲", "danger");
-                }
+                $p->Update("$name='" . $_POST['name'] . "'");
+                $p->Update("active=" . $active);
+                $p->Update("$des='" . $_POST['des'] . "'");
+                $p->Dialog("Updated Successfully 🎉🎉🎉", "primary");
                 break;
             case "4":
                 $p->Delete($_GET['id']);
-                $p->DeletePhoto($_GET['id'], $_GET['img'], "products");
                 break;
             case '5':
                 $name_val = $_POST['name'];
                 $des_val = $_POST['des'];
-                $instock_val = $_POST['instock'];
-                $price_val = $_POST['price'];
-                $cate_id = $_POST['c'];
-                $brand_id = $_POST['b'];
-                $link = $_POST['link'];
                 $num++;
                 $active = $p->CheckActive(isset($_POST['active']));
-                $tmp_name = $_FILES['img']['tmp_name'];
-                $orginal_name = $_FILES['img']['name'];
-                $size = $_FILES['img']['size'];
-                $destination = "../images/products/";
-                $ext = strtolower(pathinfo($orginal_name, PATHINFO_EXTENSION));
-                if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png") {
-                    // WARNING: "this line is understand only me sorry about that🙏"
-                    $p->UploadImage($size, $tmp_name, $ext, $destination, $name, $des, $instock, $price, $img, $name_val, $des_val, $instock_val, $price_val,  $cate_id, $brand_id, $link, $active, $num);
+                $sql = "insert into $tbl($name,$des, active, ordernum) values('$name_val','$des_val',$active,$num);";
+                $result = mysqli_query($conn, $sql);
+                if ($result) {
+                    $p->Dialog("Insert $comp Successfully 🎉🎉🎉", "primary");
                 } else {
-                    $errmsg = "Only image file is allowed to upload!";
-                    $p->Dialog($errmsg, "warning");
+                    $p->Dialog("Insert $comp Failed 🥲🥲🥲", "danger");
                 }
+
                 break;
         }
     }
@@ -86,10 +64,7 @@ $p = new Product($conn, $tbl, $id, $comp);
         $offset = NUMPERPAGE * ($pg - 1);
     }
 
-    $sql = "select p.*, c.cate_name, b.brand_name from $tbl as p left join 
-tbl_category as c on c.cate_id=p.cate_id left join 
-tbl_brand as b on b.brand_id=p.brand_id
-order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
+    $sql = "select * from $tbl order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
     $result = mysqli_query($conn, $sql);
     ?>
     <button type="button" class="btn btn-primary rounded-circle" style="width:50px;
@@ -104,14 +79,8 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
             <thead class="bg-primary">
                 <tr>
                     <th class="text-white" scope="col">#</th>
-                    <th class="text-white" scope="col">Image</th>
                     <th class="text-white" scope="col"><?= $comp ?> Name</th>
                     <th class="text-white" scope="col"><?= $comp ?> Description</th>
-                    <th class="text-white" scope="col">Category</th>
-                    <th class="text-white" scope="col">Brand</th>
-                    <th class="text-white" scope="col"><?= $comp ?> Instock</th>
-                    <th class="text-white" scope="col"><?= $comp ?> Price</th>
-                    <th class="text-white" scope="col"><?= $comp ?> Link</th>
                     <th class="text-white" scope="col">Action</th>
                 </tr>
             </thead>
@@ -123,16 +92,19 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
                 ?>
                     <tr>
                         <th scope="row"><?= $i ?></th>
-                        <td id="img-<?= $row[$id] ?>" data-value="<?= $row[$img] ?>"><img src="../images/products/thumbnail/<?= $row[$img] ?>" /></td>
                         <td id="name-<?= $row[$id] ?>" data-value="<?= $row[$name] ?>"><?= strlen($row[$name]) > 20 ? substr($row[$name], 0, 20) . '...' : substr($row[$name], 0, 20) ?></td>
                         <td id="des-<?= $row[$id] ?>" data-value="<?= $row[$des] ?>"><?= strlen($row[$des]) > 20 ? substr($row[$des], 0, 20) . '...' : substr($row[$des], 0, 20) ?></td>
-                        <td id="cate-<?= $row[$id] ?>" data-value="<?= $row['cate_name'] ?>"><?= strlen($row['cate_name']) > 20 ? substr($row['cate_name'], 0, 20) . '...' : substr($row['cate_name'], 0, 20) ?></td>
-                        <td id="brand-<?= $row[$id] ?>" data-value="<?= $row['brand_name'] ?>"><?= strlen($row['brand_name']) > 20 ? substr($row['brand_name'], 0, 20) . '...' : substr($row['brand_name'], 0, 20) ?></td>
-                        <td id="instock-<?= $row[$id] ?>" data-value="<?= $row[$instock] ?>"><?= $row[$instock] ?></td>
-                        <td id="price-<?= $row[$id] ?>" data-value="<?= $row[$price] ?>"><?= $row[$price] ?></td>
-                        <td id="link-<?= $row[$id] ?>" data-value="<?= $row['link'] ?>"><a href="<?= $row['link'] ?>"><?= strlen($row['link']) > 20 ? substr($row['link'], 0, 20) . '...' : substr($row['link'], 0, 20) ?></a> </td>
                         <td>
-                            <?php include 'components/button.php' ?>
+                            <a id="active-<?= $row[$id] ?>" data-value="<?= $row['active'] ?>" href="<?= $pages ?>&action=0&id=<?= $row[$id] ?>&active=<?= ($row['active'] == "1" ? "0" : "1") ?>&name=<?= $row[$name] ?>" style="padding-right: 5px;">
+                                <i class=" fas fa-<?= ($row['active'] == "1" ? "eye" : "eye-slash") ?>"></i> </a>
+                            <a href="<?= $pages ?>&action=1&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                                <i class="fas fa-arrow-up"></i> </a>
+                            <a href="<?= $pages ?>&action=2&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
+                                <i class="fas fa-arrow-down"></i> </a>
+                            <a href="#" onclick="update(<?= $row[$id] ?>)" data-bs-toggle="modal" data-bs-target="#updateModal" style="padding-right: 5px;">
+                                <i class="fas fa-edit"></i> </a>
+                            <a href="" onclick="del('<?= $row[$id] ?>')" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">
+                                <i class="fas fa-trash"></i> </a>
                         </td>
                     </tr>
                 <?php $i++;
@@ -190,51 +162,9 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
                             <label for="des" class="form-label"><?= $comp ?> Description</label>
                             <textarea name="des" id="inputDes" class="form-control" placeholder="Description..." cols="10" rows="4"></textarea>
                         </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Instock</label>
-                            <input type="text" id="inputStock" class="form-control" name="instock" placeholder="<?= $comp ?> Instock...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Price</label>
-                            <input type="text" id="inputPrice" class="form-control" name="price" placeholder="<?= $comp ?> Price...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Category</label>
-                            <select class="form-select" id="c" name="c" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <?php
-                                $sql = "select * from tbl_category";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                    <option value="<?= $row['cate_id'] ?>"><?= $row['cate_name'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Brand</label>
-                            <select class="form-select" id="b" name="b" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <?php
-                                $sql = "select * from tbl_brand";
-                                $result = mysqli_query($conn, $sql);
-                                while ($row = mysqli_fetch_array($result)) {
-                                ?>
-                                    <option value="<?= $row['brand_id'] ?>"><?= $row['brand_name'] ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label"><?= $comp ?> Link</label>
-                            <input type="text" class="form-control" id="inputLink" name="link" placeholder="<?= $comp ?> Link...">
-                        </div>
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Chhose Image</label>
-                            <input type="file" accept="image/*" class="form-control" id="img" name="img">
-                        </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
+                            <input class="form-check-input" type="checkbox" id="inputActive" name="active" checked>
+                            <label class="form-check-label" for="active">Enable</label>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -248,8 +178,8 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
     <!-- Add products Modal  -->
 </div>
 <script>
-    function del(id, img) {
-        document.getElementById("deleteBut").href = "<?= $pages ?>&action=4&id=" + id + "&img=" + img;
+    function del(id) {
+        document.getElementById("deleteBut").href = "<?= $pages ?>&action=4&id=" + id;
     }
 
     function update(id) {
@@ -258,18 +188,12 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
         document.getElementById("inputName").value = name;
         let des = document.getElementById("des-" + id).getAttribute("data-value");
         document.getElementById("inputDes").value = des;
-        let instock = document.getElementById("instock-" + id).getAttribute("data-value");
-        document.getElementById("inputStock").value = instock;
-        let price = document.getElementById("price-" + id).getAttribute("data-value");
-        document.getElementById("inputPrice").value = price;
         let link = document.getElementById("link-" + id).getAttribute("data-value");
         document.getElementById("inputLink").value = link;
-        let img = document.getElementById("img-" + id).getAttribute("data-value");
-        document.getElementById("img").value = img;
-        if (document.getElementById("active-" + id).getAttribute("data-value") == "0") {
-            document.getElementById("active").checked = false;
+        if (document.getElementById("active-" + id).getAttribute("data-value") === "0") {
+            document.getElementById("inputActive").checked = false;
         } else {
-            document.getElementById("active").checked = true;
+            document.getElementById("inputActive").checked = true;
         }
 
     }

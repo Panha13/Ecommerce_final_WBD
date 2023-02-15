@@ -35,17 +35,14 @@ $p = new Product($conn, $tbl, $id, $comp);
                 //TODO: Let it can update with picute
                 $active = $p->CheckActive(isset($_POST['active']));
                 $p->id_val = $_GET['id'];
-                $p->Update("$name=" . $_POST['name']);
-                $p->Update("$des=" . $_POST['des']);
+                $p->Update("$name='" . $_POST['name'] . "'");
+                $p->Update("$des='" . $_POST['des'] . "'");
                 $p->Update("$instock=" . $_POST['instock']);
                 $p->Update("$price=" . $_POST['price']);
                 $p->Update("cate_id=" . $_POST['c']);
                 $p->Update("brand_id=" . $_POST['b']);
-                $p->Update("link=" . $_POST['link']);
-                if ($p->Update("active=" . $active)) {
-                    $p->Dialog("Updated Successfully 🎉🎉🎉", "success");
-                } else {
-                    $p->Dialog("Updated Failed 🥲🥲🥲", "danger");
+                if ($p->Update("link='" . $_POST['link'] . "'")) {
+                    $p->Dialog("Updated Successfully 🎉🎉🎉", "primary");
                 }
                 break;
             case "4":
@@ -233,8 +230,8 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
                             <input type="file" accept="image/*" class="form-control" id="img" name="img">
                         </div>
                         <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" name="active" checked>
-                            <label class="form-check-label" for="flexSwitchCheckChecked">Enable</label>
+                            <input class="form-check-input" type="checkbox" id="inputActive" name="active" checked>
+                            <label class="form-check-label" for="inputActive">Enable</label>
                         </div>
                     </div>
                     <div class="modal-footer">

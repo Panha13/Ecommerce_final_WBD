@@ -1,31 +1,6 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: 127.0.0.1:3306
--- Generation Time: Feb 18, 2023 at 07:32 AM
--- Server version: 5.7.40
--- PHP Version: 8.0.26
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `wbd`
---
-
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_advertise`
---
 
 DROP TABLE IF EXISTS `tbl_advertise`;
 CREATE TABLE IF NOT EXISTS `tbl_advertise` (
@@ -40,18 +15,10 @@ CREATE TABLE IF NOT EXISTS `tbl_advertise` (
   PRIMARY KEY (`ads_id`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 ROW_FORMAT=COMPACT;
 
---
--- Dumping data for table `tbl_advertise`
---
 
 INSERT INTO `tbl_advertise` (`ads_id`, `ads_name`, `ads_des`, `ads_price`, `ads_img`, `link`, `ordernum`, `active`) VALUES
 (51, '1', '1', 1, '1675918023492.jpg', '1', 1, 1);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `tbl_brand`
---
 
 DROP TABLE IF EXISTS `tbl_brand`;
 CREATE TABLE IF NOT EXISTS `tbl_brand` (
@@ -171,7 +138,3 @@ ALTER TABLE `tbl_product`
   ADD CONSTRAINT `tbl_product_ibfk_1` FOREIGN KEY (`cate_id`) REFERENCES `tbl_category` (`cate_id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `tbl_product_ibfk_2` FOREIGN KEY (`brand_id`) REFERENCES `tbl_brand` (`brand_id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

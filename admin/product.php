@@ -64,7 +64,7 @@ $p = new Product($conn, $tbl, $id, $comp);
                 $size = $_FILES['img']['size'];
                 $destination = "../images/products/";
                 $ext = strtolower(pathinfo($orginal_name, PATHINFO_EXTENSION));
-                if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png" || $ext == "webp") {
+                if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png") {
                     // WARNING: "this line is understand only me sorry about that🙏"
                     $p->UploadImage($size, $tmp_name, $ext, $destination, $name, $des, $instock, $price, $img, $name_val, $des_val, $instock_val, $price_val,  $cate_id, $brand_id, $link, $active, $num);
                 } else {

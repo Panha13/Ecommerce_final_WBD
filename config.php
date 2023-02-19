@@ -1,6 +1,6 @@
 <?php
-define("HOST", "localhost");
-define("USER", "root");
+define("HOST", "26.204.37.36");
+define("USER", "devid");
 define("PASS", "");
 define("DB", "wbd");
 

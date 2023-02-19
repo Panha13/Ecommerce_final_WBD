@@ -43,7 +43,7 @@ $p = new Product($conn, $tbl, $id, $comp);
                 break;
             case "4":
                 $p->Delete($_GET['id']);
-                $p->DeletePhoto($_GET['id'], $_GET['img'], "products");
+                $p->DeletePhoto($_GET['id'], $_GET['img'], "slideshows");
                 break;
             case '5':
                 $name_val = $_POST['name'];

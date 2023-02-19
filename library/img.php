@@ -30,7 +30,7 @@ function createThumbnail($imageType, $file, $sourceProperty0, $sourceProperty1, 
         case IMAGETYPE_WEBP:
             $imageResourceId = imagecreatefromjpeg($file);
             $targetLayer = imageResize($imageResourceId, $sourceProperty0, $sourceProperty1);
-            imagejpeg($targetLayer, $folderPath . "/thumbnail/" . $fileNewName);
+            imagewebp($targetLayer, $folderPath . "/thumbnail/" . $fileNewName);
             break;
         default:
             echo "Invalid Image type.";

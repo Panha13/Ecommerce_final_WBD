@@ -27,15 +27,9 @@ function createThumbnail($imageType, $file, $sourceProperty0, $sourceProperty1, 
             $targetLayer = imageResize($imageResourceId, $sourceProperty0, $sourceProperty1);
             imagejpeg($targetLayer, $folderPath . "/thumbnail/" . $fileNewName);
             break;
-        case IMAGETYPE_WEBP:
-            $imageResourceId = imagecreatefromjpeg($file);
-            $targetLayer = imageResize($imageResourceId, $sourceProperty0, $sourceProperty1);
-            imagewebp($targetLayer, $folderPath . "/thumbnail/" . $fileNewName);
-            break;
         default:
             echo "Invalid Image type.";
             exit;
-            break;
     }
     move_uploaded_file($file, $folderPath . $fileNewName);
 }

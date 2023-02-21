@@ -9,6 +9,7 @@
 <!-- Favicon -->
 <link rel="icon" type="image/x-icon" href="assets/img/favicon/favicon.ico" />
 
+<link rel="stylesheet" href="style.css">
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />

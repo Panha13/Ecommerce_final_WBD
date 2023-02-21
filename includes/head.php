@@ -28,11 +28,12 @@
 <!-- Magnific Popup CSS -->
 <link rel="stylesheet" href="css/magnific-popup.css">
 <!-- Bootstrap V4.1.3 Fremwork CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <!-- Helper CSS -->
 <link rel="stylesheet" href="css/helper.css">
 <!-- Main Style CSS -->
-<link rel="stylesheet" href="css/Style.css">
+<link rel="stylesheet" href="css/style.css">
 <!-- Responsive CSS -->
 <link rel="stylesheet" href="css/responsive.css">
 <!-- Modernizr js -->

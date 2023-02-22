@@ -1,9 +1,0 @@
-{
-  "name": "Ecommerce",
-  "dockerFile": "../Dockerfile",
-  "appPort": [8000],
-  "extensions": [
-    "devsense.phptools-vscode",
-    "bmewburn.vscode-intelephense-client"
-  ]
-}

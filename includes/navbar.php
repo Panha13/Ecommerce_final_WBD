@@ -1,167 +1,222 @@
-<!-- Begin Header Bottom Area -->
-<div class="header-bottom header-sticky d-none d-lg-block d-xl-block">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <!-- Begin Header Bottom Menu Area -->
-                <div class="hb-menu">
-                    <nav class="d-flex justify-content-between">
-                        <ul>
-                            <li>
-                                <a href="index.php">Home</a>
-                            </li>
-                            <li class="dropdown-holder">
-                                    <a href="index.php?p=components">Components</a>
-                                <ul class="hb-dropdown">
-                                    <li>
-                                        <a href="index.php?p=components">CPU</a>
-                                    </li>
-                                    <li>
-                                        <a href="index.php?p=components">Hardware</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <li>
-                                <a href="index.php?p=laptop">Laptop</a>
-                            </li>
-                            <li>
-                                <a href="index.php?p=accessories">Accessories</a>
-                            </li>
-                            <li>
-                                <a href="index.php?p=about_us">About Us</a>
-                            </li>
-                            <li>
-                                <a href="index.php?p=contact_us">Contact Us</a>
-                            </li>
-                        </ul>
-                        <ul>
-                            <li><a href="#" data-toggle="modal" data-target="#login_modal">Login <i class="fa fa-sign-in" aria-hidden="true"></i></a></li>
-                        </ul>
-                    </nav>
-                    
-                </div>
-                
-                <!-- Header Bottom Menu Area End Here -->
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Header Bottom Area End Here -->
-<!-- Begin Mobile Menu Area -->
-<div class="mobile-menu-area d-lg-none d-xl-none col-12">
-    <div class="container"> 
-        <div class="row">
-            <div class="mobile-menu">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Mobile Menu Area End Here -->
-
-<!-- Modal Login -->
-<div class="modal fade" id="login_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-        <div class="modal-body">
-            <form action="#" >
-                <div class="login-form">
-                    <h4 class="login-title">Login</h4>
-                    <div class="row">
-                        <div class="col-md-12 col-12 mb-20">
-                            <label>Email Address*</label>
-                            <input class="mb-0" type="email" placeholder="Email Address">
-                        </div>
-                        <div class="col-12 mb-20">
-                            <label>Password</label>
-                            <input class="mb-0" type="password" placeholder="Password">
-                        </div>
-                        <div class="col">
-                            <div class="check-box d-inline-block ml-0 ml-md-2 mt-10">
-                                <input type="checkbox" id="remember_me">
-                                <label for="remember_me">Remember me</label>
-                            </div>
-                        </div>
-                        <div class="col mt-10 mb-20 text-left text-md-right">
-                            <a href="#"> Forgotten pasward?</a>
-                        </div>
-                        <div class="col-12">
-                            <button class="register-button mt-0">Login</button>
-                        </div>
-                        <div class="col mt-25 text-center">
-                            <p>Not registered? <a href="#" data-toggle="modal" data-target="#register_modal">Create an account</a></p>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Modal Register -->
-<div class="modal fade" id="register_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-        <div class="modal-body ">
-            <form action="#">
-                <div class="login-form">
-                    <h4 class="login-title">Register</h4>
-                    <div class="row">
-                        <div class="col-md-6 col-12 mb-20">
-                            <label>First Name</label>
-                            <input class="mb-0" type="text" placeholder="First Name">
-                        </div>
-                        <div class="col-md-6 col-12 mb-20">
-                            <label>Last Name</label>
-                            <input class="mb-0" type="text" placeholder="Last Name">
-                        </div>
-                        <div class="col-md-6 col-12 mb-20">
-                            <label>Username</label>
-                            <input class="mb-0" type="email" placeholder="Username">
-                        </div>
-                        <div class="col-md-6 col-12 mb-5">
-                            <label>Gender</label>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                                <label class="form-check-label" for="inlineRadio1">Male</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Female</label>
-                            </div>
-                            <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                                <label class="form-check-label" for="inlineRadio2">Other</label>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-20">
-                            <label>Address</label>
-                            <input class="mb-0" type="email" placeholder="Address">
-                        </div>
-                        
-                        <div class="col-md-12 mb-20">
-                            <label>Email Address*</label>
-                            <input class="mb-0" type="email" placeholder="Email Address">
-                        </div>
-                        <div class="col-md-6 mb-20">
-                            <label>Password</label>
-                            <input class="mb-0" type="password" placeholder="Password">
-                        </div>
-                        <div class="col-md-6 mb-20">
-                            <label>Confirm Password</label>
-                            <input class="mb-0" type="password" placeholder="Confirm Password">
-                        </div>
-                        <div class="col-12">
-                            <button class="register-button mt-0">Register</button>
-                        </div>
-                        <div class="col mt-25 text-center">
-                            <p>Already have an account? <a href="#" data-toggle="modal" data-target="#login_modal">Log in</a></p>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<nav>
+    <ul>
+        <li class="dropdown-holder">
+            <a href="index.html">Home</a>
+            <ul class="hb-dropdown">
+                <li class="active">
+                    <a href="index.html">Home One</a>
+                </li>
+                <li><a href="index-2.html">Home Two</a></li>
+                <li><a href="index-3.html">Home Three</a></li>
+                <li><a href="index-4.html">Home Four</a></li>
+            </ul>
+        </li>
+        <li class="megamenu-holder">
+            <a href="shop-left-sidebar.html">Shop</a>
+            <ul class="megamenu hb-megamenu">
+                <li>
+                    <a href="shop-left-sidebar.html">Shop Page Layout</a>
+                    <ul>
+                        <li>
+                            <a href="shop-3-column.html">Shop 3 Column</a>
+                        </li>
+                        <li>
+                            <a href="shop-4-column.html">Shop 4 Column</a>
+                        </li>
+                        <li>
+                            <a href="shop-left-sidebar.html">Shop Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="shop-right-sidebar.html">Shop Right Sidebar</a>
+                        </li>
+                        <li><a href="shop-list.html">Shop List</a></li>
+                        <li>
+                            <a href="shop-list-left-sidebar.html">Shop List Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="shop-list-right-sidebar.html">Shop List Right Sidebar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="single-product-gallery-left.html">Single Product Style</a>
+                    <ul>
+                        <li>
+                            <a href="single-product-carousel.html">Single Product Carousel</a>
+                        </li>
+                        <li>
+                            <a href="single-product-gallery-left.html">Single Product Gallery Left</a>
+                        </li>
+                        <li>
+                            <a href="single-product-gallery-right.html">Single Product Gallery Right</a>
+                        </li>
+                        <li>
+                            <a href="single-product-tab-style-top.html">Single Product Tab Style Top</a>
+                        </li>
+                        <li>
+                            <a href="single-product-tab-style-left.html">Single Product Tab Style Left</a>
+                        </li>
+                        <li>
+                            <a href="single-product-tab-style-right.html">Single Product Tab Style Right</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="single-product.html">Single Products</a>
+                    <ul>
+                        <li>
+                            <a href="single-product.html">Single Product</a>
+                        </li>
+                        <li>
+                            <a href="single-product-sale.html">Single Product Sale</a>
+                        </li>
+                        <li>
+                            <a href="single-product-group.html">Single Product Group</a>
+                        </li>
+                        <li>
+                            <a href="single-product-normal.html">Single Product Normal</a>
+                        </li>
+                        <li>
+                            <a href="single-product-affiliate.html">Single Product Affiliate</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="dropdown-holder">
+            <a href="blog-left-sidebar.html">Blog</a>
+            <ul class="hb-dropdown">
+                <li class="sub-dropdown-holder">
+                    <a href="blog-left-sidebar.html">Blog Grid View</a>
+                    <ul class="hb-dropdown hb-sub-dropdown">
+                        <li>
+                            <a href="blog-2-column.html">Blog 2 Column</a>
+                        </li>
+                        <li>
+                            <a href="blog-3-column.html">Blog 3 Column</a>
+                        </li>
+                        <li>
+                            <a href="blog-left-sidebar.html">Grid Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-right-sidebar.html">Grid Right Sidebar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-dropdown-holder">
+                    <a href="blog-list-left-sidebar.html">Blog List View</a>
+                    <ul class="hb-dropdown hb-sub-dropdown">
+                        <li><a href="blog-list.html">Blog List</a></li>
+                        <li>
+                            <a href="blog-list-left-sidebar.html">List Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-list-right-sidebar.html">List Right Sidebar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-dropdown-holder">
+                    <a href="blog-details-left-sidebar.html">Blog Details</a>
+                    <ul class="hb-dropdown hb-sub-dropdown">
+                        <li>
+                            <a href="blog-details-left-sidebar.html">Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-details-right-sidebar.html">Right Sidebar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="sub-dropdown-holder">
+                    <a href="blog-gallery-format.html">Blog Format</a>
+                    <ul class="hb-dropdown hb-sub-dropdown">
+                        <li>
+                            <a href="blog-audio-format.html">Blog Audio Format</a>
+                        </li>
+                        <li>
+                            <a href="blog-video-format.html">Blog Video Format</a>
+                        </li>
+                        <li>
+                            <a href="blog-gallery-format.html">Blog Gallery Format</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li class="megamenu-static-holder">
+            <a href="index.html">Pages</a>
+            <ul class="megamenu hb-megamenu">
+                <li>
+                    <a href="blog-left-sidebar.html">Blog Layouts</a>
+                    <ul>
+                        <li>
+                            <a href="blog-2-column.html">Blog 2 Column</a>
+                        </li>
+                        <li>
+                            <a href="blog-3-column.html">Blog 3 Column</a>
+                        </li>
+                        <li>
+                            <a href="blog-left-sidebar.html">Grid Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-right-sidebar.html">Grid Right Sidebar</a>
+                        </li>
+                        <li><a href="blog-list.html">Blog List</a></li>
+                        <li>
+                            <a href="blog-list-left-sidebar.html">List Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-list-right-sidebar.html">List Right Sidebar</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="blog-details-left-sidebar.html">Blog Details Pages</a>
+                    <ul>
+                        <li>
+                            <a href="blog-details-left-sidebar.html">Left Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-details-right-sidebar.html">Right Sidebar</a>
+                        </li>
+                        <li>
+                            <a href="blog-audio-format.html">Blog Audio Format</a>
+                        </li>
+                        <li>
+                            <a href="blog-video-format.html">Blog Video Format</a>
+                        </li>
+                        <li>
+                            <a href="blog-gallery-format.html">Blog Gallery Format</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="index.html">Other Pages</a>
+                    <ul>
+                        <li>
+                            <a href="login-register.html">My Account</a>
+                        </li>
+                        <li><a href="checkout.html">Checkout</a></li>
+                        <li><a href="compare.html">Compare</a></li>
+                        <li><a href="wishlist.html">Wishlist</a></li>
+                        <li>
+                            <a href="shopping-cart.html">Shopping Cart</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="index.html">Other Pages 2</a>
+                    <ul>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="about-us.html">About Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="404.html">404 Error</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li><a href="about-us.html">About Us</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="shop-left-sidebar.html">Smartwatch</a></li>
+        <li><a href="shop-left-sidebar.html">Accessories</a></li>
+    </ul>
+</nav>

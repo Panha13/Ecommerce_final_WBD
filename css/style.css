@@ -1768,6 +1768,7 @@ textarea:focus {
 }
 .minicart .minicart-product-list li {
   display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: justify;
   -ms-flex-pack: justify;
@@ -1941,6 +1942,19 @@ textarea:focus {
   line-height: 35px;
   font-weight: 500;
   padding: 8px 0;
+}
+.hb-menu nav > ul > li:hover > a,
+.hb-menu nav > ul > li:hover > a::after {
+  color: #ffffff;
+}
+.hb-menu nav > ul > li > a::after {
+  position: absolute;
+  top: 8px;
+  right: 15px;
+  font-family: fontawesome;
+  font-size: 18px;
+  transition: all 0.3s ease-in-out;
+  color: #242424;
 }
 .hb-menu nav > ul > li:nth-child(n + 5) > a::after {
   content: none;

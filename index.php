@@ -1,4 +1,6 @@
 <?php
+include 'config.php';
+$conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = "main.php";
 $current_page = "Home";
 $slider = true;
@@ -72,17 +74,17 @@ if (isset($_GET['p'])) {
 
 <head>
     <title><?= $current_page ?></title>
-    <?= include('includes/head.php'); ?>
+    <?php include('includes/head.php'); ?>
 </head>
 
 <body>
-    <?= include('includes/header.php'); ?>
+    <?php include('includes/header.php'); ?>
     <div class="body-wrapper">
-        <?= $slider ? include('includes/slider.php') : ''; ?>
-        <?= include("$page"); ?>
+        <?php $slider ? include('includes/slider.php') : ''; ?>
+        <?php include("$page"); ?>
     </div>
-    <?= include('includes/footer.php') ?>
-    <?= include('includes/script.php') ?>
+    <?php include('includes/footer.php') ?>
+    <?php include('includes/script.php') ?>
 </body>
 
 </html>

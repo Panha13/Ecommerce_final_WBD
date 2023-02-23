@@ -79,7 +79,7 @@
                                         <div class="single-product-wrap">
                                             <div class="product-image">
                                                 <a href="index.php?p=single-product&id=<?= $row['prod_id'] ?>">
-                                                    <img src="images/products/<?= $row['prod_img'] ?>" alt="Li's Product Image">
+                                                    <img src="images/products/<?= $row['prod_img'] ?>" alt="Li's Product Image" style="height:150px; object-fit: cover; object-position: center;">
                                                 </a>
                                                 <span class="sticker">Best</span>
                                             </div>
@@ -132,7 +132,7 @@
                                         <div class="single-product-wrap">
                                             <div class="product-image">
                                                 <a href="index.php?p=single-product&id=<?= $row['prod_id'] ?>">
-                                                    <img src="images/products/<?= $row['prod_img'] ?>" alt="Li's Product Image">
+                                                    <img src="images/products/<?= $row['prod_img'] ?>" alt="Li's Product Image" style="height:150px; object-fit: cover; object-position: center;">
                                                 </a>
                                                 <span class="sticker">Feat
                                                 </span>

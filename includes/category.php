@@ -17,18 +17,18 @@ while ($row = mysqli_fetch_array($result)) {
                     <div class="row">
                         <div class="product-active owl-carousel">
                             <?php
-                            $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p left join 
+                            $prod_s = "select p.*, c.cate_name, b.brand_name from tbl_product as p left join 
                                     tbl_category as c on c.cate_id=p.cate_id left join 
                                     tbl_brand as b on b.brand_id=p.brand_id where c.cate_id =" . $row['cate_id'];
-                            $result = mysqli_query($conn, $sql);
-                            while ($prod = mysqli_fetch_array($result)) {
+                            $r = mysqli_query($conn, $prod_s);
+                            while ($prod = mysqli_fetch_array($r)) {
                             ?>
                                 <div class="col-lg-12">
                                     <!-- single-product-wrap start -->
                                     <div class="single-product-wrap">
                                         <div class="product-image">
                                             <a href="single-product.html">
-                                                <img src="images/products/<?= $prod['prod_img'] ?>" alt="Li's Product Image">
+                                                <img src="images/products/<?= $prod['prod_img'] ?>" alt="Li's Product Image" style="height:150px; object-fit: cover; object-position: center;">
                                             </a>
                                             <span class="sticker">New</span>
                                         </div>
@@ -50,7 +50,7 @@ while ($row = mysqli_fetch_array($result)) {
                                                 </div>
                                                 <h4><a class="product_name" href="single-product.html">Accusantium dolorem1</a></h4>
                                                 <div class="price-box">
-                                                    <span class="new-price">$46.80</span>
+                                                    <span class="new-price">$<?= $prod['prod_price'] ?></span>
                                                 </div>
                                             </div>
                                             <div class="add-actions">

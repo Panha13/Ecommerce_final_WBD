@@ -46,7 +46,7 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html"><?= $row['prod_name'] ?></a></h4>
+                                                    <h4><a class="product_name" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><?= $row['prod_name'] ?></a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">$<?= $row['prod_price'] ?>.80</span>
                                                     </div>
@@ -54,7 +54,7 @@
                                                 <div class="add-actions">
                                                     <ul class="add-actions-link">
                                                         <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                        <li><a class="links-details" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><i class="fa fa-heart-o"></i></a></li>
                                                         <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -99,7 +99,7 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html"><?= $row['prod_name'] ?></a></h4>
+                                                    <h4><a class="product_name" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><?= $row['prod_name'] ?></a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">$<?= $row['prod_price'] ?>.80</span>
                                                     </div>
@@ -107,7 +107,7 @@
                                                 <div class="add-actions">
                                                     <ul class="add-actions-link">
                                                         <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                        <li><a class="links-details" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><i class="fa fa-heart-o"></i></a></li>
                                                         <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -153,7 +153,7 @@
                                                             </ul>
                                                         </div>
                                                     </div>
-                                                    <h4><a class="product_name" href="single-product.html"><?= $row['prod_name'] ?></a></h4>
+                                                    <h4><a class="product_name" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><?= $row['prod_name'] ?></a></h4>
                                                     <div class="price-box">
                                                         <span class="new-price">$<?= $row['prod_price'] ?>.80</span>
                                                     </div>
@@ -161,7 +161,7 @@
                                                 <div class="add-actions">
                                                     <ul class="add-actions-link">
                                                         <li class="add-cart active"><a href="#">Add to cart</a></li>
-                                                        <li><a class="links-details" href="single-product.html"><i class="fa fa-heart-o"></i></a></li>
+                                                        <li><a class="links-details" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><i class="fa fa-heart-o"></i></a></li>
                                                         <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" href="#"><i class="fa fa-eye"></i></a></li>
                                                     </ul>
                                                 </div>

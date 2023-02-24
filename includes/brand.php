@@ -24,14 +24,14 @@
                                         ?>
                                             <div class="group-featured-pro-wrapper">
                                                 <div class="product-img">
-                                                    <a href="product-details.html">
+                                                    <a href="index.php?p=single-product&id=<?= $prod['prod_id'] ?>">
                                                         <img alt="" src="images/products/<?= $prod['prod_img'] ?>" style="height: 100px; width: 100px; object-fit: cover; object-position: center;">
                                                     </a>
                                                 </div>
                                                 <div class="featured-pro-content">
                                                     <div class="product-review">
                                                         <h5 class="manufacturer">
-                                                            <a href="product-details.html"><?= $prod['prod_name'] ?></a>
+                                                            <a href="index.php?p=single-product&id=<?= $prod['prod_id'] ?>"><?= $prod['prod_name'] ?></a>
                                                         </h5>
                                                     </div>
                                                     <div class="rating-box">
@@ -43,7 +43,7 @@
                                                             <li class="no-star"><i class="fa fa-star-o"></i></li>
                                                         </ul>
                                                     </div>
-                                                    <h4><a class="featured-product-name" href="single-product.html"><?= strlen($prod['prod_des']) > 50 ? substr($prod['prod_des'], 0, 50) . "..." : $prod['prod_des'] ?></a></h4>
+                                                    <h4><a class="featured-product-name" href="index.php?p=single-product&id=<?= $prod['prod_id'] ?>"><?= strlen($prod['prod_des']) > 50 ? substr($prod['prod_des'], 0, 50) . "..." : $prod['prod_des'] ?></a></h4>
                                                     <div class="featured-price-box">
                                                         <span class="new-price">$<?= $prod['prod_price'] ?></span>
                                                     </div>

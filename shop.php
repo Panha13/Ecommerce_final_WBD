@@ -1,7 +1,16 @@
 <?php
-$sql = "all";
+$pages = "index.php?p=shop";
 $current = "All Products";
 $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id order by prod_name asc";
+$result = mysqli_query($conn, $sql);
+$num = mysqli_num_rows($result);
+$pagenum = ceil($num / 12);
+$offset = 0;
+$pg = 1;
+if (isset($_GET['pg'])) {
+    $pg = $_GET['pg'];
+    $offset = 12 * ($pg - 1);
+}
 if (isset($_POST['choice'])) {
     $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id order by";
     $c = $_POST['choice'];
@@ -36,7 +45,7 @@ if (isset($_POST['choice'])) {
             break;
     }
 }
-$sql .= " limit 12";
+$sql .= " limit 12 offset $offset";
 $result = mysqli_query($conn, $sql);
 
 ?>
@@ -44,7 +53,7 @@ $result = mysqli_query($conn, $sql);
     <div class="container">
         <div class="breadcrumb-content">
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li class="active">Shooping</li>
             </ul>
         </div>
@@ -88,7 +97,7 @@ $result = mysqli_query($conn, $sql);
                     <div class="tab-content">
                         <div id="grid-view" class="tab-pane fade active show" role="tabpanel">
                             <div class="product-area shop-product-area">
-                                <div class="row">
+                                <div class="row" sytle="margin:0 0 20px 0">
                                     <?php
                                     while ($row = mysqli_fetch_array($result)) {
                                     ?>
@@ -124,6 +133,7 @@ $result = mysqli_query($conn, $sql);
                                                     </div>
                                                     <div class="add-actions">
                                                         <ul class="add-actions-link">
+                                                            <!-- TODO: Please fix here -->
                                                             <li class="add-cart active"><a href="shopping-cart.html">Add to cart</a></li>
                                                             <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
                                                             <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
@@ -143,3 +153,11 @@ $result = mysqli_query($conn, $sql);
         </div>
     </div>
 </div>
+<?php
+if ($num > 12) {
+?>
+    <!-- Pagination -->
+    <?php include 'admin/components/pagination.php' ?>
+    <!-- Pagination -->
+<?php
+} ?>

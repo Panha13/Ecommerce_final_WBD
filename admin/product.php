@@ -142,7 +142,9 @@ order by ordernum limit " . NUMPERPAGE . " offset " . $offset;
     if ($num > NUMPERPAGE) {
     ?>
         <!-- Pagination -->
-        <?php include 'components/pagination.php' ?>
+        <div style="display:flex; justify-content:center">
+            <?php include 'components/pagination.php' ?>
+        </div>
         <!-- Pagination -->
     <?php
     } ?>

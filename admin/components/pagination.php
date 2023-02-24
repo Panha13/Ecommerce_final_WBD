@@ -1,4 +1,4 @@
-<nav aria-label="Page navigation example">
+<nav aria-label="Page navigation example " class=" mb-25">
     <ul class="pagination justify-content-center">
         <li class="page-item <?= ($pg > 1 ? "" : "disabled") ?>">
             <a class="page-link" href="<?= $pages ?>&pg=<?= ($pg > 1 ? $pg - 1 : 1) ?>" tabindex="-1" aria-disabled="true">Previous</a>

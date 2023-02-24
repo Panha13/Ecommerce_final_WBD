@@ -42,6 +42,11 @@ if (isset($_GET['p'])) {
             $current_page = "Wishlist";
             $slider = false;
             break;
+        case 'shoppinglist':
+            $page = 'shopping-cart.php';
+            $current_page = "Wishlist";
+            $slider = false;
+            break;
         case 'single-product':
             $page = 'single-product.php';
             $current_page = "Signle Product";

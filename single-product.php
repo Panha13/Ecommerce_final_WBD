@@ -95,12 +95,13 @@ if (isset($_GET['id'])) {
                         $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id where p.cate_id= " . $row['cate_id'] . " limit 10";
                         $result = mysqli_query($conn, $sql);
                         while ($row = mysqli_fetch_array($result)) {
+
                         ?>
                             <div class="col-lg-12">
                                 <!-- single-product-wrap start -->
                                 <div class="single-product-wrap">
                                     <div class="product-image">
-                                        <a href="index.php?p=signle-product&id=<?= $row['prod_id'] ?>">
+                                        <a href="index.php?p=single-product&id=<?= $row['prod_id'] ?>">
                                             <img src="images/products/<?= $row['prod_img'] ?>" alt="Li's Product Image">
                                         </a>
                                         <span class="sticker">New</span>
@@ -128,8 +129,8 @@ if (isset($_GET['id'])) {
                                         </div>
                                         <div class="add-actions">
                                             <ul class="add-actions-link">
-                                                <li class="add-cart active"><a href="index.php?single-product&id=<?= $row['prod_id'] ?>">Add to cart</a></li>
-                                                <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
+                                                <li class="add-cart active"><a href="index.php?single-product&id=<?php $row['prod_id']; ?>">Add to cart</a></li>
+                                                <li><a id="qv" href="#" onclick="ids(<?= $row['prod_id'] ?>)" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
                                                 <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
                                             </ul>
                                         </div>
@@ -140,4 +141,6 @@ if (isset($_GET['id'])) {
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
 </section>

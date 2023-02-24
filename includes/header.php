@@ -1,3 +1,4 @@
+TODO: Making the product appeear in the box :)
 <header class="li-header-4">
     <!-- Begin Header Top Area -->
     <div class="header-top">
@@ -111,7 +112,7 @@
                                     </ul>
                                     <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
                                     <div class="minicart-button">
-                                        <a href="index.php?p=checkout" class="li-button li-button-dark li-button-fullwidth li-button-sm">
+                                        <a href="index.php?p=shoppinglist" class="li-button li-button-dark li-button-fullwidth li-button-sm">
                                             <span>View Full Cart</span>
                                         </a>
                                         <a href="index.php?p=checkout" class="li-button li-button-fullwidth li-button-sm">

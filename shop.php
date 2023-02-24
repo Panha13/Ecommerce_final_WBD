@@ -75,7 +75,7 @@ $result = mysqli_query($conn, $sql);
                     <div class="product-select-box">
                         <div class="product-short">
                             <label for="choice" style="margin-top:10px; margin-right:10px">Sort By:</label>
-                            <form action="index.php?p=shop" method='POST' style="display:flex;gap:15px">
+                            <form method='POST' style="display:flex;gap:15px" id="f">
                                 <select class="form-select" name="choice">
                                     <option value="all" selected>All Product</option>
                                     <option value="b-a-z">Brand (A - Z)</option>

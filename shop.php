@@ -3,7 +3,7 @@
         <div class="breadcrumb-content">
             <ul>
                 <li><a href="index.html">Home</a></li>
-                <li class="active">Shop 3 Column</li>
+                <li class="active">Shooping</li>
             </ul>
         </div>
     </div>

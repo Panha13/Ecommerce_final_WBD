@@ -1,5 +1,6 @@
 <?php
 include 'config.php';
+include 'library/uuid.php';
 $conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = "main.php";
 $current_page = "Home";

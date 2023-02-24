@@ -1,4 +1,24 @@
 <?php
+// WARNING: I HAVE TO FINISHED THIS TOMORROW 
+if (isset($_GET['action'])) {
+    $a = $_GET['action'];
+    switch ($a) {
+        case 'login':
+            $uemail = $_POST['email'];
+            $upass = $_POST['password'];
+            $sql = "select user_username, user_id, user_password from tbl_user where user_email='$uemail', user_password='$upass'";
+            $result = mysqli_query($conn, $sql);
+            $num = mysqli_num_rows($result);
+            if ($num == 0) {
+            }
+            break;
+        default:
+            $p = '404.php';
+            break;
+    }
+}
+
+
 
 ?>
 <div class="breadcrumb-area">
@@ -18,7 +38,7 @@
         <div class="row">
             <div class="col-sm-12 col-md-12 col-xs-12 col-lg-6 mb-30">
                 <!-- Login Form s-->
-                <form action="index.php?p=login-register" method="post">
+                <form action="index.php?p=login-register&action=login" method="post">
                     <div class="login-form">
                         <h4 class="login-title">Login</h4>
                         <div class="row">
@@ -47,7 +67,7 @@
                 </form>
             </div>
             <div class="col-sm-12 col-md-12 col-lg-6 col-xs-12">
-                <form action="index.php" method="post">
+                <form action="index.php?p=login-register&action=register" method="post">
                     <div class="login-form">
                         <h4 class="login-title">Register</h4>
                         <div class="row">

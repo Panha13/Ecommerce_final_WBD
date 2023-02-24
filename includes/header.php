@@ -1,4 +1,4 @@
-TODO: Making the product appeear in the box :)
+<!-- TODO: Making the product appeear in the box :) -->
 <header class="li-header-4">
     <!-- Begin Header Top Area -->
     <div class="header-top">

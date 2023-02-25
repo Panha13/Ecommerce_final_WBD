@@ -1,4 +1,5 @@
 <?php
+$c = '0';
 include '../config.php';
 $conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = 'dashboard.php';

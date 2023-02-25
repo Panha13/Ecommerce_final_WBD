@@ -7,7 +7,8 @@
         $i = 1;
         for ($i = 1; $i <= $pagenum; $i++) {
         ?>
-            <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="<?= $pages ?>&pg=<?= $i ?>">
+            <!-- TODO: FIX THIS BUG -->
+            <li class="page-item <?= ($pg == $i ? "active" : "") ?>"><a class="page-link" href="<?= $pages ?>&pg=<?= $i ?>&cur=<?= isset($_POST['choice']) ? $_POST['choice'] : $c ?>">
                     <?= $i ?>
                 </a></li>
         <?php

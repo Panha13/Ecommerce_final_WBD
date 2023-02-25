@@ -6,14 +6,21 @@ $result = mysqli_query($conn, $sql);
 $num = mysqli_num_rows($result);
 $pagenum = ceil($num / 12);
 $offset = 0;
+$c = 'all';
 $pg = 1;
 if (isset($_GET['pg'])) {
     $pg = $_GET['pg'];
     $offset = 12 * ($pg - 1);
 }
-if (isset($_POST['choice'])) {
+if (isset($_POST['choice']) || isset($_GET['cur'])) {
     $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id order by";
-    $c = $_POST['choice'];
+    if (isset($_POST['choice'])) {
+        $c = $_POST['choice'];
+        $choice = $_POST['choice'];
+    } else {
+        $c =  $_GET['cur'];
+        $cur =  $_GET['cur'];
+    }
     switch ($c) {
         case 'all':
             $sql .= " prod_name asc";

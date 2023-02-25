@@ -4,16 +4,34 @@ if (isset($_GET['action'])) {
     $a = $_GET['action'];
     switch ($a) {
         case 'login':
-            $uemail = $_POST['email'];
+            $uname = $_POST['username'];
             $upass = $_POST['password'];
-            $sql = "select user_username, user_id, user_password from tbl_user where user_email='$uemail', user_password='$upass'";
+            $sql = "select user_name, user_id, user_password from tbl_user where user_name='$uname' and user_password='$upass'";
+
             $result = mysqli_query($conn, $sql);
             $num = mysqli_num_rows($result);
-            if ($num == 0) {
+            $row = mysqli_fetch_array($result);
+            if ($num != 0) {
+                $_SESSION["uid"] = $row['user_id'];
+                echo '<script type="text/javascript">location.replace("index.php");</script>';
             }
             break;
-        default:
-            $p = '404.php';
+        case 'register':
+            $id = Uid();
+            $fname = $_POST['fname'];
+            $lname = $_POST['lname'];
+            $email = $_POST['email'];
+            $uname = $_POST['username'];
+            $pwd = $_POST['pwd'];
+            $cpwd = $_POST['cpwd'];
+            if ($pwd == $cpwd) {
+                $sql = "insert into tbl_user (user_id,user_firstname,user_lastname,user_email,user_name, user_password)
+                    values ('$id','$fname','$lname','$email','$uname', '$pwd')";
+                $result = mysqli_query($conn, $sql);
+                $_SESSION["uid"] = $id;
+                echo '<script type="text/javascript">location.replace("index.php");</script>';
+            } else {
+            }
             break;
     }
 }
@@ -43,8 +61,8 @@ if (isset($_GET['action'])) {
                         <h4 class="login-title">Login</h4>
                         <div class="row">
                             <div class="col-md-12 col-12 mb-20">
-                                <label>Email Address*</label>
-                                <input class="mb-0" type="email" placeholder="Email Address" name="email">
+                                <label>Username</label>
+                                <input class="mb-0" type="username" placeholder="Email Address" name="username">
                             </div>
                             <div class="col-12 mb-20">
                                 <label>Password</label>
@@ -73,23 +91,27 @@ if (isset($_GET['action'])) {
                         <div class="row">
                             <div class="col-md-6 col-12 mb-20">
                                 <label>First Name</label>
-                                <input class="mb-0" type="text" placeholder="First Name">
+                                <input class="mb-0" type="text" placeholder="First Name" name="fname">
                             </div>
                             <div class="col-md-6 col-12 mb-20">
                                 <label>Last Name</label>
-                                <input class="mb-0" type="text" placeholder="Last Name">
+                                <input class="mb-0" type="text" placeholder="Last Name" name="lname">
                             </div>
                             <div class="col-md-12 mb-20">
                                 <label>Email Address*</label>
-                                <input class="mb-0" type="email" placeholder="Email Address">
+                                <input class="mb-0" type="email" placeholder="Email Address" name="email">
+                            </div>
+                            <div class="col-md-12 mb-20">
+                                <label>Username</label>
+                                <input class="mb-0" type="text" placeholder="Username" name="username">
                             </div>
                             <div class="col-md-6 mb-20">
                                 <label>Password</label>
-                                <input class="mb-0" type="password" placeholder="Password">
+                                <input class="mb-0" type="password" placeholder="Password" name="pwd">
                             </div>
                             <div class="col-md-6 mb-20">
                                 <label>Confirm Password</label>
-                                <input class="mb-0" type="password" placeholder="Confirm Password">
+                                <input class="mb-0" type="password" placeholder="Confirm Password" name="cpwd">
                             </div>
                             <div class="col-12">
                                 <button class="register-button mt-0">Register</button>

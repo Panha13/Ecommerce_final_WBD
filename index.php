@@ -1,12 +1,15 @@
 <?php
-session_start();
-include 'config.php';
 include 'library/uuid.php';
+include 'library/auth.php';
+include 'pdo.class.php';
+
 $conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = "main.php";
 $current_page = "Home";
 $slider = true;
-$pageid=0;
+$pageid = 0;
+$log = isLogin();
+
 if (isset($_GET['p'])) {
     $p = $_GET['p'];
     switch ($p) {
@@ -56,16 +59,27 @@ if (isset($_GET['p'])) {
             $slider = false;
             break;
         case 'about-us':
-            $pageid=1;
+            $pageid = 1;
             $page = 'page.php';
             $current_page = "About Us";
             $slider = false;
             break;
         case 'contact-us':
-            $pageid=2;
+            $pageid = 2;
             $page = 'page.php';
             $current_page = "Contact Us";
             $slider = false;
+            break;
+        case 'logout':
+            if (isset($_COOKIE['user_id'])) {
+                setcookie('user_id', '', time() - 1);
+                setcookie('user_name', '', time() - 1);
+                setcookie('user_pf', '', time() - 1);
+            }
+            if (isset($_SESSION['user_id'])) {
+                session_destroy();
+            }
+            header('Location: index.php?p=login-register');
             break;
         default:
             $page = '404.php';

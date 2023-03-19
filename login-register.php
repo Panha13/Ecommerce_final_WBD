@@ -11,8 +11,27 @@ if (isset($_GET['action'])) {
             $result = mysqli_query($conn, $sql);
             $num = mysqli_num_rows($result);
             $row = mysqli_fetch_array($result);
-            if ($num != 0) {
-                $_SESSION["uid"] = $row['user_id'];
+            if ($num > 0) {
+                $save = 0;
+                if (isset($_POST['remember'])) {
+                    $save = 1;
+                }
+                if ($save == 1) {
+                    echo "
+                    <script>
+                    var CookieDate = new Date;
+                    CookieDate.setFullYear(CookieDate.getFullYear() +10);
+                    document.cookie = 'user_id=" . $row['user_id'] . "; expires=' + CookieDate.toGMTString() + ';';
+                    document.cookie = 'user_pf=" . $row['user_pf'] . "; expires=' + CookieDate.toGMTString() + ';';
+                    document.cookie = 'user_name=" . $row['user_name'] . "; expires=' + CookieDate.toGMTString() + ';';
+                    </script>
+
+                    ";
+                } else {
+                    $_SESSION["user_id"] = $row['user_id'];
+                    $_SESSION["user_pf"] = $row['user_pf'];
+                    $_SESSION["user_name"] = $row['user_name'];
+                }
                 echo '<script type="text/javascript">location.replace("index.php");</script>';
             }
             break;

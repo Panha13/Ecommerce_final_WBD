@@ -6,6 +6,7 @@ $conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = "main.php";
 $current_page = "Home";
 $slider = true;
+$pageid=0;
 if (isset($_GET['p'])) {
     $p = $_GET['p'];
     switch ($p) {
@@ -55,17 +56,17 @@ if (isset($_GET['p'])) {
             $slider = false;
             break;
         case 'about-us':
+            $pageid=1;
             $page = 'page.php';
             $current_page = "About Us";
             $slider = false;
             break;
         case 'contact-us':
+            $pageid=2;
             $page = 'page.php';
             $current_page = "Contact Us";
             $slider = false;
             break;
-
-
         default:
             $page = '404.php';
             $current_page = "404 Not Found";

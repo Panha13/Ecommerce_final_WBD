@@ -47,26 +47,11 @@
                 <div data-i18n="Analytics">Adverstise</div>
             </a>
         </li>
-        <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Pages</span>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Account Settings">All Pages</div>
+        <li class="menu-item <?= $page == 'contactus.php' ? 'active' : '' ?>">
+            <a href="index.php?p=contactus" class="menu-link">
+                  <i class="bi bi-x-diamond"></i>
+                <div data-i18n="Analytics">Page</div>
             </a>
-            <ul class="menu-sub">
-                <li class="menu-item <?= $page == 'contactus.php' ? 'active' : '' ?>">
-                    <a href="index.php?p=contactus" class="menu-link">
-                        <div data-i18n="Account">Contact Us</div>
-                    </a>
-                </li>
-                <li class="menu-item <?= $page == 'aboutus.php' ? 'active' : '' ?>">
-                    <a href="index.php?p=aboutus" class="menu-link">
-                        <div data-i18n="Notifications">About Us</div>
-                    </a>
-                </li>
-            </ul>
         </li>
         <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Configuration</span>

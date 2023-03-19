@@ -1,8 +1,12 @@
 <?php
 $c = '0';
+//Authentication
+include "./Auth/auth.php";
+isLogin();
 include '../config.php';
 $conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = 'dashboard.php';
+$pageid=0;
 if (isset($_GET['p'])) {
   $p = $_GET['p'];
   switch ($p) {
@@ -25,14 +29,20 @@ if (isset($_GET['p'])) {
       $page = 'ads.php';
       break;
     case 'aboutus':
-      $page = 'aboutus.php';
+      $pageid=1;
+      $page = 'page.php';
       break;
     case 'contactus':
-      $page = 'contactus.php';
+      $pageid=2;
+      $page = 'page.php';
       break;
     case 'socialmedia':
       $page = 'socialmedia.php';
       break;
+    case "pageeditform":
+        $page="pageeditform.php";
+      break;
+
   }
 }
 

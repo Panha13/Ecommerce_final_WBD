@@ -27,10 +27,6 @@ if (isset($_GET['action'])) {
                 $result = $db->Update($arr, 'config_id=1');
             }
             break;
-
-        default:
-            # code...
-            break;
     }
 }
 
@@ -64,8 +60,13 @@ if (isset($_GET['action'])) {
             <tr>
                 <th>Password</th>
                 <input type="hidden" id="pwd" data-value="<?= $result->password ?>">
-                <th>*************************************</th>
+                <th>***************************</th>
                 <th><a href="#" data-bs-toggle="modal" data-bs-target="#p">Edit</a></th>
+            </tr>
+            <tr>
+                <th>Logo</th>
+                <th id="user" data-value="<?= $result->username ?>"><img height="50px" src="images/logo/<?= $result->logo ?>" alt="" srcset=""></th>
+                <th><a href="#" data-bs-toggle="modal" data-bs-target="#u">Edit</a></th>
             </tr>
         </tbody>
     </table>

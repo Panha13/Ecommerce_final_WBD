@@ -1,4 +1,5 @@
 <?php
+$db = new PO('tbl_category');
 include '../GlobalClass/Globals.php';
 $pages = "index.php?p=category";
 $tbl = "tbl_category";
@@ -28,13 +29,10 @@ $p = new Globals($conn, $tbl, $id, $comp);
                 $p->Move($_GET['id'], $_GET['order'], '>', 'asc', "Down");
                 break;
             case "3":
-                //TODO: Let it can update with picute
                 $active = $p->CheckActive(isset($_POST['active']));
-                $p->id_val = $_GET['id'];
-                $p->Update("$name='" . $_POST['name'] . "'");
-                $p->Update("active=" . $active);
-                $p->Update("$des='" . $_POST['des'] . "'");
-                $p->Dialog("Updated Successfully 🎉🎉🎉", "primary");
+                $arr = [$name => $_POST['name'], $des => $_POST['des'], 'active' => $active];
+                $result = $db->Update($arr, 'cate_id=' . $_GET['id']);
+                if ($result) $p->Dialog("Updated Successfully 🎉🎉🎉", "primary");
                 break;
             case "4":
                 $p->Delete($_GET['id']);
@@ -74,7 +72,7 @@ $p = new Globals($conn, $tbl, $id, $comp);
         padding: 10px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         " data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa-solid fa-plus"></i></button>
-    <button style="margin: 0 25px 25px 0;"class="btn btn-primary" type="submit" onclick="window.print()">Print</button>
+    <button style="margin: 0 25px 25px 0;" class="btn btn-primary" type="submit" onclick="window.print()">Print</button>
     <?php if ($num > 0) { ?>
         <table class="table mb-5">
             <thead class="bg-primary">

@@ -4,7 +4,7 @@
         <a href="index.php?p=single-product&id=<?= $prod['prod_id'] ?>">
             <img src="images/products/<?= $prod['prod_img'] ?>" id="img-<?= $prod['prod_id'] ?>" data-value="<?= $prod['prod_img'] ?>" alt="Li's Product Image" style="height:150px; object-fit: cover; object-position: center;">
         </a>
-        <span class="sticker">New</span>
+        <span class="sticker" style="z-index: 1;">New</span>
     </div>
     <div class="product_desc">
         <div class="product_desc_info">
@@ -28,9 +28,9 @@
             </div>
         </div>
         <div class="add-actions">
-            <ul class="add-actions-link">
+            <ul class="add-actions-link d-flex justify-content-center" style="z-index: 2;">
                 <li class="add-cart active"><a href="#">Add to cart</a></li>
-                <li><a class="links-details" href="#" onclick=heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart" class="fa fa-heart-0"></i></a></li>
+                <li><a class="links-details" onclick=heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart" class="fa fa-heart-o"></i></a></li>
                 <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" onclick="preview(<?= $prod['prod_id'] ?>)" href="#"><i class="fa fa-eye"></i></a></li>
                 <input type="hidden" name="" id="des-<?= $prod['prod_id'] ?>" data-value="<?= $prod['prod_des'] ?>">
             </ul>
@@ -38,20 +38,19 @@
     </div>
 </div>
 <script>
-    function showUser(str) {
-        if (str == "") {
-            document.getElementById("txtHint").innerHTML = "";
-            return;
-        } else {
-            var xmlhttp = new XMLHttpRequest();
-            xmlhttp.onreadystatechange = function() {
-                if (this.readyState == 4 && this.status == 200) {
-                    // $('#icoHeart').removeClass = "fa-heart-o";
-                    // $('#icoHeart').addClass = "fa-heart";
-                }
-            };
-            xmlhttp.open("GET", "api/heart.php?q=" + str, true);
-            xmlhttp.send();
-        }
+    /**
+     * 
+     * 
+     */
+    function preview(prod_id) {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                $('#icoHeart').removeClass = "fa-heart-o";
+                $('#icoHeart').addClass = "fa-heart";
+            }
+        };
+        xmlhttp.open("GET", `api/heart.php?prod_id=${prod_id}<?= isset($_COOKIE['user_id']) ? '&user_id=' . $_COOKIE['user_id'] : '' ?>)`, true);
+        xmlhttp.end();
     }
 </script>

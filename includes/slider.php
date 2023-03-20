@@ -23,7 +23,7 @@
                                     <h2><?= $row['slide_name'] ?></h2>
                                     <h3>Starting at <span>$<?= $row['slide_price'] ?>.00</span></h3>
                                     <div class="default-btn slide-btn">
-                                        <a class="links" href="shop-left-sidebar.html">Shopping Now</a>
+                                        <a class="links" href="index.php?p=shop">Shopping Now</a>
                                     </div>
                                 </div>
                             </div>

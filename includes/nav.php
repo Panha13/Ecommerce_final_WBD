@@ -9,7 +9,7 @@
         <?php
         if (isset($_COOKIE['user_id']) || isset($_SESSION['user_id'])) {
         ?>
-            <li><a href="index.php?p=logout" onclick="change()"><span id="text">Logout</span> <i class="fa fa-sign-in"></i></a></li>
+            <li><a href="index.php?p=logout" onclick="change()"><span id="text">Logout</span> <i class="fa fa-sign-out"></i></a></li>
         <?php } else { ?>
             <li><a href="index.php?p=login-register">Login <i class="fa fa-sign-in"></i></a></li>
         <?php } ?>

@@ -106,48 +106,12 @@ $result = mysqli_query($conn, $sql);
                             <div class="product-area shop-product-area">
                                 <div class="row" sytle="margin:0 0 20px 0">
                                     <?php
-                                    while ($row = mysqli_fetch_array($result)) {
+                                    while ($prod = mysqli_fetch_array($result)) {
                                     ?>
 
-                                        <div class="col-lg-4 col-md-4 col-sm-6 mt-40">
+                                        <div class="col-lg-3 col-md-4 col-sm-6 mt-40">
                                             <!-- single-product-wrap start -->
-                                            <div class="single-product-wrap">
-                                                <div class="product-image d-flex" style="justify-content: center;">
-                                                    <a href="index.php?p=single-product&id=<?= $row['prod_id'] ?>">
-                                                        <img src="images/products/<?= $row['prod_img'] ?>" alt="Li's Product Image" style="width: auto; height:150px; object-fit: cover; object-position: center;">
-                                                    </a>
-                                                </div>
-                                                <div class="product_desc">
-                                                    <div class="product_desc_info">
-                                                        <div class="product-review">
-                                                            <h5 class="manufacturer">
-                                                                <a href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><?= $row['cate_name'] ?></a>
-                                                            </h5>
-                                                            <div class="rating-box">
-                                                                <ul class="rating">
-                                                                    <li><i class="fa fa-star-o"></i></li>
-                                                                    <li><i class="fa fa-star-o"></i></li>
-                                                                    <li><i class="fa fa-star-o"></i></li>
-                                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                    <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                        <h4><a class="product_name" href="index.php?p=single-product&id=<?= $row['prod_id'] ?>"><?= $row['prod_name'] ?></a></h4>
-                                                        <div class="price-box">
-                                                            <span class="new-price">$<?= $row['prod_price'] ?></span>
-                                                        </div>
-                                                    </div>
-                                                    <div class="add-actions">
-                                                        <ul class="add-actions-link">
-                                                            <!-- TODO: Please fix here -->
-                                                            <li class="add-cart active"><a href="shopping-cart.html">Add to cart</a></li>
-                                                            <li><a href="#" title="quick view" class="quick-view-btn" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-eye"></i></a></li>
-                                                            <li><a class="links-details" href="wishlist.html"><i class="fa fa-heart-o"></i></a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <?php include('components/card.php') ?>
                                         </div>
                                     <?php }
                                     ?>

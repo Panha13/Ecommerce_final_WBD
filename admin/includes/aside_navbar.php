@@ -49,7 +49,7 @@
         </li>
         <li class="menu-item <?= $page == 'contactus.php' ? 'active' : '' ?>">
             <a href="index.php?p=contactus" class="menu-link">
-                  <i class="bi bi-x-diamond"></i>
+                <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Analytics">Page</div>
             </a>
         </li>

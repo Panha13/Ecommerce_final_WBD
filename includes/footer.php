@@ -238,31 +238,8 @@
                         <div class="product-details-left">
                             <div class="product-details-images slider-navigation-1">
                                 <div class="lg-image">
-                                    <img src="images/product/large-size/1.jpg" alt="product image">
+                                    <img id="img" src="images/products/" alt="product image" style="height:250px; object-fit: cover; object-position: center;">
                                 </div>
-                                <div class="lg-image">
-                                    <img src="images/product/large-size/2.jpg" alt="product image">
-                                </div>
-                                <div class="lg-image">
-                                    <img src="images/product/large-size/3.jpg" alt="product image">
-                                </div>
-                                <div class="lg-image">
-                                    <img src="images/product/large-size/4.jpg" alt="product image">
-                                </div>
-                                <div class="lg-image">
-                                    <img src="images/product/large-size/5.jpg" alt="product image">
-                                </div>
-                                <div class="lg-image">
-                                    <img src="images/product/large-size/6.jpg" alt="product image">
-                                </div>
-                            </div>
-                            <div class="product-details-thumbs slider-thumbs-1">
-                                <div class="sm-image"><img src="images/product/small-size/1.jpg" alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/2.jpg" alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/3.jpg" alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/4.jpg" alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/5.jpg" alt="product image thumb"></div>
-                                <div class="sm-image"><img src="images/product/small-size/6.jpg" alt="product image thumb"></div>
                             </div>
                         </div>
                         <!--// Product Details Left -->
@@ -272,8 +249,7 @@
                         <div class="product-details-view-content pt-60">
                             <div class="product-info">
 
-                                <h2>Title</h2>
-                                <span class="product-details-ref">Reference: demo_15</span>
+                                <h2 id="title">Title</h2>
                                 <div class="rating-box pt-20">
                                     <ul class="rating rating-with-review-item">
                                         <li><i class="fa fa-star-o"></i></li>
@@ -286,23 +262,13 @@
                                     </ul>
                                 </div>
                                 <div class="price-box pt-20">
-                                    <span class="new-price new-price-2">$57.98</span>
+                                    <span class="new-price new-price-2" id="price">$57.98</span>
                                 </div>
                                 <div class="product-desc">
                                     <p>
-                                        <span>100% cotton double printed dress. Black and white striped top and orange high waisted skater skirt bottom. Lorem ipsum dolor sit amet, consectetur adipisicing elit. quibusdam corporis, earum facilis et nostrum dolorum accusamus similique eveniet quia pariatur.
+                                        <span id="des">100% cotton double printed dress. Black and white striped top and orange high waisted skater skirt bottom. Lorem ipsum dolor sit amet, consectetur adipisicing elit. quibusdam corporis, earum facilis et nostrum dolorum accusamus similique eveniet quia pariatur.
                                         </span>
                                     </p>
-                                </div>
-                                <div class="product-variants">
-                                    <div class="produt-variants-size">
-                                        <label>Dimension</label>
-                                        <select class="nice-select">
-                                            <option value="1" title="S" selected="selected">40x60cm</option>
-                                            <option value="2" title="M">60x90cm</option>
-                                            <option value="3" title="L">80x120cm</option>
-                                        </select>
-                                    </div>
                                 </div>
                                 <div class="single-add-to-cart">
                                     <form action="#" class="cart-quantity">
@@ -337,3 +303,16 @@
     </div>
 </div>
 <!-- Quick View | Modal Area End Here -->
+<script>
+    function preview(id) {
+        let title = document.getElementById('title-' + id).getAttribute('data-value');
+        document.getElementById('title').innerHTML = title;
+        let img = document.getElementById('img-' + id).getAttribute('data-value');
+        document.getElementById('img').src = "images/products/" + img;
+        let price = document.getElementById('price-' + id).getAttribute('data-value');
+        document.getElementById('price').textContent = "$" + price;
+        let des = document.getElementById('des-' + id).getAttribute('data-value');
+        document.getElementById('des').src = "images/products/" + des;
+
+    }
+</script>

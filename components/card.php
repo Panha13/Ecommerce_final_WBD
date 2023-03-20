@@ -1,4 +1,3 @@
-<!-- single-product-wrap start -->
 <div class="single-product-wrap">
     <div class="product-image">
         <a href="index.php?p=single-product&id=<?= $prod['prod_id'] ?>">
@@ -30,27 +29,26 @@
         <div class="add-actions">
             <ul class="add-actions-link d-flex justify-content-center" style="z-index: 2;">
                 <li class="add-cart active"><a href="#">Add to cart</a></li>
-                <li><a class="links-details" onclick=heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart" class="fa fa-heart-o"></i></a></li>
-                <li><a class="quick-view" data-toggle="modal" data-target="#exampleModalCenter" onclick="preview(<?= $prod['prod_id'] ?>)" href="#"><i class="fa fa-eye"></i></a></li>
+                <li style="cursor: pointer;" id="h"><a class="links-details" onclick="heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart-<?= $prod['prod_id'] ?>" class="fa fa-heart-o"></i></a></li>
+                <small id="error"></small>
+                <li><a class="quick-view" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModalCenter" onclick="preview(<?= $prod['prod_id'] ?>)" href="#"><i class="fa fa-eye"></i></a></li>
                 <input type="hidden" name="" id="des-<?= $prod['prod_id'] ?>" data-value="<?= $prod['prod_des'] ?>">
             </ul>
         </div>
     </div>
 </div>
 <script>
-    /**
-     * 
-     * 
-     */
-    function preview(prod_id) {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                $('#icoHeart').removeClass = "fa-heart-o";
-                $('#icoHeart').addClass = "fa-heart";
+    function heart(prod_id) {
+        $('#icoHeart-' + prod_id).removeClass('fa-heart-o');
+        $('#icoHeart-' + prod_id).addClass('fa-heart');
+        $.ajax({
+            url: "http://localhost/hort/api/heart.php?prod_id=" + prod_id,
+            success: () => {
+                $('#icoHeart').removeClass('fa-heart-o');
+                $('#icoHeart').addClass('fa-heart');
             }
-        };
-        xmlhttp.open("GET", `api/heart.php?prod_id=${prod_id}<?= isset($_COOKIE['user_id']) ? '&user_id=' . $_COOKIE['user_id'] : '' ?>)`, true);
-        xmlhttp.end();
+        }).fail(() => {
+            $('#error').text('An error occurred ');
+        })
     }
 </script>

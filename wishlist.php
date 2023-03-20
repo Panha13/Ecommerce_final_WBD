@@ -1,3 +1,23 @@
+<?php
+$db = new PO('tbl_fav');
+if (isset($_GET['action'])) {
+    $a = $_GET['action'];
+    if (isset($_GET['id'])) {
+        switch ($a) {
+            case 'remove':
+                $result = $db->Delete("fav_id='" . $_GET['id'] . "'");
+                if ($result) {
+                } // DO STH
+                break;
+
+            default:
+                # code...
+                break;
+        }
+    }
+}
+
+?>
 <div class="breadcrumb-area">
     <div class="container">
         <div class="breadcrumb-content">
@@ -23,35 +43,25 @@
                                     <th class="li-product-thumbnail">images</th>
                                     <th class="cart-product-name">Product</th>
                                     <th class="li-product-price">Unit Price</th>
-                                    <th class="li-product-stock-status">Stock Status</th>
                                     <th class="li-product-add-cart">add to cart</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/wishlist-thumb/1.jpg" alt=""></a></td>
-                                    <td class="li-product-name"><a href="#">Giro Civilia</a></td>
-                                    <td class="li-product-price"><span class="amount">$23.39</span></td>
-                                    <td class="li-product-stock-status"><span class="in-stock">in stock</span></td>
-                                    <td class="li-product-add-cart"><a href="#">add to cart</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/wishlist-thumb/2.jpg" alt=""></a></td>
-                                    <td class="li-product-name"><a href="#">Pro Bike Shoes</a></td>
-                                    <td class="li-product-price"><span class="amount">$30.50</span></td>
-                                    <td class="li-product-stock-status"><span class="in-stock">in stock</span></td>
-                                    <td class="li-product-add-cart"><a href="#">add to cart</a></td>
-                                </tr>
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/wishlist-thumb/3.jpg" alt=""></a></td>
-                                    <td class="li-product-name"><a href="#">Nero Urban Shoes</a></td>
-                                    <td class="li-product-price"><span class="amount">$40.19</span></td>
-                                    <td class="li-product-stock-status"><span class="out-stock">out stock</span></td>
-                                    <td class="li-product-add-cart"><a href="#">add to cart</a></td>
-                                </tr>
+                                <?php
+                                $db = new PO('tbl_fav as f');
+                                $rows = $db->Select('p.prod_id,f.fav_id,p.prod_name, p.prod_img, p.prod_price', "u.user_id='" . $_COOKIE['user_id'] . "'", ' inner join tbl_user as u on f.user_id=u.user_id inner join tbl_product as p on f.prod_id=p.prod_id');
+
+                                foreach ($rows as $row) {
+                                ?>
+                                    <tr>
+                                        <td class="li-product-remove"><a href="index.php?p=wishlist&action=remove&id=<?= $row->fav_id ?>"><i class="fa fa-times"></i></a></td>
+                                        <td class="li-product-thumbnail"><a href="index.php?p=single-product&id=<?= $row->prod_id ?>"><img src="images/products/<?= $row->prod_img ?>" height="200" style="object-fit: cover;object-position: center;" alt=""></a></td>
+                                        <td class="li-product-name"><a href="index.php?p=single-product&id=<?= $row->prod_id ?>"><?= $row->prod_name ?></a></td>
+                                        <td class="li-product-price"><span class="amount">$<?= $row->prod_price ?></span></td>
+                                        <td class="li-product-add-cart"><a href="index.php?p=single-product&id=<?= $row->prod_id ?>">add to cart</a></td>
+                                    </tr>
+                                <?php } ?>
+
                             </tbody>
                         </table>
                     </div>

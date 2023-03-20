@@ -13,7 +13,7 @@ class PO
         $dsn = "mysql:host=localhost;dbname=wbd";
         return new PDO($dsn, "root", "");
     }
-    function Select($column = "*", $where = "", $order = "",  $limit = "", $offset = "", $join = "")
+    function Select($column = "*", $where = "", $join = "", $order = "",  $limit = "", $offset = "")
     {
         $pdo = $this->Conn();
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
@@ -24,7 +24,8 @@ class PO
         if (!empty($order)) $sql .= " ORDER BY " . $order;
         if (!empty($limit)) $sql .= " LIMIT " . $limit;
         if (!empty($offset)) $sql .= " OFFSET " . $offset;
-        return $pdo->query($sql);
+        $result = $pdo->query($sql);
+        return $result->fetchAll();
     }
     function Login($u, $p)
     {
@@ -61,5 +62,15 @@ class PO
         $sql = "UPDATE $this->table SET $fv where $where";
         $stmt = $pdo->prepare($sql);
         return $stmt->execute();
+    }
+    function Delete($where)
+    {
+        $pdo = $this->Conn();
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $sql = "DELETE FROM $this->table WHERE $where";
+        $stmt = $pdo->prepare($sql);
+        $result = $stmt->execute();
+        if ($result) return true;
+        return false;
     }
 }

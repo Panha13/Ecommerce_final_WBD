@@ -2,7 +2,10 @@
 include 'library/uuid.php';
 include 'library/auth.php';
 include 'pdo.class.php';
-
+$userID = "";
+if (isset($_COOKIE['user_id'])) {
+    $userID = $_COOKIE['user_id'];
+}
 $conn = mysqli_connect(HOST, USER, PASS, DB);
 $page = "main.php";
 $current_page = "Home";

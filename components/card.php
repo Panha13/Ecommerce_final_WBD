@@ -8,9 +8,6 @@
     <div class="product_desc">
         <div class="product_desc_info">
             <div class="product-review">
-                <h5 class="manufacturer">
-                    <a href="product-details.html">Graphic Corner</a>
-                </h5>
                 <div class="rating-box">
                     <ul class="rating">
                         <li><i class="fa fa-star-o"></i></li>
@@ -29,7 +26,7 @@
         <div class="add-actions">
             <ul class="add-actions-link d-flex justify-content-center" style="z-index: 2;">
                 <li class="add-cart active"><a href="#">Add to cart</a></li>
-                <li style="cursor: pointer;" id="h"><a class="links-details" onclick="heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart-<?= $prod['prod_id'] ?>" class="fa fa-heart-o"></i></a></li>
+                <li style="cursor: pointer;" id="h"><a class="links-details" onclick="heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart-<?= $prod['prod_id'] ?>" class="fa fa-heart<?= $userID == $prod['user_id'] ? '' : '-o' ?>"></i></a></li>
                 <small id="error"></small>
                 <li><a class="quick-view" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModalCenter" onclick="preview(<?= $prod['prod_id'] ?>)" href="#"><i class="fa fa-eye"></i></a></li>
                 <input type="hidden" name="" id="des-<?= $prod['prod_id'] ?>" data-value="<?= $prod['prod_des'] ?>">
@@ -39,16 +36,23 @@
 </div>
 <script>
     function heart(prod_id) {
-        $('#icoHeart-' + prod_id).removeClass('fa-heart-o');
-        $('#icoHeart-' + prod_id).addClass('fa-heart');
         $.ajax({
             url: "http://localhost/hort/api/heart.php?prod_id=" + prod_id,
             success: () => {
-                $('#icoHeart').removeClass('fa-heart-o');
-                $('#icoHeart').addClass('fa-heart');
+                $('#icoHeart-' + prod_id).removeClass('fa-heart-o');
+                $('#icoHeart-' + prod_id).addClass('fa-heart');
             }
         }).fail(() => {
             $('#error').text('An error occurred ');
         })
+    }
+
+    function changeHeart(prod_id) {
+        $('#icoHeart-' + prod_id).removeClass('fa-heart-o');
+        $('#icoHeart-' + prod_id).addClass('fa-heart');
+        let noti = $('#noti').text();
+        console.log(noti);
+        $('#noti').text(noti + 1);
+
     }
 </script>

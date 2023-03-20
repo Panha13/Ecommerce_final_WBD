@@ -1,7 +1,8 @@
 <?php
 $pages = "index.php?p=shop";
 $current = "All Products";
-$sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id order by prod_name asc";
+$sql = "select p.*, c.cate_name, b.brand_name, f.user_id from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id
+left outer join tbl_fav as f on f.prod_id=p.prod_id order by prod_name asc";
 $result = mysqli_query($conn, $sql);
 $num = mysqli_num_rows($result);
 $pagenum = ceil($num / 12);
@@ -13,7 +14,8 @@ if (isset($_GET['pg'])) {
     $offset = 12 * ($pg - 1);
 }
 if (isset($_POST['choice']) || isset($_GET['cur'])) {
-    $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id order by";
+    $sql = "select p.*, c.cate_name, b.brand_name, f.user_id from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id
+    left outer join tbl_fav as f on f.prod_id=p.prod_id order by";
     if (isset($_POST['choice'])) {
         $c = $_POST['choice'];
         $choice = $_POST['choice'];

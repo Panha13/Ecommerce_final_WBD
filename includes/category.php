@@ -32,7 +32,6 @@ while ($row = mysqli_fetch_array($result)) {
                     </div>
                 </div>
             </div>
-            <!-- Li's Section Area End Here -->
         </div>
     </section>
 <?php } ?>

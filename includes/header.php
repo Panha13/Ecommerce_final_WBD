@@ -29,8 +29,8 @@
                             <!-- Begin Header Middle Wishlist Area -->
                             <li class="hm-wishlist">
                                 <a href="index.php?p=wishlist">
-                                    <span class="cart-item-count wishlist-item-count">0</span>
-                                    <i class="fa fa-heart-o"></i>
+                                    <span class="cart-item-count wishlist-item-count" id="noti">0</span>
+                                    <i class=" fa fa-heart-o"></i>
                                 </a>
                             </li>
                             <!-- Header Middle Wishlist Area End Here -->
@@ -69,32 +69,23 @@
                                     </div>
                                 </div>
                             </li>
-                            <!-- Header Mini Cart Area End Here -->
                         </ul>
                     </div>
-                    <!-- Header Middle Right Area End Here -->
                 </div>
-                <!-- Header Middle Right Area End Here -->
             </div>
         </div>
     </div>
-    <!-- Header Middle Area End Here -->
-    <!-- Begin Header Bottom Area -->
     <div class="header-bottom header-sticky stick d-none d-lg-block d-xl-block">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <!-- Begin Header Bottom Menu Area -->
                     <div class="hb-menu">
                         <?php include('includes/nav.php') ?>
                     </div>
-                    <!-- Header Bottom Menu Area End Here -->
                 </div>
             </div>
         </div>
     </div>
-    <!-- Header Bottom Area End Here -->
-    <!-- Begin Mobile Menu Area -->
     <div class="mobile-menu-area mobile-menu-area-4 d-lg-none d-xl-none col-12">
         <div class="container">
             <div class="row">
@@ -103,5 +94,4 @@
             </div>
         </div>
     </div>
-    <!-- Mobile Menu Area End Here -->
 </header>

@@ -27,14 +27,21 @@ class PO
         $result = $pdo->query($sql);
         return $result->fetchAll();
     }
-    function Login($u, $p)
+    function Count($arr = array())
     {
         $pdo = $this->Conn();
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
-        $sql = "SELECT user_name, user_password,user_pf, COUNT(user_name) AS c FROM $this->table WHERE user_name = :u AND user_password = :p ";
+        $fv = "";
+        foreach ($arr as $key => $value) {
+            $fv .= "$key=:$key AND ";
+        }
+        $fv = substr($fv, 0, strlen($fv) - 5);
+
+        $sql = "SELECT COUNT(*) AS c FROM $this->table WHERE $fv";
+        // echo $sql;
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([':u' => $u, ':p' => $p]);
+        $stmt->execute($arr);
         return $stmt->fetch();
     }
     function Insert($arr = array())

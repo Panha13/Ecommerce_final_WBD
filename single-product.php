@@ -20,7 +20,7 @@ if (isset($_GET['id'])) {
 <!-- content-wraper start -->
 <div class="content-wraper">
     <div class="container">
-        <div class="row single-product-area">
+        <div class="row single-product-area" style="align-items: center;">
             <div class="col-lg-5 col-md-6">
                 <!-- Product Details Left -->
                 <div class="product-details-left">
@@ -38,17 +38,6 @@ if (isset($_GET['id'])) {
                     <div class="product-info">
                         <h2><?= $row['prod_name'] ?></h2>
                         <span class="product-details-ref"><?= $row['cate_name'] ?></span>
-                        <div class="rating-box pt-20">
-                            <ul class="rating rating-with-review-item">
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li><i class="fa fa-star-o"></i></li>
-                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                <li class="no-star"><i class="fa fa-star-o"></i></li>
-                                <li class="review-item"><a href="#">Read Review</a></li>
-                                <li class="review-item"><a href="#">Write Review</a></li>
-                            </ul>
-                        </div>
                         <div class="price-box pt-20">
                             <span class="new-price new-price-2">$<?= $row['prod_price'] ?></span>
                         </div>
@@ -58,19 +47,7 @@ if (isset($_GET['id'])) {
                                 </span>
                             </p>
                         </div>
-                        <div class="single-add-to-cart">
-                            <form action="index.php?p=checkout&id=<?= $row['prod_id'] ?>" method="post" class="cart-quantity">
-                                <div class="quantity">
-                                    <label>Quantity</label>
-                                    <div class="cart-plus-minus">
-                                        <input class="cart-plus-minus-box" name="qty" value="1" type="text">
-                                        <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                        <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                    </div>
-                                </div>
-                                <a class="add-to-cart" type="submit">Add to cart</a>
-                            </form>
-                        </div>
+                        <?php include('components/cart.php') ?>
                     </div>
                 </div>
             </div>

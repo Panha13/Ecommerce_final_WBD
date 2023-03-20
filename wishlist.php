@@ -49,7 +49,7 @@ if (isset($_GET['action'])) {
                             <tbody>
                                 <?php
                                 $db = new PO('tbl_fav as f');
-                                $rows = $db->Select('p.prod_id,f.fav_id,p.prod_name, p.prod_img, p.prod_price', "u.user_id='" . $_COOKIE['user_id'] . "'", ' inner join tbl_user as u on f.user_id=u.user_id inner join tbl_product as p on f.prod_id=p.prod_id');
+                                $rows = $db->Select('p.prod_id,f.fav_id,p.prod_name, p.prod_img, p.prod_price', "u.user_id='" . $userID . "'", ' inner join tbl_user as u on f.user_id=u.user_id inner join tbl_product as p on f.prod_id=p.prod_id');
 
                                 foreach ($rows as $row) {
                                 ?>

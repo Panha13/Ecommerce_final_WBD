@@ -1,3 +1,21 @@
+<?php
+$db = new PO('tbl_fav');
+$c = 0;
+$cart = 0;
+$m = 0;
+if (isset($_COOKIE['user_id'])) {
+    $c = $db->Count(['user_id' => $_COOKIE['user_id']]);
+    $c = $c->c;
+    $db = new PO('tbl_cart');
+    $cart = $db->Count(['user_id' => $_COOKIE['user_id']]);
+    $cart = $cart->c;
+    $db = new PO('tbl_cart as c');
+    $money = $db->Select('SUM(p.prod_price) as b', "user_id='$userID'", 'inner join tbl_product as p on p.prod_id = c.prod_id');
+    foreach ($money as $mon) {
+        $m += $mon->b;
+    }
+}
+?>
 <!-- TODO: Making the product appeear in the box :) -->
 <header class="li-header-4">
     <div class="header-middle pl-sm-0 pr-sm-0 pl-xs-0 pr-xs-0">
@@ -7,7 +25,13 @@
                 <div class="col-lg-3">
                     <div class="logo pb-sm-30 pb-xs-30">
                         <a href="index.php">
-                            <img src="images/menu/logo/2.jpg" alt="">
+                            <?php
+                            $config = new PO('tbl_config');
+                            foreach ($config->Select() as $row) {
+                                # code...
+                            ?>
+                                <img src="images/logo/<?= $row->logo ?>" alt="">
+                            <?php } ?>
                         </a>
                     </div>
                 </div>
@@ -29,43 +53,31 @@
                             <!-- Begin Header Middle Wishlist Area -->
                             <li class="hm-wishlist">
                                 <a href="index.php?p=wishlist">
-                                    <span class="cart-item-count wishlist-item-count" id="noti">0</span>
+                                    <?php
+                                    if ($c != 0) {
+                                    ?>
+                                        <span class="cart-item-count wishlist-item-count" id="noti"><?= $c ?></span>
+                                    <?php } ?>
                                     <i class=" fa fa-heart-o"></i>
+
                                 </a>
                             </li>
-                            <!-- Header Middle Wishlist Area End Here -->
-                            <!-- Begin Header Mini Cart Area -->
                             <li class="hm-minicart">
                                 <div class="hm-minicart-trigger">
                                     <span class="item-icon"></span>
-                                    <span class="item-text">£80.00
-                                        <span class="cart-item-count">2</span>
+                                    <span class="item-text">$<?= $m ?>
+                                        <?php
+                                        if ($c != 0) {
+                                        ?>
+                                            <span class="cart-item-count"><?= $cart ?></span>
+                                        <?php } ?>
                                     </span>
                                 </div>
                                 <span></span>
                                 <div class="minicart">
-                                    <ul class="minicart-product-list">
-                                        <li>
-                                            <a href="index.php?p=single-product" class="minicart-product-image">
-                                                <img src="images/product/small-size/1.jpg" alt="cart products">
-                                            </a>
-                                            <div class="minicart-product-details">
-                                                <h6><a href="single-product.php">Aenean eu tristique</a></h6>
-                                                <span>£40 x 1</span>
-                                            </div>
-                                            <button class="close">
-                                                <i class="fa fa-close"></i>
-                                            </button>
-                                        </li>
-                                    </ul>
-                                    <p class="minicart-total">SUBTOTAL: <span>£80.00</span></p>
-                                    <div class="minicart-button">
-                                        <a href="index.php?p=shoppinglist" class="li-button li-button-dark li-button-fullwidth li-button-sm">
-                                            <span>View Full Cart</span>
-                                        </a>
-                                        <a href="index.php?p=checkout" class="li-button li-button-fullwidth li-button-sm">
-                                            <span>Checkout</span>
-                                        </a>
+                                    <div class="btn btn-warning">
+                                        <a href="index.php?p=shoppinglist" class="btn">View Cart</a>
+
                                     </div>
                                 </div>
                             </li>

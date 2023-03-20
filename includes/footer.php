@@ -288,7 +288,7 @@
         </div>
     </div>
 </div>
-<!-- Quick View | Modal Area End Here -->
+
 <script>
     function preview(id) {
         let title = document.getElementById('title-' + id).getAttribute('data-value');

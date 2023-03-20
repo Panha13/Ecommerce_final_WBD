@@ -39,38 +39,64 @@ if (isset($_GET['action'])) {
             <?php
             $show = false;
             $db = new PO('tbl_config');
-            $row = $db->Select();
-            $result = $row->fetch();
+            $rows = $db->Select();
+            foreach ($rows as $row) {
+                # code...
             ?>
-            <tr>
-                <th>Facebook</th>
-                <th id="face" data-value="<?= $result->facebook ?>"><a href="<?= $result->facebook ?>"><?= $result->facebook ?></a></th>
-                <th><a href="#" data-bs-toggle="modal" data-bs-target="#fb">Edit</a></th>
-            </tr>
-            <tr>
-                <th>Pinterest</th>
-                <th id="face" data-value="<?= $result->pinterest ?>"><a href="<?= $result->pinterest ?>"><?= $result->pinterest ?></a></th>
-                <th><a href="#" data-bs-toggle="modal" data-bs-target="#pin">Edit</a></th>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <th id="user" data-value="<?= $result->username ?>"><?= $result->username ?></th>
-                <th><a href="#" data-bs-toggle="modal" data-bs-target="#u">Edit</a></th>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <input type="hidden" id="pwd" data-value="<?= $result->password ?>">
-                <th>***************************</th>
-                <th><a href="#" data-bs-toggle="modal" data-bs-target="#p">Edit</a></th>
-            </tr>
-            <tr>
-                <th>Logo</th>
-                <th id="user" data-value="<?= $result->username ?>"><img height="50px" src="images/logo/<?= $result->logo ?>" alt="" srcset=""></th>
-                <th><a href="#" data-bs-toggle="modal" data-bs-target="#u">Edit</a></th>
-            </tr>
+                <tr>
+                    <th>Facebook</th>
+                    <th id="face" data-value="<?= $row->facebook ?>"><a href="<?= $row->facebook ?>"><?= $row->facebook ?></a></th>
+                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#fb">Edit</a></th>
+                </tr>
+                <tr>
+                    <th>Pinterest</th>
+                    <th id="pint" data-value="<?= $row->pinterest ?>"><a href="<?= $row->pinterest ?>"><?= $row->pinterest ?></a></th>
+                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#pin">Edit</a></th>
+                </tr>
+                <tr>
+                    <th>Username</th>
+                    <th id="user" data-value="<?= $row->username ?>"><?= $row->username ?></th>
+                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#u">Edit</a></th>
+                </tr>
+                <tr>
+                    <th>Password</th>
+                    <input type="hidden" id="pwd" data-value="<?= $row->password ?>">
+                    <th>***************************</th>
+                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#p">Edit</a></th>
+                </tr>
+                <tr>
+                    <th>Logo</th>
+                    <th id="logo" data-value="<?= $row->logo ?>"><img height="50px" src="../images/logo/<?= $row->logo ?>" alt="" srcset=""></th>
+                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#logo">Edit</a></th>
+                </tr>
+            <?php } ?>
         </tbody>
     </table>
 </div>
+<!-- LOGO -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="index.php?p=socialmedia&action=logo" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Default file input example</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button class="btn btn-primary">Save changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // FACEBOOK -->
 <div class="modal fade" id="fb" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -92,6 +118,7 @@ if (isset($_GET['action'])) {
         </div>
     </div>
 </div>
+<!-- // PINTEREST -->
 <div class="modal fade" id="pin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -113,6 +140,7 @@ if (isset($_GET['action'])) {
         </div>
     </div>
 </div>
+<!-- //USERNAME -->
 <div class="modal fade" id="u" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -134,6 +162,7 @@ if (isset($_GET['action'])) {
         </div>
     </div>
 </div>
+<!-- //PASSWORD -->
 <div class="modal fade" id="p" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">

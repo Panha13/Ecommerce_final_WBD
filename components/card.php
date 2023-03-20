@@ -25,7 +25,7 @@
         </div>
         <div class="add-actions">
             <ul class="add-actions-link d-flex justify-content-center" style="z-index: 2;">
-                <li class="add-cart active"><a href="#">Add to cart</a></li>
+                <li class="add-cart active"><a href="index.php?p=shoppinglist&action=add&prod_id=<?= $prod['prod_id'] ?>">Add to cart</a></li>
                 <li style="cursor: pointer;" id="h"><a class="links-details" onclick="heart(<?= $prod['prod_id'] ?>)"><i id="icoHeart-<?= $prod['prod_id'] ?>" class="fa fa-heart<?= $userID == $prod['user_id'] ? '' : '-o' ?>"></i></a></li>
                 <small id="error"></small>
                 <li><a class="quick-view" data-toggle="modal" style="cursor: pointer;" data-target="#exampleModalCenter" onclick="preview(<?= $prod['prod_id'] ?>)" href="#"><i class="fa fa-eye"></i></a></li>

@@ -24,6 +24,7 @@ class PO
         if (!empty($order)) $sql .= " ORDER BY " . $order;
         if (!empty($limit)) $sql .= " LIMIT " . $limit;
         if (!empty($offset)) $sql .= " OFFSET " . $offset;
+        // echo $sql;
         $result = $pdo->query($sql);
         return $result->fetchAll();
     }
@@ -52,7 +53,7 @@ class PO
         $fields = implode(",", array_keys($arr));
         $values = implode(",:", array_keys($arr));
         $sql = "INSERT INTO $this->table ($fields) VALUES (:$values)";
-        echo $sql;
+        // echo $sql;
         $stmt = $pdo->prepare($sql);
         $stmt->execute($arr);
     }
@@ -76,8 +77,6 @@ class PO
         $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
         $sql = "DELETE FROM $this->table WHERE $where";
         $stmt = $pdo->prepare($sql);
-        $result = $stmt->execute();
-        if ($result) return true;
-        return false;
+        return $stmt->execute();
     }
 }

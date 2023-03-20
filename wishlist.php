@@ -5,13 +5,10 @@ if (isset($_GET['action'])) {
     if (isset($_GET['id'])) {
         switch ($a) {
             case 'remove':
+                echo $userID;
                 $result = $db->Delete("fav_id='" . $_GET['id'] . "'");
                 if ($result) {
                 } // DO STH
-                break;
-
-            default:
-                # code...
                 break;
         }
     }
@@ -19,7 +16,7 @@ if (isset($_GET['action'])) {
 
 ?>
 <div class="breadcrumb-area">
-    <div class="container">
+    <div class="container d-flex justify-content-between">
         <div class="breadcrumb-content">
             <ul>
                 <li><a href="index.html">Home</a></li>

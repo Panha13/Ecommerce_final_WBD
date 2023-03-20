@@ -1,3 +1,30 @@
+<?php
+if (isset($_GET['action'])) {
+    $d = new PO('tbl_cart');
+    $a = $_GET['action'];
+    switch ($a) {
+        case 'remove':
+            $result = $d->Delete(" prod_id=" . $_GET['prod_id'] . " AND user_id='$userID'");
+            break;
+        case 'add':
+            if (isset($_GET['prod_id'])) {
+                $arr = ['prod_id' => $_GET['prod_id'], 'user_id' => $userID];
+                $result = $d->Insert($arr);
+                if ($result) {
+                    //DO STH
+                }
+            }
+
+        default:
+            # code...
+            break;
+    }
+}
+$db = new PO('tbl_cart as c');
+$rows = $db->Select('c.cart_id,p.prod_img, p.prod_name, p.prod_price, p.prod_id', " user_id='$userID'", 'inner join tbl_product as p on p.prod_id = c.prod_id');
+
+
+?>
 <div class="breadcrumb-area">
     <div class="container">
         <div class="breadcrumb-content">
@@ -28,51 +55,28 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/5.jpg" alt="Li's Product Image"></a></td>
-                                    <td class="li-product-name"><a href="#">Accusantium dolorem1</a></td>
-                                    <td class="li-product-price"><span class="amount">$46.80</span></td>
-                                    <td class="quantity">
-                                        <label>Quantity</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$70.00</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="li-product-remove"><a href="#"><i class="fa fa-times"></i></a></td>
-                                    <td class="li-product-thumbnail"><a href="#"><img src="images/product/small-size/6.jpg" alt="Li's Product Image"></a></td>
-                                    <td class="li-product-name"><a href="#">Mug Today is a good day</a></td>
-                                    <td class="li-product-price"><span class="amount">$71.80</span></td>
-                                    <td class="quantity">
-                                        <label>Quantity</label>
-                                        <div class="cart-plus-minus">
-                                            <input class="cart-plus-minus-box" value="1" type="text">
-                                            <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
-                                            <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$60.50</span></td>
-                                </tr>
+                                <?php
+
+                                foreach ($rows as $row) {
+                                ?>
+                                    <tr>
+                                        <td class="li-product-remove"><a href="index.php?p=shoppinglist&action=remove&prod_id=<?= $row->prod_id ?>"><i class="fa fa-times"></i></a></td>
+                                        <td class="li-product-thumbnail"><a href="#"><img src="images/products/<?= $row->prod_img ?>" alt="Li's Product Image"></a></td>
+                                        <td class="li-product-name"><a href="#"><?= $row->prod_name ?></a></td>
+                                        <td class="li-product-price" id="price-<?= $row->cart_id ?>" data-value="<?= $row->prod_price ?>"><span class="amount">$<?= $row->prod_price ?></span></td>
+                                        <td class="quantity">
+                                            <label>Quantity</label>
+                                            <div class="cart-plus-minus">
+                                                <input class="cart-plus-minus-box" value="1" type="text">
+                                                <div class="dec qtybutton"><i class="fa fa-angle-down"></i></div>
+                                                <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
+                                            </div>
+                                        </td>
+                                        <td class="product-subtotal"><span class="amount" id="total">$0</span></td>
+                                    </tr>
+                                <?php } ?>
                             </tbody>
                         </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="coupon-all">
-                                <div class="coupon">
-                                    <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                    <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
-                                </div>
-                                <div class="coupon2">
-                                    <input class="button" name="update_cart" value="Update cart" type="submit">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-5 ml-auto">

@@ -8,6 +8,6 @@
                 <div class="inc qtybutton"><i class="fa fa-angle-up"></i></div>
             </div>
         </div>
-        <a class="add-to-cart" type="submit">Add to cart</a>
+        <a class="add-to-cart" type="button">Add to cart</a>
     </form>
 </div>

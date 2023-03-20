@@ -22,14 +22,12 @@ if (isset($_GET['action'])) {
                     var CookieDate = new Date;
                     CookieDate.setFullYear(CookieDate.getFullYear() +10);
                     document.cookie = 'user_id=" . $row['user_id'] . "; expires=' + CookieDate.toGMTString() + ';';
-                    document.cookie = 'user_pf=" . $row['user_pf'] . "; expires=' + CookieDate.toGMTString() + ';';
                     document.cookie = 'user_name=" . $row['user_name'] . "; expires=' + CookieDate.toGMTString() + ';';
                     </script>
 
                     ";
                 } else {
                     $_SESSION["user_id"] = $row['user_id'];
-                    $_SESSION["user_pf"] = $row['user_pf'];
                     $_SESSION["user_name"] = $row['user_name'];
                 }
                 echo '<script type="text/javascript">location.replace("index.php");</script>';

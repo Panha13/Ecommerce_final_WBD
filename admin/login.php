@@ -1,23 +1,21 @@
 <?php
-//where md5 encryption on tbl_user
-    include "../config.php";
-    include "./Auth/auth.php";
-    $error = 0;
-    if(isset($_POST['username'])){
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-        $result = checkLogin($username,$password);
-        if($result){
-            header("location: index.php");
-            exit(0);
-        }
-        else{
-            $error = 1;
-        }
+include "../config.php";
+include "./Auth/auth.php";
+$error = 0;
+if (isset($_POST['username'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    $result = checkLogin($username, $password);
+    if ($result) {
+        header("location: index.php");
+        exit(0);
+    } else {
+        $error = 1;
     }
-    if(isset($_GET['action']) && $_GET['action'] == "logout"){
-        logout();
-    }
+}
+if (isset($_GET['action']) && $_GET['action'] == "logout") {
+    logout();
+}
 ?>
 <!DOCTYPE html>
 <html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default" data-assets-path="../assets/" data-template="vertical-menu-template-free">
@@ -79,25 +77,11 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember-me" />
-                                    <label class="form-check-label" for="remember-me"> Remember Me </label>
-                                </div>
-                            </div>
-                            <div class="mb-3">
                                 <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                             </div>
                         </form>
-
-                        <!-- <p class="text-center">
-                            <span>New on our platform?</span>
-                            <a href="auth-register-basic.html">
-                                <span>Create an account</span>
-                            </a>
-                        </p> -->
                     </div>
                 </div>
-                <!-- /Register -->
             </div>
         </div>
     </div>
@@ -106,12 +90,7 @@
     <script src="assets/vendor/js/bootstrap.js"></script>
     <script src="assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
     <script src="assets/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-    <!-- Vendors JS -->
-    <!-- Main JS -->
     <script src="assets/js/main.js"></script>
-    <!-- Page JS -->
-    <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
 </body>
 

@@ -59,7 +59,7 @@
         <li class="menu-item <?= $page == 'socialmedia.php' ? 'active' : '' ?>">
             <a href="index.php?p=socialmedia" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-cog"></i>
-                <div data-i18n="Account Settings">Social Media</div>
+                <div data-i18n="Account Settings">Configuration</div>
             </a>
         </li>
     </ul>

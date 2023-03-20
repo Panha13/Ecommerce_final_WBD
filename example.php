@@ -7,7 +7,7 @@ include('library/uuid.php');
 //     echo $row->prod_name;
 //     echo "<br/>";
 // }
-$db = new DB('tbl_user');
+$db = new PO('tbl_user');
 if (isset($_POST['user'])) {
     if (isset($_POST['pass'])) {
         $result = $db->Login($_POST['user'], $_POST['pass']);

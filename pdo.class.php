@@ -1,7 +1,7 @@
 <?php
 include('config.php');
 
-class DB
+class PO
 {
     private $table;
     function __construct($table)
@@ -16,7 +16,7 @@ class DB
     function Select($column = "*", $where = "", $order = "",  $limit = "", $offset = "", $join = "")
     {
         $pdo = $this->Conn();
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
+        $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_OBJ);
 
         $sql = "SELECT $column FROM $this->table ";
         if (!empty($join)) $sql .= $join;

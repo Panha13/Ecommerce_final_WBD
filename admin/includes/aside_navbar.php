@@ -1,7 +1,14 @@
 <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
     <div class="app-brand demo">
         <a href="index.php" class="app-brand-link">
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">Brand Name</span>
+            <?php
+            $db = new PO('tbl_config');
+            $row = $db->Select();
+            foreach ($row as $r) {
+            ?>
+                <img src="../images/logo/<?= $r->logo ?>" height="70px" alt="" srcset="">
+            <?php } ?>
+
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -60,6 +67,12 @@
             <a href="index.php?p=socialmedia" class="menu-link ">
                 <i class="menu-icon tf-icons bx bx-cog"></i>
                 <div data-i18n="Account Settings">Configuration</div>
+            </a>
+        </li>
+        <li class="menu-item" style="margin-top:400px">
+            <a href="login.php?action=logout" class="menu-link ">
+                <i class="menu-icon tf-icons bx bx-log-out"></i>
+                <div data-i18n="Account Settings">Logout</div>
             </a>
         </li>
     </ul>

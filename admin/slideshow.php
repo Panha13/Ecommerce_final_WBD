@@ -97,7 +97,6 @@ $p = new Product($conn, $tbl, $id, $comp);
         padding: 10px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
         " data-bs-toggle="modal" data-bs-target="#updateModal"><i class="fa-solid fa-plus"></i></button>
-    <button style="margin: 0 25px 25px 0;" class="btn btn-primary" type="submit" onclick="window.print()">Print</button>
     <?php if ($num > 0) { ?>
         <table class="table mb-5">
             <thead class="bg-primary">

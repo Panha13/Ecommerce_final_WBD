@@ -8,7 +8,7 @@
     }
     function checkLogin($username,$password){
         global $conno;
-        $sql = "select user_name, user_password from tbl_user where user_name='$username' and user_password='$password'";
+        $sql = "select username, password from tbl_config where username='$username' and password='$password'";
         $result = mysqli_query($conno,$sql);
         if(mysqli_num_rows($result)>0){
             $row=mysqli_fetch_array($result);
@@ -22,4 +22,3 @@
         session_destroy();
         header("location: login.php");
     }
-?>

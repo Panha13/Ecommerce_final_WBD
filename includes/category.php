@@ -17,9 +17,8 @@ while ($row = mysqli_fetch_array($result)) {
                     <div class="row">
                         <div class="product-active owl-carousel">
                             <?php
-                            $prod_s = "select p.*, c.cate_name, b.brand_name from tbl_product as p left join 
-                                    tbl_category as c on c.cate_id=p.cate_id left join 
-                                    tbl_brand as b on b.brand_id=p.brand_id where c.cate_id =" . $row['cate_id'];
+                            $prod_s = "select p.*, c.cate_name, b.brand_name, f.user_id from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id
+                                left outer join tbl_fav as f on f.prod_id=p.prod_id where c.cate_id =" . $row['cate_id'];
                             $r = mysqli_query($conn, $prod_s);
                             while ($prod = mysqli_fetch_array($r)) {
                             ?>

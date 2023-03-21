@@ -30,7 +30,7 @@ if (isset($_COOKIE['user_id'])) {
                             foreach ($config->Select() as $row) {
                                 # code...
                             ?>
-                                <img src="images/logo/<?= $row->logo ?>" alt="">
+                                <img height="50px" src="images/logo/<?= $row->logo ?>" alt="">
                             <?php } ?>
                         </a>
                     </div>

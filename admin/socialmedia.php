@@ -1,4 +1,5 @@
 <?php
+include('../library/img.php');
 $db = new PO('tbl_config');
 if (isset($_GET['action'])) {
     $a = $_GET['action'];
@@ -27,6 +28,24 @@ if (isset($_GET['action'])) {
                 $result = $db->Update($arr, 'config_id=1');
             }
             break;
+
+        case 'logo':
+            $destination = "../images/logo/";
+            if (isset($_FILES['img'])) {
+                include('includes/img2.php');
+                if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png") {
+                    include('includes/img1.php');
+                    $arr = ['logo' => $img_val];
+                    $result = $db->Update($arr, 'config_id=1');
+                    if ($result) {
+                        move_uploaded_file($tmp_name, $destination . $img_val);
+                        unlink('../images/logo/' . $_GET['img']);
+                    }
+                } else {
+                    $errmsg = "Only image file is allowed to upload!";
+                    $p->Dialog($errmsg, "warning");
+                }
+            }
     }
 }
 
@@ -67,25 +86,26 @@ if (isset($_GET['action'])) {
                 <tr>
                     <th>Logo</th>
                     <th id="logo" data-value="<?= $row->logo ?>"><img height="50px" src="../images/logo/<?= $row->logo ?>" alt="" srcset=""></th>
-                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#logo">Edit</a></th>
+                    <th><a href="#" data-bs-toggle="modal" data-bs-target="#l">Edit</a></th>
                 </tr>
             <?php } ?>
         </tbody>
     </table>
 </div>
 <!-- LOGO -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="l" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Change Logo</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="index.php?p=socialmedia&action=logo" method="post" enctype="multipart/form-data">
+                <form id="lg" action="index.php?p=socialmedia&action=logo" method="post" enctype="multipart/form-data">
+                    <img id="logoImg" height="50px" class="mb-5" src="#" alt="" srcset="">
                     <div class="mb-3">
-                        <label for="formFile" class="form-label">Default file input example</label>
-                        <input class="form-control" type="file" id="formFile">
+                        <label for="formFile" class="form-label">Choose Image</label>
+                        <input class="form-control" type="file" id="formFile" name="img">
                     </div>
             </div>
             <div class="modal-footer">
@@ -202,6 +222,10 @@ if (isset($_GET['action'])) {
 
     let username = document.getElementById('user').getAttribute('data-value');
     document.getElementById('usernameEdit').value = username;
+
+    let logo = document.getElementById('logo').getAttribute('data-value');
+    document.getElementById('logoImg').src = "../images/logo/" + logo;
+    document.getElementById('lg').action = "index.php?p=socialmedia&action=logo&img=" + logo;
 
     let oldPass = document.getElementById('oldPassword');
     let newPassword = document.getElementById('newPassword');

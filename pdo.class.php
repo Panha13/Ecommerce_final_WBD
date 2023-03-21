@@ -64,12 +64,13 @@ class PO
 
         $fv = "";
         foreach ($arr as $key => $value) {
-            $fv .= "$key='$value',";
+            $fv .= "$key=:$key,";
         }
         $fv = substr($fv, 0, strlen($fv) - 1);
         $sql = "UPDATE $this->table SET $fv where $where";
+        // echo $sql;
         $stmt = $pdo->prepare($sql);
-        return $stmt->execute();
+        return $stmt->execute($arr);
     }
     function Delete($where)
     {

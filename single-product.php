@@ -69,7 +69,8 @@ if (isset($_GET['id'])) {
                 <div class="row">
                     <div class="product-active owl-carousel">
                         <?php
-                        $sql = "select p.*, c.cate_name, b.brand_name from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id where p.cate_id= " . $row['cate_id'] . " limit 10";
+                        $sql = "select p.*, c.cate_name, b.brand_name, f.user_id from tbl_product as p inner join tbl_category as c on p.cate_id=c.cate_id inner join tbl_brand as b on p.brand_id=b.brand_id
+                                left outer join tbl_fav as f on f.prod_id=p.prod_id where p.cate_id= " . $row['cate_id'] . " limit 10";
                         $result = mysqli_query($conn, $sql);
                         while ($prod = mysqli_fetch_array($result)) {
 

@@ -31,14 +31,24 @@ $p = new Product($conn, $tbl, $id, $comp);
                 $p->Move($_GET['id'], $_GET['order'], '>', 'asc', "Down");
                 break;
             case "3":
-                //TODO: Let it can update with picute
                 $active = $p->CheckActive(isset($_POST['active']));
-                $p->id_val = $_GET['id'];
-                $p->Update("$name='" . $_POST['name'] . "'");
-                $p->Update("$des='" . $_POST['des'] . "'");
-                $p->Update("$price=" . $_POST['price']);
-                if ($p->Update("link='" . $_POST['link'] . "'")) {
-                    $p->Dialog("Updated Successfully 🎉🎉🎉", "primary");
+                $db = new PO('tbl_advertise');
+                include_once('includes/img2.php');
+                $destination = "../images/ads/";
+                if ($ext == "jpg" || $ext == "jpeg" || $ext == "gif" || $ext == "png") {
+                    include('includes/img1.php');
+                    $arr = [
+                        $name => $_POST['name'], $des => $_POST['des'], $price => $_POST['price'], 'link' => $_POST['link'], $img => $img_val
+                    ];
+                    $result = $db->Update($arr, " $id='" . $_GET['id'] . "'");
+                    if ($result) {
+                        createThumbnail($imageType, $tmp_name, $width, $height, $destination, $img_val, $ext);
+                        move_uploaded_file($tmp_name, $destination . $img_val);
+                        $p->Dialog("Updated Successfully 🎉🎉🎉", "primary");
+                    }
+                } else {
+                    $errmsg = "Only image file is allowed to upload!";
+                    $p->Dialog($errmsg, "warning");
                 }
                 break;
             case "4":

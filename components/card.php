@@ -23,6 +23,7 @@
                 <span id="price-<?= $prod['prod_id'] ?>" data-value="<?= $prod['prod_price'] ?>" class="new-price">$<?= $prod['prod_price'] ?></span>
             </div>
         </div>
+
         <div class="add-actions">
             <ul class="add-actions-link d-flex justify-content-center" style="z-index: 2;">
                 <li class="add-cart active"><a onclick="addToCart(<?= $prod['prod_id'] ?>" href="index.php?p=shoppinglist&action=add&prod_id=<?= $prod['prod_id'] ?>">Add to cart</a></li>

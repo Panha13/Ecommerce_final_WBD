@@ -4,6 +4,7 @@
     <i class="fas fa-arrow-up"></i> </a>
 <a href="<?= $pages ?>&action=2&id=<?= $row[$id] ?>&order=<?= $row['ordernum'] ?>" style="padding-right: 5px;">
     <i class="fas fa-arrow-down"></i> </a>
+
 <a href="#" onclick="update(<?= $row[$id] ?>)" data-bs-toggle="modal" data-bs-target="#updateModal" style="padding-right: 5px;">
     <i class="fas fa-edit"></i> </a>
 <a href="" onclick="del('<?= $row[$id] ?>','<?= $row[$img] ?>')" data-bs-toggle="modal" data-bs-target="#deleteModal" style="padding-right: 5px;">

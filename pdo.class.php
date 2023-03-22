@@ -52,6 +52,7 @@ class PO
 
         $fields = implode(",", array_keys($arr));
         $values = implode(",:", array_keys($arr));
+
         $sql = "INSERT INTO $this->table ($fields) VALUES (:$values)";
         // echo $sql;
         $stmt = $pdo->prepare($sql);
@@ -67,6 +68,7 @@ class PO
             $fv .= "$key=:$key,";
         }
         $fv = substr($fv, 0, strlen($fv) - 1);
+
         $sql = "UPDATE $this->table SET $fv where $where";
         // echo $sql;
         $stmt = $pdo->prepare($sql);

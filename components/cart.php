@@ -10,4 +10,5 @@
         </div>
         <a class="add-to-cart" href="index.php?p=shoppinglist&action=add&prod_id=<?= $row['prod_id'] ?>" type="button">Add to cart</a>
     </form>
+
 </div>
